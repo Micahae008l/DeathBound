@@ -1,0 +1,20 @@
+{
+	"schemaVersion": 1,
+	"id": "underworld",
+	"version": "${version}",
+	"name": "Underworld Characters",
+	"description": "The Hollow Hunter and The Collector, built standalone for merging into the Underworld mod.",
+	"authors": ["Michael"],
+	"license": "All-Rights-Reserved",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["com.underworld.Underworld"],
+		"client": ["com.underworld.client.UnderworldClient"]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

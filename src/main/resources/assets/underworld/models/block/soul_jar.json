@@ -1,0 +1,208 @@
+{
+ "parent": "minecraft:block/block",
+ "ambientocclusion": false,
+ "textures": {
+  "glass": "underworld:block/jar_glass",
+  "cork": "underworld:block/jar_cork",
+  "liquid": "underworld:block/liquid_soul",
+  "wisp": "underworld:block/soul_wisp",
+  "particle": "underworld:block/jar_glass"
+ },
+ "elements": [
+  {
+   "from": [
+    4.5,
+    0.5,
+    4.5
+   ],
+   "to": [
+    11.5,
+    3,
+    11.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#liquid"
+    },
+    "south": {
+     "texture": "#liquid"
+    },
+    "east": {
+     "texture": "#liquid"
+    },
+    "west": {
+     "texture": "#liquid"
+    },
+    "up": {
+     "texture": "#liquid"
+    },
+    "down": {
+     "texture": "#liquid"
+    }
+   },
+   "light_emission": 10
+  },
+  {
+   "from": [
+    7,
+    3.5,
+    7
+   ],
+   "to": [
+    9,
+    6.5,
+    9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#wisp"
+    },
+    "south": {
+     "texture": "#wisp"
+    },
+    "east": {
+     "texture": "#wisp"
+    },
+    "west": {
+     "texture": "#wisp"
+    },
+    "up": {
+     "texture": "#wisp"
+    },
+    "down": {
+     "texture": "#wisp"
+    }
+   },
+   "light_emission": 15
+  },
+  {
+   "from": [
+    6,
+    6.5,
+    8
+   ],
+   "to": [
+    7,
+    7.5,
+    9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#wisp"
+    },
+    "south": {
+     "texture": "#wisp"
+    },
+    "east": {
+     "texture": "#wisp"
+    },
+    "west": {
+     "texture": "#wisp"
+    },
+    "up": {
+     "texture": "#wisp"
+    },
+    "down": {
+     "texture": "#wisp"
+    }
+   },
+   "light_emission": 15
+  },
+  {
+   "from": [
+    4,
+    0,
+    4
+   ],
+   "to": [
+    12,
+    9,
+    12
+   ],
+   "faces": {
+    "north": {
+     "texture": "#glass"
+    },
+    "south": {
+     "texture": "#glass"
+    },
+    "east": {
+     "texture": "#glass"
+    },
+    "west": {
+     "texture": "#glass"
+    },
+    "up": {
+     "texture": "#glass"
+    },
+    "down": {
+     "texture": "#glass"
+    }
+   }
+  },
+  {
+   "from": [
+    5,
+    9,
+    5
+   ],
+   "to": [
+    11,
+    10,
+    11
+   ],
+   "faces": {
+    "north": {
+     "texture": "#glass"
+    },
+    "south": {
+     "texture": "#glass"
+    },
+    "east": {
+     "texture": "#glass"
+    },
+    "west": {
+     "texture": "#glass"
+    },
+    "up": {
+     "texture": "#glass"
+    },
+    "down": {
+     "texture": "#glass"
+    }
+   }
+  },
+  {
+   "from": [
+    5.5,
+    10,
+    5.5
+   ],
+   "to": [
+    10.5,
+    11.5,
+    10.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cork"
+    },
+    "south": {
+     "texture": "#cork"
+    },
+    "east": {
+     "texture": "#cork"
+    },
+    "west": {
+     "texture": "#cork"
+    },
+    "up": {
+     "texture": "#cork"
+    },
+    "down": {
+     "texture": "#cork"
+    }
+   }
+  }
+ ]
+}

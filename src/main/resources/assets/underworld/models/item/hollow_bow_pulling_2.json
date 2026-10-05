@@ -1,0 +1,6 @@
+{
+  "parent": "underworld:item/hollow_bow",
+  "textures": {
+    "layer0": "underworld:item/hollow_bow_pulling_2"
+  }
+}

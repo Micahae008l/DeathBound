@@ -1,0 +1,11 @@
+{
+	"schemaVersion": 1,
+	"id": "underworld-gametest",
+	"version": "1.0.0",
+	"name": "Underworld Characters - showcase test",
+	"environment": "*",
+	"entrypoints": {
+		"fabric-client-gametest": ["com.underworld.test.ShowcaseClientTest"]
+	},
+	"depends": {"underworld": "*"}
+}

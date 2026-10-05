@@ -1,0 +1,121 @@
+{
+  "entity.hollow_hunter.arrow_grab": {
+    "subtitle": "subtitles.underworld.hollow_hunter.arrow_grab",
+    "sounds": [
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed3",
+        "pitch": 0.7,
+        "volume": 0.9
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed7",
+        "pitch": 0.7,
+        "volume": 0.9
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed11",
+        "pitch": 0.7,
+        "volume": 0.9
+      }
+    ]
+  },
+  "entity.hollow_hunter.bow_draw": {
+    "subtitle": "subtitles.underworld.hollow_hunter.bow_draw",
+    "sounds": [
+      {
+        "name": "minecraft:item/crossbow/loading_middle1",
+        "pitch": 0.42,
+        "volume": 1.0
+      },
+      {
+        "name": "minecraft:item/crossbow/loading_middle2",
+        "pitch": 0.42,
+        "volume": 1.0
+      },
+      {
+        "name": "minecraft:item/crossbow/loading_middle3",
+        "pitch": 0.42,
+        "volume": 1.0
+      },
+      {
+        "name": "minecraft:block/chain/break1",
+        "pitch": 0.5,
+        "volume": 0.6
+      },
+      {
+        "name": "minecraft:block/chain/break3",
+        "pitch": 0.5,
+        "volume": 0.6
+      }
+    ]
+  },
+  "entity.hollow_hunter.bow_shoot": {
+    "subtitle": "subtitles.underworld.hollow_hunter.bow_shoot",
+    "sounds": [
+      {
+        "name": "minecraft:item/crossbow/shoot1",
+        "pitch": 0.55,
+        "volume": 1.0
+      },
+      {
+        "name": "minecraft:item/crossbow/shoot2",
+        "pitch": 0.55,
+        "volume": 1.0
+      },
+      {
+        "name": "minecraft:item/crossbow/shoot3",
+        "pitch": 0.55,
+        "volume": 1.0
+      }
+    ]
+  },
+  "entity.hollow_hunter.bow_whisper": {
+    "sounds": [
+      {
+        "name": "minecraft:mob/vex/charge1",
+        "pitch": 0.65,
+        "volume": 0.8
+      },
+      {
+        "name": "minecraft:mob/vex/charge2",
+        "pitch": 0.65,
+        "volume": 0.8
+      },
+      {
+        "name": "minecraft:mob/vex/charge3",
+        "pitch": 0.65,
+        "volume": 0.8
+      },
+      {
+        "name": "minecraft:mob/breeze/shoot",
+        "pitch": 0.6,
+        "volume": 0.7
+      }
+    ]
+  },
+  "item.hollow_bow.shoot": {
+    "subtitle": "subtitles.underworld.hollow_bow.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:item/crossbow/shoot1",
+        "pitch": 0.75,
+        "volume": 0.9
+      },
+      {
+        "name": "minecraft:item/crossbow/shoot2",
+        "pitch": 0.75,
+        "volume": 0.9
+      },
+      {
+        "name": "minecraft:item/crossbow/shoot3",
+        "pitch": 0.75,
+        "volume": 0.9
+      },
+      {
+        "name": "minecraft:mob/vex/charge2",
+        "pitch": 0.9,
+        "volume": 0.5
+      }
+    ]
+  }
+}
