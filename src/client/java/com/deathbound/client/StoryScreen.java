@@ -213,6 +213,10 @@ public class StoryScreen extends Screen {
       this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.BOOK_PAGE_TURN, 1.0F));
    }
 
+   public int pageCount() {
+      return this.pages.size();
+   }
+
    public void turnPage(int to) {
       if (to >= 0 && to < this.pages.size()) {
          this.turn(to);

@@ -77,6 +77,30 @@ final class NewWorkChecks {
 		ctx.waitTicks(10);
 	}
 
+	/** UW_STORIES=1 : a picture of every chest story's reading screen, every page. */
+	static void readAll(ClientGameTestContext ctx, TestSingleplayerContext world, TestServerContext server) {
+		server.runCommand("gamerule send_command_feedback false");
+		tp(server, "4.5 " + (Layout.ARRIVAL.top() + 1) + " 4.5 180 10");
+		settle(ctx, world, 160);
+		int n = 0;
+		for (String id : com.deathbound.story.Stories.BOOKS) {
+			n++;
+			String tag = String.format("story_%02d_%s", n, id);
+			ctx.runOnClient(mc -> mc.gui.setScreen(new com.deathbound.client.StoryScreen(id)));
+			ctx.waitTicks(3);
+			int[] pages = new int[1];
+			ctx.runOnClient(mc -> pages[0] = ((com.deathbound.client.StoryScreen) mc.gui.screen()).pageCount());
+			for (int pg = 0; pg < pages[0]; pg++) {
+				int to = pg;
+				ctx.runOnClient(mc -> ((com.deathbound.client.StoryScreen) mc.gui.screen()).turnPage(to));
+				ctx.waitTicks(2);
+				ctx.takeScreenshot(pages[0] > 1 ? tag + "_page" + (pg + 1) : tag);
+			}
+		}
+		ctx.runOnClient(mc -> mc.gui.setScreen(null));
+		log("stories read: " + n);
+	}
+
 	static void shots(ClientGameTestContext ctx, TestSingleplayerContext world, TestServerContext server) {
 		// light the screenshots (test camera only): night vision and full brightness
 		server.runCommand("effect give @a night_vision infinite 0 true");
