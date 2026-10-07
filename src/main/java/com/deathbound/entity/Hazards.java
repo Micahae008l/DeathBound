@@ -34,6 +34,8 @@ public final class Hazards {
    public static final ResourceKey<DamageType> SOUL_REND = ResourceKey.create(Registries.DAMAGE_TYPE, DeathBound.id("soul_rend"));
    private static final List<Hazards.Eruption> ERUPTIONS = new ArrayList<>();
    public static final ResourceKey<DamageType> CRUSH = ResourceKey.create(Registries.DAMAGE_TYPE, DeathBound.id("crush"));
+   /** Soul projectiles (Soul Wisp bolts, the Death King's orbs). Unlike Soul Rend this one can be blocked by shields. */
+   public static final ResourceKey<DamageType> SOUL_BOLT = ResourceKey.create(Registries.DAMAGE_TYPE, DeathBound.id("soul_bolt"));
 
    public static void dread(ServerLevel level, Entity source, double radius, int ticks) {
       MobEffectUtil.addEffectToPlayersAround(

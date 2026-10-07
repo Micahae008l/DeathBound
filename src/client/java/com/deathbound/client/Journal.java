@@ -1,5 +1,11 @@
 package com.deathbound.client;
 
+import net.minecraft.core.component.DataComponents;
+
+import net.minecraft.world.item.component.WrittenBookContent;
+
+import net.minecraft.world.item.ItemStack;
+
 import com.deathbound.npc.Quests;
 import com.deathbound.registry.ModAttachments;
 import java.util.ArrayList;
@@ -41,6 +47,33 @@ public final class Journal {
                Component.translatable(k + ".stage" + Math.min(s, x.last())).withStyle(s >= x.last() ? ChatFormatting.DARK_GREEN : ChatFormatting.BLACK)
             );
             pages.add(page);
+         }
+      }
+
+      List<ItemStack> lore = p.getAttachedOrElse(ModAttachments.LORE_PAGES, List.of());
+      if (!lore.isEmpty()) {
+         pages.add(
+            Component.translatable("journal.deathbound.lore_title")
+               .withStyle(ChatFormatting.BOLD)
+               .append("\n\n")
+               .append(Component.translatable("journal.deathbound.lore_count", lore.size()).withStyle(ChatFormatting.DARK_PURPLE))
+         );
+         for (ItemStack book : lore) {
+            WrittenBookContent c = book.get(DataComponents.WRITTEN_BOOK_CONTENT);
+            if (c == null) {
+               continue;
+            }
+            List<Component> text = c.getPages(false);
+            for (int i = 0; i < text.size(); i++) {
+               MutableComponent page = Component.empty();
+               if (i == 0) {
+                  page.append(Component.literal(c.title().raw()).withStyle(ChatFormatting.BOLD))
+                     .append("\n")
+                     .append(Component.literal(c.author()).withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC))
+                     .append("\n\n");
+               }
+               pages.add(page.append(text.get(i)));
+            }
          }
       }
 

@@ -1,0 +1,11 @@
+{
+	"schemaVersion": 1,
+	"id": "deathbound-gametest",
+	"version": "1.0.0",
+	"name": "DeathBound - fix verification",
+	"environment": "*",
+	"entrypoints": {
+		"fabric-client-gametest": ["com.deathbound.test.FixesClientTest"]
+	},
+	"depends": {"deathbound": "*"}
+}

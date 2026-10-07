@@ -1,5 +1,6 @@
 package com.deathbound.world;
 
+import com.deathbound.DeathBound;
 import com.deathbound.block.GraveLampBlock;
 import com.deathbound.block.WatcherSkullBlock;
 import com.deathbound.registry.ModBlocks;
@@ -10,6 +11,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import com.mojang.serialization.Codec;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.ChatFormatting;
@@ -20,6 +24,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -53,6 +58,10 @@ public final class Puzzles {
    private static long lastToll;
    private static BlockPos tolled = BlockPos.ZERO;
    private static final Map<UUID, Map<String, Long>> TOLD = new HashMap<>();
+   /** Bit per puzzle kind: its sigil has already been given out in this world (saved with the level). */
+   private static final AttachmentType<Integer> REVEALED = AttachmentRegistry.create(
+      DeathBound.id("sigils_revealed"), b -> b.persistent(Codec.INT)
+   );
 
    public static void init() {
       ServerTickEvents.END_LEVEL_TICK.register(Puzzles::tick);
@@ -202,6 +211,20 @@ public final class Puzzles {
    }
 
    private static void reveal(ServerLevel level, Vec3 at, int kind, Player player) {
+      // Each puzzle gives its sigil once. Re-solving it (turning a skull back, re-lighting the lamps, tolling again)
+      // must not drop another - unless the seal is still empty and the sigil is truly gone (e.g. fell into the void).
+      int bit = 1 << kind;
+      int revealed = level.getAttachedOrElse(REVEALED, 0);
+      boolean sealed = (Director.seals(level) & bit) != 0;
+      if (sealed || (revealed & bit) != 0 && sigilStillExists(level, sigil(kind))) {
+         level.playSound(null, at.x, at.y, at.z, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 1.0F, 0.5F);
+         if (player != null) {
+            tell(player, "already_solved");
+         }
+         return;
+      }
+
+      level.setAttached(REVEALED, revealed | bit);
       ItemEntity item = new ItemEntity(level, at.x, at.y, at.z, new ItemStack(sigil(kind)));
       item.setDeltaMovement(0.0, 0.03, 0.0);
       item.setNoGravity(true);
@@ -214,6 +237,22 @@ public final class Puzzles {
       if (player != null) {
          tell(player, "solved" + kind);
       }
+   }
+
+   /** Is this sigil still in someone's inventory/ender chest or lying around as an item? */
+   private static boolean sigilStillExists(ServerLevel level, Item sigil) {
+      for (ServerPlayer p : level.getServer().getPlayerList().getPlayers()) {
+         if (p.getInventory().contains(st -> st.is(sigil)) || p.getEnderChestInventory().hasAnyMatching(st -> st.is(sigil))
+            || p.containerMenu.getCarried().is(sigil)) {
+            return true;
+         }
+      }
+      for (ServerLevel l : level.getServer().getAllLevels()) {
+         if (!l.getEntities(EntityTypes.ITEM, e -> e.getItem().is(sigil)).isEmpty()) {
+            return true;
+         }
+      }
+      return false;
    }
 
    private static void tell(Player player, String key) {

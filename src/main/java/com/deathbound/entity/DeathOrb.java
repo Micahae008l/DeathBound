@@ -104,7 +104,7 @@ public class DeathOrb extends Fireball {
       if (this.level() instanceof ServerLevel level) {
          LivingEntity owner = this.getOwner() instanceof LivingEntity l ? l : null;
          if (owner == null || !hit.getEntity().isAlliedTo(owner)) {
-            hit.getEntity().hurtServer(level, level.damageSources().source(Hazards.SOUL_REND, this, owner), 7.0F);
+            hit.getEntity().hurtServer(level, level.damageSources().source(Hazards.SOUL_BOLT, this, owner), 7.0F);
          }
       }
    }
@@ -125,7 +125,7 @@ public class DeathOrb extends Fireball {
 
          for (LivingEntity v : level.getEntitiesOfClass(LivingEntity.class, new AABB(this.position(), this.position()).inflate(2.0), e -> e != owner)) {
             if (owner == null || !v.isAlliedTo(owner)) {
-               v.hurtServer(level, level.damageSources().source(Hazards.SOUL_REND, this, owner), 3.0F);
+               v.hurtServer(level, level.damageSources().source(Hazards.SOUL_BOLT, this, owner), 3.0F);
             }
          }
 

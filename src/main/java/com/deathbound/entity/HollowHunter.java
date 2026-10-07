@@ -70,21 +70,23 @@ public class HollowHunter extends Monster {
    private Vec3 aimAt;
    private Vec3 mark;
    private boolean spoke;
+   private Vec3 lastTargetPos;
+   private Vec3 targetVel = Vec3.ZERO;
 
    public HollowHunter(EntityType<? extends HollowHunter> type, Level level) {
       super(type, level);
       this.bossEvent.setPlayBossMusic(true);
       this.aimAt = Vec3.ZERO;
       this.mark = Vec3.ZERO;
-      this.xpReward = 100;
+      this.xpReward = 150;
       this.bossEvent.setVisible(false);
    }
 
    public static Builder createAttributes() {
       return Monster.createMonsterAttributes()
-         .add(Attributes.MAX_HEALTH, 290.0)
+         .add(Attributes.MAX_HEALTH, 360.0)
          .add(Attributes.ARMOR, 6.0)
-         .add(Attributes.ATTACK_DAMAGE, 7.0)
+         .add(Attributes.ATTACK_DAMAGE, 8.0)
          .add(Attributes.KNOCKBACK_RESISTANCE, 0.9)
          .add(Attributes.MOVEMENT_SPEED, 0.31)
          .add(Attributes.FOLLOW_RANGE, 48.0)
@@ -124,6 +126,8 @@ public class HollowHunter extends Monster {
 
    private void begin(int action) {
       this.actionTick = 0;
+      this.lastTargetPos = null;
+      this.targetVel = Vec3.ZERO;
       this.entityData.set(ACTION, action, true);
       this.getNavigation().stop();
       switch (action) {
@@ -176,7 +180,8 @@ public class HollowHunter extends Monster {
    @Override
    protected void customServerAiStep(ServerLevel level) {
       super.customServerAiStep(level);
-      if (this.isInWall() || this.getY() < Layout.HOLLOW.top() - 12) {
+      boolean fellOff = !this.onGround() && this.getDeltaMovement().y < -0.3 && this.getY() < Layout.HOLLOW.top() - 4;
+      if (this.isInWall() || this.getY() < Layout.HOLLOW.top() - 12 || fellOff) {
          level.sendParticles(ParticleTypes.LARGE_SMOKE, this.getX(), this.getY() + 1.4, this.getZ(), 20, 0.3, 0.8, 0.3, 0.02);
          this.setDeltaMovement(Vec3.ZERO);
          this.fallDistance = 0.0;
@@ -195,11 +200,20 @@ public class HollowHunter extends Monster {
          LivingEntity target = this.getTarget();
          int t = this.actionTick;
          int at = RELEASE[action];
+         if (target != null) {
+            Vec3 now = target.position();
+            if (this.lastTargetPos != null) {
+               this.targetVel = this.targetVel.scale(0.6).add(now.subtract(this.lastTargetPos).scale(0.4));
+            }
+            this.lastTargetPos = now;
+         }
          switch (action) {
             case 1:
             case 3:
                if (target != null && t <= at - 5) {
-                  this.aimAt = target.getEyePosition().add(target.getDeltaMovement().scale(2.0));
+                  // lead the shot by where the target will be when the arrow arrives (partial, so strafing still works)
+                  double flight = this.getEyePosition().distanceTo(target.getEyePosition()) / 3.2;
+                  this.aimAt = target.getEyePosition().add(this.targetVel.scale(flight * 0.7));
                }
 
                if (t < at && t % 2 == 0) {
@@ -209,7 +223,9 @@ public class HollowHunter extends Monster {
                if (t == at) {
                   this.loose(level, this.aimAt, action == 3);
                   if (action == 1 && this.wounded()) {
-                     this.loose(level, this.aimAt.add(this.getLookAngle().cross(new Vec3(0.0, 1.0, 0.0)).normalize().scale(1.4)), false);
+                     Vec3 side = this.getLookAngle().cross(new Vec3(0.0, 1.0, 0.0)).normalize().scale(1.4);
+                     this.loose(level, this.aimAt.add(side), false);
+                     this.loose(level, this.aimAt.subtract(side), false);
                   }
                }
                break;
@@ -227,20 +243,20 @@ public class HollowHunter extends Monster {
                }
 
                if (t == at) {
-                  for (int i = 0; i < 14; i++) {
+                  for (int i = 0; i < (this.wounded() ? 22 : 18); i++) {
                      double a = this.random.nextDouble() * 3.141592653589793 * 2.0;
                      double d = Math.sqrt(this.random.nextDouble()) * 3.2;
                      HunterArrow arrow = this.arrow(level, false);
                      arrow.setPos(this.mark.x + Math.cos(a) * d, this.mark.y + 16.0 + this.random.nextDouble() * 4.0, this.mark.z + Math.sin(a) * d);
                      arrow.setDeltaMovement(0.0, -2.4, 0.0);
-                     arrow.setBaseDamage(2.5);
+                     arrow.setBaseDamage(3.0);
                      level.addFreshEntity(arrow);
                   }
                }
                break;
             case 4:
                if (target != null && t == at && this.distanceToSqr(target) < 12.25) {
-                  target.hurtServer(level, this.damageSources().mobAttack(this), 6.0F);
+                  target.hurtServer(level, this.damageSources().mobAttack(this), 8.0F);
                   Vec3 push = target.position().subtract(this.position()).multiply(1.0, 0.0, 1.0).normalize();
                   target.push(push.x * 1.3, 0.45, push.z * 1.3);
                   target.needsSync = true;
@@ -248,8 +264,15 @@ public class HollowHunter extends Monster {
                }
 
                if (t == at + 2 && target != null) {
+                  // he springs back after the kick - but never off the edge of the Hollow
                   Vec3 away = this.position().subtract(target.position()).multiply(1.0, 0.0, 1.0).normalize();
-                  this.setDeltaMovement(away.x * 1.15, 0.62, away.z * 1.15);
+                  Vec3 dir = this.safeLeap(level, away);
+                  double power = dir == null ? 0.0 : 1.15;
+                  if (dir == null) {
+                     dir = new Vec3(Layout.HOLLOW.x() + 0.5 - this.getX(), 0.0, Layout.HOLLOW.z() + 0.5 - this.getZ()).normalize();
+                     power = 0.35;
+                  }
+                  this.setDeltaMovement(dir.x * power, power > 0.5 ? 0.62 : 0.4, dir.z * power);
                   this.needsSync = true;
                }
                break;
@@ -304,7 +327,7 @@ public class HollowHunter extends Monster {
          if (this.actionTick >= LENGTH[action]) {
             this.setInvisible(false);
             this.entityData.set(ACTION, 0, true);
-            this.cooldown = (this.wounded() ? 10 : 18) + this.random.nextInt(this.wounded() ? 14 : 22);
+            this.cooldown = (this.wounded() ? 7 : 13) + this.random.nextInt(this.wounded() ? 10 : 16);
          }
       }
    }
@@ -318,10 +341,10 @@ public class HollowHunter extends Monster {
       Vec3 from = this.getEyePosition().add(this.getLookAngle().scale(0.6));
       arrow.setPos(from);
       Vec3 d = to.subtract(from);
-      arrow.shoot(d.x, d.y + d.horizontalDistance() * 0.05, d.z, 2.9F, 0.6F);
-      arrow.setBaseDamage(snare ? 1.5 : 3.0);
+      arrow.shoot(d.x, d.y + d.horizontalDistance() * 0.04, d.z, 3.2F, 0.4F);
+      arrow.setBaseDamage(snare ? 1.75 : 3.5);
       if (snare) {
-         arrow.onHit(new MobEffectInstance(MobEffects.SLOWNESS, 60, 1));
+         arrow.onHit(new MobEffectInstance(MobEffects.SLOWNESS, 90, 1));
       }
 
       level.addFreshEntity(arrow);
@@ -345,7 +368,7 @@ public class HollowHunter extends Monster {
       arrow.setPos(from);
       Vec3 d = to.subtract(from);
       arrow.shoot(d.x, d.y, d.z, 2.0F, 0.0F);
-      arrow.riven(13.0F);
+      arrow.riven(15.0F);
       level.addFreshEntity(arrow);
       this.playSound(SoundEvents.CROSSBOW_SHOOT, 2.5F, 0.4F);
       this.playSound(SoundEvents.WITHER_SHOOT, 1.6F, 0.6F);
@@ -371,6 +394,29 @@ public class HollowHunter extends Monster {
          double a = i * 3.141592653589793 * 2.0 / 24.0;
          level.sendParticles(ModParticles.SOUL_FLAME, c.x + Math.cos(a) * r, c.y + 0.1, c.z + Math.sin(a) * r, 1, 0.0, 0.02, 0.0, 0.0);
       }
+   }
+
+   /** First of: straight back, angled back, sideways, toward the island centre - whose landing spot is solid ground. */
+   private Vec3 safeLeap(ServerLevel level, Vec3 away) {
+      Layout.Island h = Layout.HOLLOW;
+      Vec3 center = new Vec3(h.x() + 0.5 - this.getX(), 0.0, h.z() + 0.5 - this.getZ()).normalize();
+      Vec3[] tries = new Vec3[]{away, away.yRot(0.7F), away.yRot(-0.7F), away.yRot(1.5F), away.yRot(-1.5F), center};
+      for (Vec3 d : tries) {
+         if (d.lengthSqr() > 1.0E-4 && this.safeGround(level, this.position().add(d.scale(5.5)))
+            && this.safeGround(level, this.position().add(d.scale(3.0)))) {
+            return d;
+         }
+      }
+      return null;
+   }
+
+   private boolean safeGround(ServerLevel level, Vec3 spot) {
+      Layout.Island h = Layout.HOLLOW;
+      if (!inHollow(spot, -2.5)) {
+         return false;
+      }
+      BlockPos top = level.getHeightmapPos(Types.MOTION_BLOCKING_NO_LEAVES, BlockPos.containing(spot));
+      return top.getY() > h.top() - 4 && top.getY() <= h.top() + 4 && level.getBlockState(top.below()).isFaceSturdy(level, top.below(), Direction.UP);
    }
 
    private void reappear(ServerLevel level, LivingEntity target) {
@@ -541,10 +587,10 @@ public class HollowHunter extends Monster {
                if (h.cooldown == 0) {
                   if (dist < 4.5) {
                      h.begin(4);
-                  } else if (h.tickCount - h.lastVanish > (h.wounded() ? 200 : 320) && h.random.nextInt(4) == 0) {
+                  } else if (h.tickCount - h.lastVanish > (h.wounded() ? 160 : 260) && h.random.nextInt(4) == 0) {
                      h.lastVanish = h.tickCount;
                      h.begin(5);
-                  } else if (dist > 7.0 && h.tickCount - h.lastRiven > (h.wounded() ? 260 : 420) && h.random.nextInt(3) == 0) {
+                  } else if (dist > 7.0 && h.tickCount - h.lastRiven > (h.wounded() ? 200 : 340) && h.random.nextInt(3) == 0) {
                      h.begin(6);
                   } else {
                      int roll = h.random.nextInt(10);

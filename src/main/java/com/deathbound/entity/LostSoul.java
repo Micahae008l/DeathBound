@@ -1,5 +1,11 @@
 package com.deathbound.entity;
 
+import com.deathbound.npc.Rewards;
+import com.deathbound.registry.ModItems;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.item.ItemStack;
+
 import com.deathbound.registry.ModParticles;
 import com.deathbound.registry.ModSounds;
 import com.deathbound.world.Layout;
@@ -47,6 +53,9 @@ public class LostSoul extends PathfinderMob {
    public static final int FADE_TICKS = 24;
    private static final EntityDataAccessor<Integer> TINT = SynchedEntityData.defineId(LostSoul.class, EntityDataSerializers.INT);
    public static final int LINES = 24;
+   /** Chance that a Lost Soul gives a Soul the first time it is spoken to (rolled once per ghost). */
+   public static final float SOUL_GIFT_CHANCE = 0.25F;
+   private boolean soulRolled;
 
    public void linger(BlockPos home, int place) {
       this.home = home;
@@ -66,6 +75,7 @@ public class LostSoul extends PathfinderMob {
    protected void addAdditionalSaveData(ValueOutput output) {
       super.addAdditionalSaveData(output);
       output.putInt("tint", this.tint());
+      output.putBoolean("soul_rolled", this.soulRolled);
       if (this.home != null) {
          output.store("home", BlockPos.CODEC, this.home);
          output.putInt("place", this.place);
@@ -77,6 +87,7 @@ public class LostSoul extends PathfinderMob {
    protected void readAdditionalSaveData(ValueInput input) {
       super.readAdditionalSaveData(input);
       input.getInt("tint").ifPresent(t -> this.entityData.set(TINT, t));
+      this.soulRolled = input.getBooleanOr("soul_rolled", false);
       input.<BlockPos>read("home", BlockPos.CODEC).ifPresent(h -> this.linger(h, input.getIntOr("place", 0)));
    }
 
@@ -283,9 +294,29 @@ public class LostSoul extends PathfinderMob {
          );
          this.playSound(ModSounds.WHISPER, 0.9F, 0.8F + this.random.nextFloat() * 0.3F);
          this.getLookControl().setLookAt(player);
+         if (!this.soulRolled && player instanceof ServerPlayer sp && this.soulState() != 3) {
+            this.soulRolled = true;
+            if (this.random.nextFloat() < SOUL_GIFT_CHANCE) {
+               this.giveSoul(sp);
+            }
+         }
       }
 
       return InteractionResult.SUCCESS;
+   }
+
+   /** A small mercy: the ghost presses a Soul into the player's hand. */
+   private void giveSoul(ServerPlayer player) {
+      ServerLevel level = (ServerLevel)this.level();
+      Vec3 from = this.position().add(0.0, this.getBbHeight() * 0.6, 0.0);
+      Vec3 to = player.position().add(0.0, 1.0, 0.0);
+      for (int i = 0; i <= 8; i++) {
+         Vec3 p = from.lerp(to, i / 8.0);
+         level.sendParticles(ModParticles.SOUL_FLAME, p.x, p.y, p.z, 1, 0.04, 0.04, 0.04, 0.0);
+      }
+      level.playSound(null, player.blockPosition(), SoundEvents.SOUL_ESCAPE.value(), SoundSource.NEUTRAL, 0.9F, 1.2F);
+      player.sendSystemMessage(Component.translatable("deathbound.lost_soul.gift").withStyle(ChatFormatting.LIGHT_PURPLE, ChatFormatting.ITALIC));
+      Rewards.give(player, Component.translatable("rewards.deathbound.from", this.getName()), new ItemStack(ModItems.SOUL));
    }
 
    @Override

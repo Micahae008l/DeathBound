@@ -40,6 +40,12 @@ public final class ModAttachments {
          .syncWith(ByteBufCodecs.<io.netty.buffer.ByteBuf, String, Integer, Map<String, Integer>>map(HashMap::new, ByteBufCodecs.STRING_UTF8, ByteBufCodecs.VAR_INT), AttachmentSyncPredicate.targetOnly())
    );
 
+   /** Lore books filed into the Underworld Journal (see LoreFiling). */
+   public static final AttachmentType<List<ItemStack>> LORE_PAGES = AttachmentRegistry.create(
+      DeathBound.id("lore_pages"),
+      b -> b.persistent(ItemStack.CODEC.listOf()).copyOnDeath().syncWith(ItemStack.OPTIONAL_LIST_STREAM_CODEC, AttachmentSyncPredicate.targetOnly())
+   );
+
    public static boolean crowned(Entity e) {
       return e.hasAttached(CROWNED);
    }

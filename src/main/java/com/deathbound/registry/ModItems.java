@@ -88,7 +88,7 @@ public final class ModItems {
    public static final Item HUNTERS_BOW = lore(
       "hunters_bow", 3, HuntersBowItem::new, new Properties().durability(640).enchantable(1).rarity(Rarity.EPIC).fireResistant()
    );
-   public static final Item UNDERWORLD_JOURNAL = lore("underworld_journal", 1, JournalItem::new, new Properties().stacksTo(1));
+   public static final Item UNDERWORLD_JOURNAL = lore("underworld_journal", 2, JournalItem::new, new Properties().stacksTo(1));
    public static final Item ALDOUS_LANTERN = lore("aldous_lantern", 1, Item::new, new Properties().stacksTo(1));
    public static final Item MIRAS_RIBBON = lore("miras_ribbon", 1, Item::new, new Properties().stacksTo(1));
    public static final Item FERRYMANS_OAR = lore("ferrymans_oar", 1, Item::new, new Properties().stacksTo(1));

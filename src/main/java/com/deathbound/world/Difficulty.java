@@ -40,7 +40,7 @@ public final class Difficulty {
    }
 
    private static boolean fromBelow(DamageSource source) {
-      if (source.is(Hazards.SOUL_REND)) {
+      if (source.is(Hazards.SOUL_REND) || source.is(Hazards.SOUL_BOLT)) {
          return true;
       }
 

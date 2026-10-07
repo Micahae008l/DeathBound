@@ -24,7 +24,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Prediction;
-import net.minecraft.world.Container;
+import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -256,7 +256,8 @@ public final class Charms {
          for (int cz = -1; cz <= 1; cz++) {
             for (BlockEntity be : level.getChunkAt(c.offset(cx * 16, 0, cz * 16)).getBlockEntities().values()) {
                BlockPos p = be.getBlockPos();
-               if (be instanceof Container && p.distSqr(c) < 576.0) {
+               // only chests nobody has opened yet: Minecraft clears the loot table on first open
+               if (be instanceof RandomizableContainer loot && loot.getLootTable() != null && p.distSqr(c) < 576.0) {
                   level.sendParticles(player, ModParticles.SOUL_FLAME, true, false, p.getX() + 0.5, p.getY() + 1.2, p.getZ() + 0.5, 8, 0.15, 0.4, 0.15, 0.01);
                }
             }

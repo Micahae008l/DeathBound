@@ -53,6 +53,7 @@ public class DeathBound implements ModInitializer {
       Director.init();
       Dread.init();
       Puzzles.init();
+      com.deathbound.item.LoreFiling.init();
       Endings.init();
       Speech.init();
       Hazards.init();
