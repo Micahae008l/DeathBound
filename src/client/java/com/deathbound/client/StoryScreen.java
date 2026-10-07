@@ -3,6 +3,7 @@ package com.deathbound.client;
 import com.deathbound.story.Stories;
 import java.util.ArrayList;
 import java.util.List;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
@@ -13,6 +14,7 @@ import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Reads one of the dead's stories on a sheet of parchment sized to its text: title, who wrote it, a divider, then the
@@ -29,6 +31,7 @@ public class StoryScreen extends Screen {
    private static final int GAP = 6;
    private final String id;
    private final boolean note;
+   private final @Nullable Screen parent;
    private final List<List<Row>> pages = new ArrayList<>();
    private int page;
    private int panelX;
@@ -37,9 +40,20 @@ public class StoryScreen extends Screen {
    private int panelH;
 
    public StoryScreen(String id) {
+      this(id, null);
+   }
+
+   /** Opened from the Journal: closing it goes back there. */
+   public StoryScreen(String id, @Nullable Screen parent) {
       super(Component.translatable("story.deathbound." + id + ".title"));
       this.id = id;
       this.note = Stories.isNote(id);
+      this.parent = parent;
+   }
+
+   @Override
+   public void onClose() {
+      this.minecraft.gui.setScreen(this.parent);
    }
 
    private record Row(FormattedCharSequence text, int color, boolean centered, int gapBefore, boolean divider) {
@@ -213,10 +227,10 @@ public class StoryScreen extends Screen {
    @Override
    public boolean keyPressed(KeyEvent event) {
       int k = event.key();
-      if (k == 80 && this.page > 0) {
+      if ((k == InputConstants.KEY_LEFT || k == InputConstants.KEY_PAGEUP) && this.page > 0) {
          this.turn(this.page - 1);
          return true;
-      } else if ((k == 79 || k == 44) && this.page < this.pages.size() - 1) {
+      } else if ((k == InputConstants.KEY_RIGHT || k == InputConstants.KEY_PAGEDOWN || k == InputConstants.KEY_SPACE) && this.page < this.pages.size() - 1) {
          this.turn(this.page + 1);
          return true;
       } else {

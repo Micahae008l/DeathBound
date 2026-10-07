@@ -49,7 +49,7 @@ Not covered by the test: the double Death King, the rift on the BREAK ending, th
 - **DeathBound advancement tab:** 18 advancements (`tools/advancements.py` writes the JSON and English text). Anything without a vanilla trigger is awarded from code through `world/Milestones.java`: return to life, charm binding, the Phantom dodge, Soulforge, quests, the Collector's 8 artifacts, the Warden, the seals, the Death King and the endings. The Hollow Hunter one is hidden and uses the vanilla kill trigger.
 - **Journal:** a TASKS checklist page, plus live progress per open quest: lantern flames, Mira's last clue (saved in the synced `QUEST_NOTES` attachment), found or not found, and the Soul Jar count. Progress moves to its own page when it doesn't fit (14 lines × 114px).
 
-## Stories rework (Oct 7, evening): coded and compiles, NOT tested in game yet
+## Stories rework (Oct 7, evening): tested in game, all checks PASS
 Michael wanted three things: each story only once per world, more stories, notes you right-click in the world, and a better reading screen than the plain book page.
 - `story/Stories.java` holds the catalog: 24 chest stories (the original 15 plus 9 new) and 8 notes. The text lives in the lang file, written by `tools/stories.py`.
 - Chest loot table `deathbound:journal` now drops a **Lost Journal** (`deathbound:story_book`). `LootTableEvents.MODIFY_DROPS` gives it a story nobody in this world has had yet (`CLAIMED_STORIES` on the overworld); once all 24 are out, a Soul drops instead.
@@ -57,10 +57,11 @@ Michael wanted three things: each story only once per world, more stories, notes
   - the Ferryman's notice on the dock post at the Landing
   - 3 on Ghostwood trees (nearest the middle, furthest out, nearest the boat-shed)
   - 4 on house tables in Lantern's End (houses 2, 5, 8, 11)
-- **Reading screen** (`client/StoryScreen.java`): a parchment sheet sized to the text with title, author, divider and paragraphs. Long stories turn pages. Notes get a smaller sheet with a nail. Use the item to read; sneak + use files it away. Reading anything adds it to `STORIES_FOUND`.
-- **Journal:** a "STORIES OF THE DEAD" contents page (found X of 32), then every story you've read.
-- Next: run `UW_SHOTS=1 ./gradlew runClientGameTest`. The shots run already checks:
-  - 30 chest rolls give 24 different stories and then Souls
-  - all 8 notes exist
-  - screenshots of the notes and the reading screens
-
+- **Reading screen** (`client/StoryScreen.java`): a parchment sheet sized to the text with title, author, divider and paragraphs. Long stories turn pages (arrows, Page Up/Down, Space, or the arrow buttons). Notes get a smaller sheet with a nail. Use the item to read; sneak + use files it away. Reading anything adds it to `STORIES_FOUND`.
+- **Journal:** a "STORIES OF THE DEAD" page (found X of 32) listing every story you've read. Click a title to read it again on the parchment screen; closing it goes back to the Journal (`Journal.READ` click event). The old copy of each story into plain book pages is gone.
+- Test: `UW_SHOTS=1 ./gradlew runClientGameTest`. Last run (Oct 7) all PASS:
+  - 30 chest rolls give 24 different stories and then 6 Souls
+  - all 8 notes are in the world, on the right blocks
+  - clicking a Journal title opens the story, closing it returns to the Journal
+  - screenshots of the notes, reading screens and Journal look right
+- Only shows up in **new worlds** (the notes are worldgen).

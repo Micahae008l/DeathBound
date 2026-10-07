@@ -186,13 +186,25 @@ final class NewWorkChecks {
 		});
 		ctx.waitTicks(5);
 		ctx.takeScreenshot("shot_journal_stories");
+		// click a title: the story opens on parchment, and closing it goes back to the Journal
 		ctx.runOnClient(mc -> {
-			if (mc.gui.screen() instanceof net.minecraft.client.gui.screens.inventory.BookViewScreen book) {
-				book.setPage(3);
+			try {
+				var m = net.minecraft.client.gui.screens.inventory.BookViewScreen.class.getDeclaredMethod("handleClickEvent", net.minecraft.network.chat.ClickEvent.class);
+				m.setAccessible(true);
+				m.invoke(mc.gui.screen(), new net.minecraft.network.chat.ClickEvent.Custom(com.deathbound.DeathBound.id("read_story"),
+					java.util.Optional.of(net.minecraft.nbt.StringTag.valueOf("last_torch"))));
+			} catch (ReflectiveOperationException e) {
+				throw new RuntimeException(e);
 			}
 		});
 		ctx.waitTicks(5);
-		ctx.takeScreenshot("shot_journal_story_page");
+		ctx.runOnClient(mc -> log("journal: clicked a title -> " + mc.gui.screen().getClass().getSimpleName() + " -> "
+			+ pass(mc.gui.screen() instanceof com.deathbound.client.StoryScreen)));
+		ctx.takeScreenshot("shot_journal_read");
+		ctx.runOnClient(mc -> mc.gui.screen().onClose());
+		ctx.waitTicks(5);
+		ctx.runOnClient(mc -> log("journal: closed the story -> back on " + (mc.gui.screen() == null ? "nothing" : mc.gui.screen().getClass().getSimpleName()) + " -> "
+			+ pass(mc.gui.screen() instanceof net.minecraft.client.gui.screens.inventory.BookViewScreen)));
 		ctx.runOnClient(mc -> mc.gui.setScreen(null));
 		server.runOnServer(s -> player(s).getInventory().add(com.deathbound.story.Stories.book("channeling")));
 		ctx.waitTicks(5);

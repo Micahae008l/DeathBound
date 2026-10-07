@@ -6,6 +6,7 @@ import net.minecraft.world.item.component.WrittenBookContent;
 
 import net.minecraft.world.item.ItemStack;
 
+import com.deathbound.DeathBound;
 import com.deathbound.item.AldousLanternItem;
 import com.deathbound.npc.Quests;
 import com.deathbound.npc.Soulforge;
@@ -17,7 +18,14 @@ import com.deathbound.world.QuestEvents;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.Identifier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.locale.Language;
 import net.minecraft.client.gui.screens.inventory.BookViewScreen;
@@ -28,6 +36,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
 public final class Journal {
+   // click event on a story title in the Journal; never leaves the client
+   private static final Identifier READ = DeathBound.id("read_story");
+
    public static void open(Player p) {
       Map<String, Integer> q = p.getAttachedOrElse(ModAttachments.QUESTS, Map.of());
       List<Component> pages = new ArrayList<>();
@@ -66,41 +77,41 @@ public final class Journal {
          }
       }
 
-      // stories of the dead the player has read: a contents page, then each story
+      // stories of the dead the player has read: a list of titles; clicking one opens it on parchment (StoryScreen)
       List<String> stories = p.getAttachedOrElse(ModAttachments.STORIES_FOUND, List.of());
-      MutableComponent contents = Component.translatable("journal.deathbound.stories_title")
-         .withStyle(ChatFormatting.BOLD)
+      MutableComponent contents = Component.empty()
+         .append(Component.translatable("journal.deathbound.stories_title").withStyle(ChatFormatting.BOLD))
          .append("\n\n")
          .append(Component.translatable("journal.deathbound.stories_count", stories.size(), Stories.BOOKS.size() + Stories.NOTES.size()).withStyle(ChatFormatting.DARK_PURPLE))
+         .append("\n\n")
+         .append(
+            Component.translatable(stories.isEmpty() ? "journal.deathbound.stories_none" : "journal.deathbound.stories_hint")
+               .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+         )
          .append("\n\n");
-      if (stories.isEmpty()) {
-         contents.append(Component.translatable("journal.deathbound.stories_none").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
-      }
-
-      List<Component> storyPages = new ArrayList<>();
       for (String id : stories) {
          String k = "story.deathbound." + id;
-         contents.append(Component.literal("\u2022 ").append(Component.translatable(k + ".title")).append("\n"));
-         MutableComponent page = Component.translatable(k + ".title").withStyle(ChatFormatting.BOLD);
-         if (Language.getInstance().has(k + ".author")) {
-            page.append("\n").append(Component.translatable(k + ".author").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
+         Component hover = Language.getInstance().has(k + ".author")
+            ? Component.translatable("item.deathbound.story_book.by", Component.translatable(k + ".author"))
+            : Component.translatable(k + ".title");
+         MutableComponent line = Component.literal(Stories.isNote(id) ? "\u2022 " : "\u25aa ")
+            .append(Component.translatable(k + ".title"))
+            .withStyle(
+               Style.EMPTY
+                  .withColor(Stories.isNote(id) ? ChatFormatting.DARK_GRAY : ChatFormatting.BLACK)
+                  .withUnderlined(true)
+                  .withClickEvent(new ClickEvent.Custom(READ, Optional.of(StringTag.valueOf(id))))
+                  .withHoverEvent(new HoverEvent.ShowText(hover))
+            );
+         if (!fits(contents.copy().append(line))) {
+            pages.add(contents);
+            contents = Component.empty();
          }
 
-         for (int i = 1; Language.getInstance().has(k + ".p" + i); i++) {
-            MutableComponent para = Component.literal("\n\n").append(Component.translatable(k + ".p" + i));
-            if (!fits(page.copy().append(para))) {
-               storyPages.add(page);
-               page = Component.empty().append(Component.translatable(k + ".p" + i));
-            } else {
-               page.append(para);
-            }
-         }
-
-         storyPages.add(page);
+         contents.append(line).append("\n");
       }
 
       pages.add(contents);
-      pages.addAll(storyPages);
       List<ItemStack> lore = p.getAttachedOrElse(ModAttachments.LORE_PAGES, List.of());
       if (!lore.isEmpty()) {
          pages.add(
@@ -132,7 +143,17 @@ public final class Journal {
          pages.add(Component.translatable("journal.deathbound.empty").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
       }
 
-      Minecraft.getInstance().gui.setScreen(new BookViewScreen(new BookAccess(pages)));
+      Minecraft.getInstance().gui.setScreen(new BookViewScreen(new BookAccess(pages)) {
+         @Override
+         protected boolean handleClickEvent(ClickEvent event) {
+            if (event instanceof ClickEvent.Custom c && c.id().equals(READ)) {
+               c.payload().flatMap(Tag::asString).ifPresent(id -> Minecraft.getInstance().gui.setScreen(new StoryScreen(id, this)));
+               return true;
+            }
+
+            return super.handleClickEvent(event);
+         }
+      });
    }
 
    // every task at a glance: done, in hand, or not met yet

@@ -791,5 +791,6 @@
   "journal.deathbound.stories_title": "STORIES OF THE DEAD",
   "journal.deathbound.stories_count": "Found: %s of %s",
   "journal.deathbound.stories_none": "Notes, journals, last words. When you read one, it's kept here.",
+  "journal.deathbound.stories_hint": "Click a title to read it again.",
   "story.deathbound.signed": "— %s"
 }
