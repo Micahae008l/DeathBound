@@ -16,6 +16,7 @@ public final class ModSounds {
    public static final SoundEvent AIR = register("dread.air");
    public static final SoundEvent MUSIC_GUARD = register("music.guard");
    public static final SoundEvent MUSIC_DEATH = register("music.death");
+   public static final SoundEvent MUSIC_DEATH_INTRO = register("music.death_intro");
    public static final SoundEvent MUSIC_BEAST = register("music.beast");
    public static final SoundEvent MUSIC_REAPER = register("music.reaper");
    public static final SoundEvent MUSIC_HUNTER = register("music.hunter");

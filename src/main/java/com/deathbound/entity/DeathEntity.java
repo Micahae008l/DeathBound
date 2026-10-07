@@ -257,6 +257,13 @@ public class DeathEntity extends Monster {
 
    @Override
    public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
+      if (Hazards.sameSide(this, source.getEntity())) {
+         if (source.getEntity() instanceof net.minecraft.world.entity.Mob m && m.getTarget() == this) {
+            m.setTarget(null);   // his own dead never turn on him
+         }
+         return false;
+      }
+
       if (this.phase() == 3 && this.getHealth() > this.getMaxHealth() * 0.2F && this.getHealth() - damage <= this.getMaxHealth() * 0.2F) {
          Speech.say(level, this, "death", "low", 13215487);
       }

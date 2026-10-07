@@ -158,16 +158,24 @@ public class UnderworldNpc extends AbstractVillager {
       this.entityData.set(CORRUPTION, Mth.clamp(c, 0.0F, 1.0F));
    }
 
+   // bump when updateTrades changes so NPCs in existing worlds pick up the new shop
+   private static final int TRADES = 2;
+
    @Override
    public void addAdditionalSaveData(ValueOutput output) {
       super.addAdditionalSaveData(output);
       output.putFloat("corruption", this.corruption());
+      output.putInt("trades", TRADES);
    }
 
    @Override
    public void readAdditionalSaveData(ValueInput input) {
       super.readAdditionalSaveData(input);
       this.setCorruption(input.getFloatOr("corruption", 0.0F));
+      if (input.getIntOr("trades", 0) < TRADES) {
+         // the shop changed since this NPC was saved: restock with the current trades
+         this.offers = null;
+      }
    }
 
    public UnderworldNpc(EntityType<? extends UnderworldNpc> type, Level level) {
@@ -259,7 +267,7 @@ public class UnderworldNpc extends AbstractVillager {
             o.add(sell(5, PotionContents.createItemStack(Items.POTION, Potions.LONG_NIGHT_VISION), 999));
             o.add(sell(4, PotionContents.createItemStack(Items.SPLASH_POTION, Potions.STRONG_HEALING), 999));
             o.add(sell(3, new ItemStack(Items.ENDER_PEARL, 2), 999));
-            o.add(sell(14, new ItemStack(ModItems.FERRYMANS_CHARM), 1));
+            o.add(sell(8, new ItemStack(ModItems.FERRYMANS_CHARM), 999));
             break;
          case GRAVEDIGGER:
             o.add(new MerchantOffer(new ItemCost(Items.BONE, 12), new ItemStack(ModItems.SOUL, 1), 999, 0, 0.0F));
@@ -285,6 +293,7 @@ public class UnderworldNpc extends AbstractVillager {
             o.add(sell(8, PotionContents.createItemStack(Items.POTION, ModEffects.GRAVE_SIGHT_POTION), 999));
             o.add(sell(6, new ItemStack(Items.SPYGLASS), 999));
             o.add(sell(10, new ItemStack(Items.RECOVERY_COMPASS), 999));
+            o.add(sell(16, new ItemStack(ModItems.COLLECTORS_CHARM), 1));
       }
    }
 

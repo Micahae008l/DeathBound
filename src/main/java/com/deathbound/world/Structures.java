@@ -379,6 +379,10 @@ final class Structures {
          b.fill(x0, y + 3, z0, x0 + 3, y + 3, z0 + 1, (x, yy, z) -> Build.hash(x, yy, z, 731) < 0.3 ? null : PLANKS);
          b.set(x0 + 3, y + 1, z0 + 3, slab(false));
          b.chest(x0 + 1, y + 1, z0 + 2, Direction.SOUTH, Landmarks.QUEST_OAR);
+         // the wood took the shed: ghostwood roots have grown over the oar's chest and have to be cut away
+         for (int[] r : new int[][]{{0, 1, 2}, {2, 1, 2}, {1, 1, 1}, {1, 1, 3}, {1, 2, 2}, {0, 2, 2}, {1, 2, 3}, {2, 2, 1}}) {
+            b.set(x0 + r[0], y + r[1], z0 + r[2], log(r[1] == 2 && r[2] != 2 ? Axis.Z : Axis.Y));
+         }
          b.set(x0 + 2, y + 1, z0 + 1, ModBlocks.COFFIN.defaultBlockState());
          b.set(x0 + 1, y + 1, z0, lantern(false));
       }

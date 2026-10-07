@@ -44,6 +44,19 @@ public final class Hazards {
       level.playSound(null, source.blockPosition(), ModSounds.HEARTBEAT, SoundSource.HOSTILE, 3.0F, 0.8F);
    }
 
+   /**
+    * The dead serve the Death King: Underworld monsters are on his side. His area attacks pass through them and
+    * they never damage him, so they don't end up fighting him (or each other) mid-boss-fight.
+    */
+   public static boolean sameSide(Entity a, Entity b) {
+      return a != null && b != null && a != b && underworldMonster(a) && underworldMonster(b);
+   }
+
+   private static boolean underworldMonster(Entity e) {
+      return e instanceof net.minecraft.world.entity.Mob && e instanceof net.minecraft.world.entity.monster.Enemy
+         && net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(e.getType()).getNamespace().equals("deathbound");
+   }
+
    public static DamageSource crush(ServerLevel level, LivingEntity owner) {
       return level.damageSources().source(CRUSH, owner);
    }
@@ -104,7 +117,7 @@ public final class Hazards {
       AABB box = new AABB(p.x - e.radius, p.y - 0.5, p.z - e.radius, p.x + e.radius, p.y + 5.0, p.z + e.radius);
 
       for (LivingEntity victim : level.getEntitiesOfClass(LivingEntity.class, box, v -> v.isAlive() && v != e.owner && !(v instanceof SoulAnchor))) {
-         if ((e.owner == null || !victim.isAlliedTo(e.owner)) && victim.hurtServer(level, soulRend(level, e.owner), e.damage)) {
+         if ((e.owner == null || !victim.isAlliedTo(e.owner) && !sameSide(victim, e.owner)) && victim.hurtServer(level, soulRend(level, e.owner), e.damage)) {
             victim.push(0.0, 0.75, 0.0);
             victim.needsSync = true;
          }
@@ -127,7 +140,7 @@ public final class Hazards {
       for (LivingEntity v : level.getEntitiesOfClass(
          LivingEntity.class, new AABB(center, center).inflate(radius, 3.0, radius), vx -> vx != owner && vx.isAlive()
       )) {
-         if (!v.isAlliedTo(owner) && !(v instanceof SoulAnchor) && !(v instanceof LostSoul)) {
+         if (!v.isAlliedTo(owner) && !sameSide(v, owner) && !(v instanceof SoulAnchor) && !(v instanceof LostSoul)) {
             double d = v.position().distanceTo(center);
             if (!(d > radius)) {
                float scale = (float)(1.0 - d / radius * 0.6);
@@ -146,12 +159,12 @@ public final class Hazards {
       int hits = 0;
 
       for (LivingEntity v : level.getEntitiesOfClass(LivingEntity.class, owner.getBoundingBox().inflate(radius, 1.5, radius), vx -> vx != owner && vx.isAlive())) {
-         if (!v.isAlliedTo(owner) && !(v instanceof SoulAnchor) && !(v instanceof LostSoul)) {
+         if (!v.isAlliedTo(owner) && !sameSide(v, owner) && !(v instanceof SoulAnchor) && !(v instanceof LostSoul)) {
             Vec3 to = v.position().subtract(owner.position()).multiply(1.0, 0.0, 1.0);
             double dist = to.length();
             if (!(dist > radius + v.getBbWidth() * 0.5)) {
                double angle = Math.toDegrees(Math.acos(Mth.clamp(to.normalize().dot(look), -1.0, 1.0)));
-               if ((!(dist > 1.2) || !(angle > halfAngleDeg)) && v.hurtServer(level, level.damageSources().mobAttack(owner), damage)) {
+               if ((!(dist > 1.2) || !(angle > halfAngleDeg)) && !sameSide(v, owner) && v.hurtServer(level, level.damageSources().mobAttack(owner), damage)) {
                   Vec3 kb = to.normalize().scale(knockback);
                   v.push(kb.x, 0.35, kb.z);
                   v.needsSync = true;

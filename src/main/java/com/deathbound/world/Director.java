@@ -80,7 +80,7 @@ public final class Director {
       new Director.Home(ModEntities.GRAVEDIGGER, new BlockPos(Layout.VILLAGE.x() - 7, Layout.VILLAGE.top() + 1, Layout.VILLAGE.z() + 8), 270.0F, false),
       new Director.Home(ModEntities.PROPHET, new BlockPos(Layout.CRYPT.x() + 8, Layout.CRYPT.top() - 9, Layout.CRYPT.z() - 4), 0.0F, true),
       new Director.Home(ModEntities.BONESMITH, new BlockPos(Layout.MERE.x() + 2, Layout.MERE.top() + 1, Layout.MERE.z() + 1), 90.0F, false),
-      new Director.Home(ModEntities.MIRA, new BlockPos(-3, Layout.GATE.top() + 1, Layout.GUARD_POST.getZ() + 20), 180.0F, false),
+      new Director.Home(ModEntities.MIRA, BlockPos.ZERO, 180.0F, false),
       new Director.Home(ModEntities.LAMPLIGHTER, new BlockPos(Layout.VILLAGE.x() + 5, Layout.VILLAGE.top() + 1, Layout.VILLAGE.z() - 6), 0.0F, false),
       new Director.Home(ModEntities.SENTRY, new BlockPos(Layout.WATCH.x() - 5, Layout.WATCH.top() + 1, Layout.WATCH.z() + 1), 90.0F, false),
       new Director.Home(ModEntities.COLLECTOR, new BlockPos(Layout.SPIRE.x(), Layout.SPIRE.top() - 10, Layout.SPIRE.z() + 1), 180.0F, false)
@@ -162,6 +162,10 @@ public final class Director {
 
       for (Director.Home home : HOMES) {
          Director.Home h = kingFreed && home.type == ModEntities.PROPHET ? KING_HOME : home;
+         if (h.type == ModEntities.MIRA) {
+            // her place in the line differs from world to world: the souls in the line point the way
+            h = new Director.Home(ModEntities.MIRA, QuestEvents.miraSpot(level), h.yaw, false);
+         }
          if (level.getNearestPlayer(h.at.getX(), h.at.getY(), h.at.getZ(), 64.0, e -> true) != null && level.isPositionEntityTicking(h.at)) {
             List<UnderworldNpc> there = level.getEntities(h.type, new AABB(h.at).inflate(24.0), e -> true);
             if (there.isEmpty()) {
@@ -188,7 +192,7 @@ public final class Director {
       }
    }
 
-   private static BlockPos standingSpot(ServerLevel level, BlockPos near) {
+   static BlockPos standingSpot(ServerLevel level, BlockPos near) {
       for (int i = 0; i <= 10; i++) {
          BlockPos p = near.above(i <= 6 ? 1 - i : i - 5);
          if (level.getBlockState(p.below()).isFaceSturdy(level, p.below(), Direction.UP)
@@ -299,14 +303,24 @@ public final class Director {
       BlockPos c = Layout.ARENA_CENTER;
       if (level.isPositionEntityTicking(c)) {
          List<ServerPlayer> inside = level.getPlayers(px -> !px.isSpectator() && Layout.inArena(px.getX(), px.getY(), px.getZ()));
-         List<DeathEntity> deaths = level.getEntitiesOfClass(DeathEntity.class, arena());
+         // every Death King in the dimension, not just inside the arena box: if he strays above it (towers, flight)
+         // the old box check thought he was gone and spawned a second one
+         List<DeathEntity> deaths = new java.util.ArrayList<>(level.getEntities(ModEntities.DEATH, d -> !d.isRemoved()));
+         for (DeathEntity d : deaths) {
+            if (d.isAlive() && !d.isNoAi() && !arena().contains(d.position()) && level.getGameTime() % 20L == 0L) {
+               BlockPos seat = Layout.THRONE_SEAT;
+               d.teleportTo(seat.getX() + 0.5, seat.getY() + 0.5, seat.getZ() + 0.5);
+            }
+         }
          Director.State st = state(level);
          long now = level.getGameTime();
          if (st.progress() >= 2) {
             sealArena(level, false);
-            if (!st.riftOpen()) {
-               setRift(level, true);
-               level.setAttached(STATE, st.rift(true));
+            // the way home - except after breaking the throne, where the way out is the run back to the Landing
+            boolean wantRift = st.ending() != BREAK;
+            if (st.riftOpen() != wantRift) {
+               setRift(level, wantRift);
+               level.setAttached(STATE, st.rift(wantRift));
             }
          } else if (st.citadelOpen()) {
             sealArena(level, !inside.isEmpty() && deaths.stream().anyMatch(LivingEntity::isAlive));

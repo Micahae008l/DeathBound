@@ -111,7 +111,17 @@ public final class Soulforge {
       );
    }
 
-   static int count(Player p, Item item) {
+   public static ItemStack find(Player p, Item item) {
+      for (ItemStack s : p.getInventory()) {
+         if (s.is(item)) {
+            return s;
+         }
+      }
+
+      return ItemStack.EMPTY;
+   }
+
+   public static int count(Player p, Item item) {
       int n = 0;
 
       for (ItemStack s : p.getInventory()) {

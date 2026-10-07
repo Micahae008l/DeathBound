@@ -57,6 +57,14 @@ public class DeathsGuard extends Monster {
    private static final int[] LENGTH = new int[]{0, 42, 58, 42, 50, 24, 56};
    private static final int[] IMPACT = new int[]{0, 19, 31, 14, 0, 11, 23};
    public static final float HEAVY_SPEED = 0.72F;
+   static final double HEALTH = 380.0;
+   static final double DAMAGE = 13.0;
+   static final double SPEED = 0.3;
+   static final float SLAM_DAMAGE = 18.0F;
+   static final float LUNGE_DAMAGE = 8.0F;
+   static final float JUDGE_DAMAGE = 14.0F;
+   // bump when the stats above change so a Guard saved in an existing world gets them too
+   private static final int STATS = 2;
    private static final EntityDataAccessor<Integer> ACTION = SynchedEntityData.defineId(DeathsGuard.class, EntityDataSerializers.INT);
    private static final EntityDataAccessor<Boolean> KNEEL = SynchedEntityData.defineId(DeathsGuard.class, EntityDataSerializers.BOOLEAN);
    public final AnimationState sweepAnim = new AnimationState();
@@ -85,13 +93,13 @@ public class DeathsGuard extends Monster {
 
    public static Builder createAttributes() {
       return Monster.createMonsterAttributes()
-         .add(Attributes.MAX_HEALTH, 280.0)
+         .add(Attributes.MAX_HEALTH, HEALTH)
          .add(Attributes.ARMOR, 12.0)
          .add(Attributes.ARMOR_TOUGHNESS, 4.0)
-         .add(Attributes.ATTACK_DAMAGE, 11.0)
+         .add(Attributes.ATTACK_DAMAGE, DAMAGE)
          .add(Attributes.KNOCKBACK_RESISTANCE, 0.9)
-         .add(Attributes.MOVEMENT_SPEED, 0.27)
-         .add(Attributes.FOLLOW_RANGE, 40.0)
+         .add(Attributes.MOVEMENT_SPEED, SPEED)
+         .add(Attributes.FOLLOW_RANGE, 48.0)
          .add(Attributes.STEP_HEIGHT, 1.1);
    }
 
@@ -140,12 +148,25 @@ public class DeathsGuard extends Monster {
    protected void addAdditionalSaveData(ValueOutput output) {
       super.addAdditionalSaveData(output);
       output.putBoolean("kneel", this.kneeling());
+      output.putInt("stats", STATS);
    }
 
    @Override
    protected void readAdditionalSaveData(ValueInput input) {
       super.readAdditionalSaveData(input);
       this.entityData.set(KNEEL, input.getBooleanOr("kneel", false));
+      if (input.getIntOr("stats", 0) < STATS) {
+         float part = this.getHealth() / this.getMaxHealth();
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(HEALTH);
+         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(DAMAGE);
+         this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(SPEED);
+         this.setHealth((float)(HEALTH * part));
+      }
+   }
+
+   // below half health he stops holding back: faster, chains his swings, judges more often
+   public boolean enraged() {
+      return this.getHealth() <= this.getMaxHealth() * 0.5F;
    }
 
    public int action() {
@@ -215,7 +236,14 @@ public class DeathsGuard extends Monster {
    @Override
    protected void customServerAiStep(ServerLevel level) {
       super.customServerAiStep(level);
+      LivingEntity chased = this.getTarget();
+      if (chased != null && (!chased.isAlive() || chased.distanceToSqr(Vec3.atCenterOf(this.getHomePosition())) > 48.0 * 48.0)) {
+         this.setTarget(null);   // gave up: walks back to his post
+      }
       this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
+      if (this.getTarget() != null && this.enraged() && this.tickCount % 5 == 0) {
+         level.sendParticles(ModParticles.SOUL_FLAME, this.getX(), this.getY() + 1.6, this.getZ(), 3, 0.5, 0.9, 0.5, 0.01);
+      }
       this.bossEvent.setVisible(this.getTarget() != null || this.getHealth() < this.getMaxHealth());
       if (this.cooldown > 0) {
          this.cooldown--;
@@ -233,7 +261,7 @@ public class DeathsGuard extends Monster {
          }
 
          if (action == 3 && this.actionTick > IMPACT[3] && this.actionTick < IMPACT[3] + 8) {
-            Hazards.arc(level, this, 2.2F, 50.0F, 6.0F, 0.8F);
+            Hazards.arc(level, this, 2.2F, 50.0F, LUNGE_DAMAGE, 0.8F);
          }
 
          if (this.actionTick >= LENGTH[action]) {
@@ -248,8 +276,19 @@ public class DeathsGuard extends Monster {
                this.judging = null;
             }
 
+            // enraged: a sweep that lands close flows straight into a slam
+            LivingEntity t = this.getTarget();
+            if (action == 1 && this.enraged() && t != null && this.distanceTo(t) < 6.0 && this.random.nextFloat() < 0.5F) {
+               this.begin(2);
+               return;
+            }
+
             this.entityData.set(ACTION, 0, true);
-            this.cooldown = action != 4 && action != 5 ? 24 + this.random.nextInt(16) : 30;
+            if (action == 4 || action == 5) {
+               this.cooldown = 30;
+            } else {
+               this.cooldown = this.enraged() ? 10 + this.random.nextInt(10) : 18 + this.random.nextInt(12);
+            }
          }
       } else {
          if (this.getTarget() == null && this.cooldown == 0) {
@@ -306,7 +345,7 @@ public class DeathsGuard extends Monster {
             this.playSound(SoundEvents.PLAYER_ATTACK_SWEEP, 2.0F, 0.5F);
             break;
          case 2:
-            Hazards.shockwave(level, this, front, 5.5F, 16.0F, 0.7F);
+            Hazards.shockwave(level, this, front, 5.5F, SLAM_DAMAGE, 0.7F);
             break;
          case 3: {
             Vec3 dir = Vec3.directionFromRotation(0.0F, this.getYRot());
@@ -330,14 +369,14 @@ public class DeathsGuard extends Monster {
             Vec3 dir = t != null
                ? t.position().subtract(this.position()).multiply(1.0, 0.0, 1.0).normalize()
                : Vec3.directionFromRotation(0.0F, this.getYRot());
-            int lines = this.getHealth() < this.getMaxHealth() * 0.5F ? 3 : 1;
+            int lines = this.enraged() ? 3 : 1;
 
             for (int l = 0; l < lines; l++) {
                Vec3 d = dir.yRot((l - (lines - 1) / 2.0F) * 0.42F);
 
                for (int i = 1; i <= 9; i++) {
                   Vec3 p = this.position().add(d.scale(1.2 + i * 1.7));
-                  Hazards.eruption(level, new Vec3(p.x, this.getY() + 1.0, p.z), 8 + i * 3, 12.0F, 1.4F, this);
+                  Hazards.eruption(level, new Vec3(p.x, this.getY() + 1.0, p.z), 8 + i * 3, JUDGE_DAMAGE, 1.4F, this);
                }
             }
 
@@ -361,6 +400,11 @@ public class DeathsGuard extends Monster {
 
       boolean above = this.getHealth() > this.getMaxHealth() * 0.5F;
       boolean hurt = super.hurtServer(level, source, damage);
+      // He keeps to his post (8 blocks), and vanilla "hit back" targeting ignores anyone outside that zone - so
+      // arrows from range never made him react. Anyone who hurts him becomes his target, however far away.
+      if (hurt && this.getTarget() == null && source.getEntity() instanceof Player p && !p.isCreative() && !p.isSpectator()) {
+         this.setTarget(p);
+      }
       if (hurt && above && this.getHealth() <= this.getMaxHealth() * 0.5F && this.isAlive()) {
          Speech.say(level, this, "warden", "half", 10466520);
       }
@@ -494,20 +538,21 @@ public class DeathsGuard extends Monster {
                      return;
                   }
 
-                  if (dist > 5.0 && dist < 18.0 && g.random.nextInt(22) == 0) {
+                  // keeping your distance doesn't save you: the further away, the more often he judges
+                  if (dist > 5.0 && dist < 18.0 && g.random.nextInt(dist > 10.0 ? 12 : 20) == 0) {
                      g.begin(6);
-                     g.cooldown = 50;
+                     g.cooldown = g.enraged() ? 30 : 45;
                      return;
                   }
 
-                  if (dist > 7.0 && dist < 14.0 && g.random.nextInt(30) == 0) {
+                  if (dist > 6.0 && dist < 16.0 && g.random.nextInt(g.enraged() ? 14 : 24) == 0) {
                      g.begin(3);
-                     g.cooldown = 60;
+                     g.cooldown = g.enraged() ? 35 : 50;
                      return;
                   }
                }
 
-               g.getNavigation().moveTo(target, 1.0);
+               g.getNavigation().moveTo(target, g.enraged() ? 1.2 : 1.0);
             }
          }
       }

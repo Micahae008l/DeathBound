@@ -1,6 +1,7 @@
 package com.deathbound.npc;
 
 import com.deathbound.DeathBound;
+import com.deathbound.item.AldousLanternItem;
 import com.deathbound.registry.ModAttachments;
 import com.deathbound.registry.ModBlocks;
 import com.deathbound.registry.ModItems;
@@ -70,7 +71,9 @@ public final class Quests {
    public static void talk(ServerPlayer p, String who) {
       if (who.equals("mira")) {
          int s = stage(p, "mira");
-         if (s == 1 && has(p, ModItems.ALDOUS_LANTERN, 1)) {
+         if (s == 1 && has(p, ModItems.ALDOUS_LANTERN, 1) && AldousLanternItem.isOut(Soulforge.find(p, ModItems.ALDOUS_LANTERN))) {
+            open(p, "quest.mira.dark");
+         } else if (s == 1 && has(p, ModItems.ALDOUS_LANTERN, 1)) {
             Soulforge.take(p, ModItems.ALDOUS_LANTERN, 1);
             Rewards.give(p, from("mira"), new ItemStack(ModItems.MIRAS_RIBBON));
             set(p, "mira", 2);

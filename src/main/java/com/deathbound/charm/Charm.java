@@ -11,7 +11,9 @@ public enum Charm {
    FERRYMAN("ferrymans_charm", Rarity.RARE),
    REAPER("reapers_charm", Rarity.EPIC),
    OPEN_DOOR("open_door_charm", Rarity.EPIC),
-   HUNTER("hunters_charm", Rarity.EPIC);
+   HUNTER("hunters_charm", Rarity.EPIC),
+   COLLECTOR("collectors_charm", Rarity.RARE),
+   PHANTOM("phantom_charm", Rarity.EPIC);
 
    public final String id;
    public final Rarity rarity;
@@ -30,6 +32,8 @@ public enum Charm {
          case REAPER -> ModItems.REAPERS_CHARM;
          case OPEN_DOOR -> ModItems.OPEN_DOOR_CHARM;
          case HUNTER -> ModItems.HUNTERS_CHARM;
+         case COLLECTOR -> ModItems.COLLECTORS_CHARM;
+         case PHANTOM -> ModItems.PHANTOM_CHARM;
       };
    }
 }

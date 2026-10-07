@@ -77,7 +77,7 @@ public class SoulBolt extends Fireball {
       if (this.level() instanceof ServerLevel level) {
          Entity target = hit.getEntity();
          LivingEntity owner = this.getOwner() instanceof LivingEntity l ? l : null;
-         if (owner == null || !target.isAlliedTo(owner)) {
+         if (owner == null || !target.isAlliedTo(owner) && !Hazards.sameSide(target, owner)) {
             target.hurtServer(level, level.damageSources().source(Hazards.SOUL_BOLT, this, owner), this.damage);
             if (owner instanceof SoulWisp && target instanceof LivingEntity living && living.isAlive()) {
                living.addEffect(new MobEffectInstance(ModEffects.MARKED, 60, 0, false, true, true));

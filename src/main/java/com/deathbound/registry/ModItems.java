@@ -2,6 +2,7 @@ package com.deathbound.registry;
 
 import com.deathbound.DeathBound;
 import com.deathbound.charm.Charm;
+import com.deathbound.item.AldousLanternItem;
 import com.deathbound.item.CharmItem;
 import com.deathbound.item.DeathboundRelicItem;
 import com.deathbound.item.HeartOfDeathItem;
@@ -70,10 +71,12 @@ public final class ModItems {
    public static final Item SOULBOUND_CHARM = charm(Charm.SOULBOUND, new Properties());
    public static final Item SEERS_CHARM = charm(Charm.SEER, new Properties());
    public static final Item WRAITHS_CHARM = charm(Charm.WRAITH, new Properties());
-   public static final Item FERRYMANS_CHARM = charm(Charm.FERRYMAN, new Properties().durability(3));
+   public static final Item FERRYMANS_CHARM = charm(Charm.FERRYMAN, new Properties());
    public static final Item REAPERS_CHARM = charm(Charm.REAPER, new Properties());
    public static final Item OPEN_DOOR_CHARM = charm(Charm.OPEN_DOOR, new Properties().fireResistant());
    public static final Item HUNTERS_CHARM = charm(Charm.HUNTER, new Properties().fireResistant());
+   public static final Item COLLECTORS_CHARM = charm(Charm.COLLECTOR, new Properties());
+   public static final Item PHANTOM_CHARM = charm(Charm.PHANTOM, new Properties().fireResistant());
    public static final Item SOUL = register("soul", Item::new, new Properties().rarity(Rarity.UNCOMMON));
    public static final Item GRAVE_RUNE = register("grave_rune", Item::new, new Properties().rarity(Rarity.RARE));
    public static final Item HEART_OF_DEATH = register("heart_of_death", HeartOfDeathItem::new, new Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant());
@@ -89,7 +92,7 @@ public final class ModItems {
       "hunters_bow", 3, HuntersBowItem::new, new Properties().durability(640).enchantable(1).rarity(Rarity.EPIC).fireResistant()
    );
    public static final Item UNDERWORLD_JOURNAL = lore("underworld_journal", 2, JournalItem::new, new Properties().stacksTo(1));
-   public static final Item ALDOUS_LANTERN = lore("aldous_lantern", 1, Item::new, new Properties().stacksTo(1));
+   public static final Item ALDOUS_LANTERN = lore("aldous_lantern", 1, AldousLanternItem::new, new Properties().stacksTo(1));
    public static final Item MIRAS_RIBBON = lore("miras_ribbon", 1, Item::new, new Properties().stacksTo(1));
    public static final Item FERRYMANS_OAR = lore("ferrymans_oar", 1, Item::new, new Properties().stacksTo(1));
    public static final Item PIPS_BALL = lore("pips_ball", 1, Item::new, new Properties().stacksTo(1));

@@ -19,6 +19,7 @@ import com.deathbound.registry.ModWorldgen;
 import com.deathbound.world.DebugCommand;
 import com.deathbound.world.Director;
 import com.deathbound.world.Dread;
+import com.deathbound.world.QuestEvents;
 import com.deathbound.world.Endings;
 import com.deathbound.world.LootInjection;
 import com.deathbound.world.Puzzles;
@@ -52,6 +53,7 @@ public class DeathBound implements ModInitializer {
       Charms.init();
       Director.init();
       Dread.init();
+      QuestEvents.init();
       Puzzles.init();
       com.deathbound.item.LoreFiling.init();
       Endings.init();

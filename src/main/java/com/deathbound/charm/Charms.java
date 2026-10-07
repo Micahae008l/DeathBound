@@ -7,9 +7,13 @@ import com.deathbound.registry.ModBlocks;
 import com.deathbound.registry.ModEffects;
 import com.deathbound.registry.ModItems;
 import com.deathbound.registry.ModParticles;
+import com.deathbound.world.Dread;
 import com.deathbound.world.UnderworldTravel;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -43,6 +47,10 @@ import net.minecraft.world.phys.Vec3;
 
 public final class Charms {
    public static final float REAPER_THRESHOLD = 0.3F;
+   public static final float COLLECTOR_CHANCE = 0.35F;
+   public static final int PHANTOM_COOLDOWN = 600;
+   // when each player's Phantom Charm can phase again (server tick)
+   private static final Map<UUID, Integer> PHANTOM_READY = new HashMap<>();
 
    public static ItemStack findRelic(Player player) {
       Inventory inv = player.getInventory();
@@ -113,6 +121,7 @@ public final class Charms {
             tick(p);
          }
       });
+      ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> !(entity instanceof ServerPlayer player && phantomPhase(player, source, amount)));
       ServerLivingEntityEvents.ALLOW_DEATH.register((entity, source, amount) -> {
          if (entity instanceof ServerPlayer player && !player.level().getGameRules().get(GameRules.KEEP_INVENTORY)) {
             stashSoulboundItems(player);
@@ -130,10 +139,17 @@ public final class Charms {
          }
       });
       ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
-         if (source.getEntity() instanceof ServerPlayer player && entity instanceof Enemy && has(player, Charm.WRAITH)) {
-            feedWraith(player, entity);
+         if (source.getEntity() instanceof ServerPlayer player && entity instanceof Enemy) {
+            if (has(player, Charm.WRAITH)) {
+               feedWraith(player, entity);
+            }
+
+            if (has(player, Charm.COLLECTOR) && UnderworldTravel.inUnderworld(player) && player.getRandom().nextFloat() < COLLECTOR_CHANCE) {
+               collectSoul(player, entity);
+            }
          }
       });
+
    }
 
    private static void stashSoulboundItems(ServerPlayer player) {
@@ -240,6 +256,15 @@ public final class Charms {
          if (t % 60 == 0 && has(player, Charm.SEER)) {
             seerPulse(player);
          }
+
+         Integer ready = PHANTOM_READY.get(player.getUUID());
+         if (ready != null && player.level().getServer().getTickCount() >= ready) {
+            PHANTOM_READY.remove(player.getUUID());
+            if (has(player, Charm.PHANTOM)) {
+               // only the wearer hears it: the charm is ready again
+               Dread.whisperTo(player, SoundEvents.SOUL_ESCAPE.value(), player.position(), 0.6F, 1.5F, player.getRandom());
+            }
+         }
       }
    }
 
@@ -271,6 +296,32 @@ public final class Charms {
       }
 
       level.playSound(null, c, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.PLAYERS, 0.35F, 0.5F);
+   }
+
+   private static void collectSoul(ServerPlayer player, LivingEntity victim) {
+      ServerLevel level = player.level();
+      victim.spawnAtLocation(level, new ItemStack(ModItems.SOUL));
+      level.sendParticles(ModParticles.SOUL_MOTE, victim.getX(), victim.getY() + victim.getBbHeight() * 0.5, victim.getZ(), 10, 0.3, 0.4, 0.3, 0.02);
+      level.playSound(null, victim.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 0.9F, 0.6F);
+   }
+
+   // Phantom Charm: once every PHANTOM_COOLDOWN ticks, a hit from a mob or a projectile passes through you.
+   // Hits that would be ignored anyway (creative, hurt cooldown, a raised shield) don't use it up.
+   private static boolean phantomPhase(ServerPlayer player, DamageSource source, float amount) {
+      if (amount <= 0.0F || source.getEntity() == null || source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)
+         || player.isCreative() || player.isSpectator() || player.getInvulnerableTime() > 10 || player.isBlocking() || player.isInvulnerableTo(player.level(), source)
+         || PHANTOM_READY.containsKey(player.getUUID()) || !has(player, Charm.PHANTOM)) {
+         return false;
+      }
+
+      ServerLevel level = player.level();
+      PHANTOM_READY.put(player.getUUID(), level.getServer().getTickCount() + PHANTOM_COOLDOWN);
+      player.setInvulnerableTime(20);
+      player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 12, 0, true, false, false));
+      level.sendParticles(ModParticles.SOUL_MOTE, player.getX(), player.getY() + 1.0, player.getZ(), 24, 0.35, 0.6, 0.35, 0.03);
+      level.playSound(null, player.blockPosition(), SoundEvents.PHANTOM_FLAP, SoundSource.PLAYERS, 1.0F, 0.6F);
+      level.playSound(null, player.blockPosition(), SoundEvents.SOUL_ESCAPE.value(), SoundSource.PLAYERS, 1.0F, 0.8F);
+      return true;
    }
 
    private static void feedWraith(ServerPlayer player, LivingEntity victim) {

@@ -1,7 +1,7 @@
 {
   "textures": {
-    "lantern": "deathbound:item/aldous_lantern_lit",
-    "particle": "deathbound:item/aldous_lantern_lit"
+    "lantern": "deathbound:item/aldous_lantern_out",
+    "particle": "deathbound:item/aldous_lantern_out"
   },
   "elements": [
     {
@@ -138,8 +138,7 @@
           ],
           "texture": "#lantern"
         }
-      },
-      "light_emission": 15
+      }
     },
     {
       "from": [

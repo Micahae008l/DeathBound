@@ -451,9 +451,7 @@
   "music.death": {
     "sounds": [
       {
-        "name": "minecraft:records/creator",
-        "pitch": 1.0,
-        "volume": 1.0,
+        "name": "deathbound:music/deaths_requiem_loop",
         "stream": true
       }
     ]
@@ -500,5 +498,13 @@
   },
   "music.silence": {
     "sounds": []
+  },
+  "music.death_intro": {
+    "sounds": [
+      {
+        "name": "deathbound:music/deaths_requiem_intro",
+        "stream": true
+      }
+    ]
   }
 }

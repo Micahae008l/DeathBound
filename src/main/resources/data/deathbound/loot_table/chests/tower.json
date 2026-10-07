@@ -412,6 +412,19 @@
         "type": "minecraft:random_chance",
         "chance": 0.5
       }
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "deathbound:phantom_charm"
+        }
+      ],
+      "condition": {
+        "type": "minecraft:random_chance",
+        "chance": 0.1
+      }
     }
   ],
   "random_sequence": "deathbound:chests/tower"

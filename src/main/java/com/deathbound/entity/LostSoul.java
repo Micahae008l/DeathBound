@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import com.deathbound.registry.ModParticles;
 import com.deathbound.registry.ModSounds;
 import com.deathbound.world.Layout;
+import com.deathbound.world.QuestEvents;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -289,8 +290,9 @@ public class LostSoul extends PathfinderMob {
          String key = this.lingering() && this.place >= 0
             ? "deathbound.lingering." + PLACES[Math.floorMod(this.place, PLACES.length)] + "." + Math.floorMod(this.getUUID().hashCode(), 3)
             : "deathbound.lost_soul.line." + Math.floorMod(this.getUUID().hashCode(), 24);
+         Component clue = player instanceof ServerPlayer sp ? QuestEvents.miraClue(sp, this) : null;
          player.sendSystemMessage(
-            Component.translatable("deathbound.lost_soul.says", Component.translatable(key)).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)
+            Component.translatable("deathbound.lost_soul.says", clue != null ? clue : Component.translatable(key)).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)
          );
          this.playSound(ModSounds.WHISPER, 0.9F, 0.8F + this.random.nextFloat() * 0.3F);
          this.getLookControl().setLookAt(player);

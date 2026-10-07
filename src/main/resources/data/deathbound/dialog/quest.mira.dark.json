@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Mira",
+    "color": "#a9bfe0",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Mira"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "It's dark. Papa's lantern is never dark. He keeps it lit on the windowsill so I can find the house.",
+        "color": "#d6e2f5"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "She won't take it like this. A soul flame would light it again.",
+        "color": "#d6e2f5",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:talk",
+        "payload": "mira"
+      }
+    }
+  ]
+}
