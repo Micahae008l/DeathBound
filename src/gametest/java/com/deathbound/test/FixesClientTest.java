@@ -53,6 +53,16 @@ public class FixesClientTest implements FabricClientGameTest {
 			server.runCommand("effect give @a resistance infinite 255 true");
 			ctx.waitTicks(10);
 
+			if (System.getenv("UW_SHOTS") != null) {
+				NewWorkChecks.shots(ctx, world, server);
+				return;
+			}
+
+			if (System.getenv("UW_NEW") != null) {
+				NewWorkChecks.run(ctx, world, server);
+				return;
+			}
+
 			boolean onlyHunter = System.getenv("UW_HUNTER") != null;
 			if (System.getenv("UW_TEXTURES") != null) {
 				String tag = System.getenv("UW_TEXTURES");

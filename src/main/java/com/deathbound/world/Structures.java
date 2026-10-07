@@ -1,5 +1,9 @@
 package com.deathbound.world;
 
+import com.deathbound.block.StoryNoteBlock;
+import java.util.List;
+import java.util.Comparator;
+import java.util.ArrayList;
 import com.deathbound.DeathBound;
 import com.deathbound.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -391,6 +395,7 @@ final class Structures {
    static void forest(Build b, Layout.Island is) {
       boatShed(b, is);
       if (b.overlaps(is.x() - 36, is.z() - 36, is.x() + 36, is.z() + 36)) {
+         List<int[]> trees = new ArrayList<>();
          for (int gx = -3; gx <= 3; gx++) {
             for (int gz = -3; gz <= 3; gz++) {
                int tx = is.x() + gx * 8 + (int)((Build.hash(gx, 0, gz, 51) - 0.5) * 6.0);
@@ -401,10 +406,35 @@ final class Structures {
                   && Build.hash(gx, 2, gz, 51) < 0.8
                   && Math.hypot(tx - is.x(), tz - is.z()) > 6.0) {
                   deadTree(b, is, tx, tz, gx * 31 + gz);
+                  trees.add(new int[]{tx, tz});
                }
             }
          }
+
+         // three notes pinned to trees: the one nearest the middle, the one nearest the boat-shed, the one furthest out
+         Comparator<int[]> fromMiddle = Comparator.comparingDouble(t -> Math.hypot(t[0] - is.x(), t[1] - is.z()));
+         Comparator<int[]> fromShed = Comparator.comparingDouble(t -> Math.hypot(t[0] - is.x() - 7, t[1] - is.z() - 16));
+         if (trees.size() >= 3) {
+            int[] middle = trees.stream().min(fromMiddle).orElseThrow();
+            int[] shed = trees.stream().filter(t -> t != middle).min(fromShed).orElseThrow();
+            int[] edge = trees.stream().filter(t -> t != middle && t != shed).max(fromMiddle).orElseThrow();
+            pinNote(b, is, middle, 1);
+            pinNote(b, is, edge, 2);
+            pinNote(b, is, shed, 3);
+         }
       }
+   }
+
+   private static void pinNote(Build b, Layout.Island is, int[] tree, int story) {
+      int sy = Layout.surface(is, tree[0], tree[1]);
+      if (sy != -2147483648) {
+         b.set(tree[0], sy + 2, tree[1] + 1, note(story, Direction.SOUTH, false));
+      }
+   }
+
+   /** A note from Stories.NOTES: pinned to the block behind it (facing away from it), or lying flat. */
+   static BlockState note(int story, Direction facing, boolean flat) {
+      return facing(ModBlocks.STORY_NOTE, facing).setValue(StoryNoteBlock.STORY, story).setValue(StoryNoteBlock.FLAT, flat);
    }
 
    static void deadTree(Build b, Layout.Island is, int tx, int tz, int salt) {
@@ -768,6 +798,11 @@ final class Structures {
                b.barrel(x1 - 1, y, z0 + 3, Direction.WEST, BARREL_LOOT);
                b.set(x0 + 2, y, z0 + 2, facing(ModBlocks.GHOSTWOOD_TABLE, Direction.NORTH));
                b.set(x0 + 3, y, z0 + 2, facing(ModBlocks.GHOSTWOOD_CHAIR, Direction.WEST));
+               // houses 2, 5, 8 and 11 each have one of the village notes on the table
+               int story = 4 + index / 3;
+               if (story <= 7) {
+                  b.set(x0 + 2, y + 1, z0 + 2, note(story, Direction.NORTH, true));
+               }
          }
       }
    }

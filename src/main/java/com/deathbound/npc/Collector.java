@@ -4,6 +4,7 @@ import com.deathbound.registry.ModAttachments;
 import com.deathbound.registry.ModBlocks;
 import com.deathbound.registry.ModEffects;
 import com.deathbound.registry.ModItems;
+import com.deathbound.world.Milestones;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.ChatFormatting;
@@ -53,6 +54,7 @@ public final class Collector {
                new ItemStack(Items.ENCHANTED_GOLDEN_APPLE)
             );
             say(player, "collector.deathbound.complete");
+            Milestones.award(player, "forgotten_things");
          }
       } else {
          say(player, have.size() == ModItems.ARTIFACTS.size() ? "collector.deathbound.done" : "collector.deathbound.nothing");

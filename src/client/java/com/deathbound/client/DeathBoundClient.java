@@ -1,5 +1,6 @@
 package com.deathbound.client;
 
+import net.minecraft.client.Minecraft;
 import com.deathbound.DeathBound;
 import com.deathbound.client.model.ModelMeshes;
 import com.deathbound.client.model.NpcModels;
@@ -74,6 +75,7 @@ public class DeathBoundClient implements ClientModInitializer {
       EntityRendererRegistry.register(ModEntities.SKELETON_KID, Renderers.KidRenderer::new);
       EntityRendererRegistry.register(ModEntities.LANTERN_WISP, Renderers.WispRenderer::new);
       JournalItem.opener = p -> Journal.open(p);
+      com.deathbound.story.Stories.opener = id -> Minecraft.getInstance().gui.setScreen(new StoryScreen(id));
       FluidRenderingRegistry.register(
          ModFluids.SOULWATER,
          ModFluids.FLOWING_SOULWATER,

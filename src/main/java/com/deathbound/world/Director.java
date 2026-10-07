@@ -252,6 +252,7 @@ public final class Director {
    }
 
    public static void onGuardDefeated(ServerLevel level) {
+      Milestones.awardNear(level, Vec3.atCenterOf(Layout.GUARD_POST), 96.0, "warden_falls");
       level.setAttached(STATE, state(level).door(true).reached(1));
       setDoor(level, true);
       Vec3 door = Vec3.atCenterOf(Layout.SOUL_DESTINATION);
@@ -382,6 +383,7 @@ public final class Director {
       level.setAttached(STATE, st);
       if (st.citadelOpen()) {
          openCitadel(level, true);
+         level.players().forEach(p -> Milestones.award(p, "three_locks"));
       }
    }
 
@@ -477,6 +479,7 @@ public final class Director {
    }
 
    public static void onDeathDefeated(ServerLevel level) {
+      Milestones.awardNear(level, Vec3.atCenterOf(Layout.ARENA_CENTER), 120.0, "death_of_death");
       level.setAttached(STATE, state(level).rift(true).reached(2));
       setRift(level, true);
       level.getEntitiesOfClass(SoulAnchor.class, arena()).forEach(a -> a.discard());
@@ -623,6 +626,8 @@ public final class Director {
             }
 
             Endings.begin(player, ending);
+            Milestones.award(player, "ending_" + which);
+            Milestones.awardNear(level, at, 128.0, "ending_" + which);
          }
       }
    }

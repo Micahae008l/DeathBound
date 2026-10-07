@@ -3,6 +3,8 @@ package com.deathbound.registry;
 import com.deathbound.DeathBound;
 import com.deathbound.block.DecorBlock;
 import com.deathbound.block.FerryBlock;
+import com.deathbound.block.PipsBallBlock;
+import com.deathbound.block.StoryNoteBlock;
 import com.deathbound.block.GloomGrassBlock;
 import com.deathbound.block.GraveBellBlock;
 import com.deathbound.block.GraveLampBlock;
@@ -143,7 +145,14 @@ public final class ModBlocks {
          .strength(2.0F, 3.0F)
          .sound(SoundType.WOOD)
          .noOcclusion()
-         .lightLevel(s -> s.getValue(FerryBlock.PART) == 3 ? 9 : 0)
+   );
+   public static final Block STORY_NOTE = registerNoItem(
+      "story_note",
+      StoryNoteBlock::new,
+      Properties.of().mapColor(MapColor.WOOL).noCollision().strength(-1.0F, 3600000.0F).sound(SoundType.WOOL).noOcclusion().pushReaction(PushReaction.IMMOVEABLE)
+   );
+   public static final Block PIPS_BALL = registerNoItem(
+      "pips_ball", PipsBallBlock::new, Properties.of().mapColor(MapColor.WOOL).instabreak().sound(SoundType.WOOL).noOcclusion().pushReaction(PushReaction.POPPED)
    );
    public static final Block DEAD_GRASS = register("dead_grass", p -> new GloomGrassBlock(p, false), plant());
    public static final Block TALL_DEAD_GRASS = register("tall_dead_grass", p -> new GloomGrassBlock(p, false), plant());

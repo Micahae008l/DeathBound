@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:the_other_side",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:warden_seal"
+    },
+    "title": {
+      "translate": "advancements.deathbound.warden_falls.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.warden_falls.description"
+    },
+    "frame": "goal"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

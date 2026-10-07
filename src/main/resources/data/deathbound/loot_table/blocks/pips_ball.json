@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "deathbound:pips_ball"
+        }
+      ]
+    }
+  ],
+  "random_sequence": "deathbound:blocks/pips_ball"
+}

@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:the_other_side",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:underworld_journal"
+    },
+    "title": {
+      "translate": "advancements.deathbound.errand.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.errand.description"
+    },
+    "frame": "task"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

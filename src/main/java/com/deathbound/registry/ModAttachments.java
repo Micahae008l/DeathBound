@@ -33,6 +33,24 @@ public final class ModAttachments {
    public static final AttachmentType<List<String>> HEARD = AttachmentRegistry.create(
       DeathBound.id("heard"), b -> b.persistent(Codec.STRING.listOf()).copyOnDeath()
    );
+   /** Stories (Stories.BOOKS / NOTES ids) this player has read, in the order found: kept in the Journal. */
+   public static final AttachmentType<List<String>> STORIES_FOUND = AttachmentRegistry.create(
+      DeathBound.id("stories_found"),
+      b -> b.persistent(Codec.STRING.listOf())
+         .copyOnDeath()
+         .syncWith(ByteBufCodecs.STRING_UTF8.apply(ByteBufCodecs.list()), AttachmentSyncPredicate.targetOnly())
+   );
+   /** On the overworld: chest stories already handed out in this world, so each turns up only once. */
+   public static final AttachmentType<List<String>> CLAIMED_STORIES = AttachmentRegistry.create(
+      DeathBound.id("claimed_stories"), b -> b.persistent(Codec.STRING.listOf())
+   );
+   // what the Journal shows alongside a quest, e.g. the last clue about Mira ("translation key|side")
+   public static final AttachmentType<Map<String, String>> QUEST_NOTES = AttachmentRegistry.create(
+      DeathBound.id("quest_notes"),
+      b -> b.persistent(Codec.unboundedMap(Codec.STRING, Codec.STRING))
+         .copyOnDeath()
+         .syncWith(ByteBufCodecs.<io.netty.buffer.ByteBuf, String, String, Map<String, String>>map(HashMap::new, ByteBufCodecs.STRING_UTF8, ByteBufCodecs.STRING_UTF8), AttachmentSyncPredicate.targetOnly())
+   );
    public static final AttachmentType<Map<String, Integer>> QUESTS = AttachmentRegistry.create(
       DeathBound.id("quests"),
       b -> b.persistent(Codec.unboundedMap(Codec.STRING, Codec.INT))

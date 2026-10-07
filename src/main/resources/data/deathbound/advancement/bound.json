@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:the_other_side",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:seers_charm"
+    },
+    "title": {
+      "translate": "advancements.deathbound.bound.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.bound.description"
+    },
+    "frame": "task"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

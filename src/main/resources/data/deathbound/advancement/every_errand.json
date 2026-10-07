@@ -1,0 +1,49 @@
+{
+  "parent": "deathbound:errand",
+  "criteria": {
+    "mira": {
+      "trigger": "minecraft:impossible"
+    },
+    "oar": {
+      "trigger": "minecraft:impossible"
+    },
+    "lamps": {
+      "trigger": "minecraft:impossible"
+    },
+    "ball": {
+      "trigger": "minecraft:impossible"
+    },
+    "name": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:miras_ribbon"
+    },
+    "title": {
+      "translate": "advancements.deathbound.every_errand.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.every_errand.description"
+    },
+    "frame": "challenge"
+  },
+  "requirements": [
+    [
+      "mira"
+    ],
+    [
+      "oar"
+    ],
+    [
+      "lamps"
+    ],
+    [
+      "ball"
+    ],
+    [
+      "name"
+    ]
+  ]
+}

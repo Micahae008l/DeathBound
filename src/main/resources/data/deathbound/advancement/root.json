@@ -1,0 +1,41 @@
+{
+  "criteria": {
+    "relic": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "deathbound:deathbound_relic"
+          }
+        ]
+      }
+    },
+    "arrive": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "deathbound:underworld"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:deathbound_relic"
+    },
+    "title": {
+      "translate": "advancements.deathbound.root.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.root.description"
+    },
+    "frame": "task",
+    "background": "deathbound:block/soulstone_bricks",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "requirements": [
+    [
+      "relic",
+      "arrive"
+    ]
+  ]
+}

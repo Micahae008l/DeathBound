@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:warden_falls",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:sigil_kings"
+    },
+    "title": {
+      "translate": "advancements.deathbound.three_locks.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.three_locks.description"
+    },
+    "frame": "goal"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

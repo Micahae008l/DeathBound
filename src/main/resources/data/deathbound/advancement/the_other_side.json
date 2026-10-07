@@ -1,0 +1,28 @@
+{
+  "parent": "deathbound:root",
+  "criteria": {
+    "arrive": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "deathbound:underworld"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:soulstone_bricks"
+    },
+    "title": {
+      "translate": "advancements.deathbound.the_other_side.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.the_other_side.description"
+    },
+    "frame": "task"
+  },
+  "requirements": [
+    [
+      "arrive"
+    ]
+  ]
+}

@@ -23,7 +23,6 @@ import net.minecraft.world.level.storage.loot.LootTable;
 
 final class Landmarks {
    static final ResourceKey<LootTable> QUEST_OAR = loot("chests/quest_oar");
-   static final ResourceKey<LootTable> QUEST_BALL = loot("chests/quest_ball");
    static final ResourceKey<LootTable> QUEST_TAG = loot("chests/quest_tag");
    static final ResourceKey<LootTable> FERRY_LOOT = loot("chests/ferry");
    static final ResourceKey<LootTable> APOTHECARY_LOOT = loot("chests/apothecary");
@@ -95,6 +94,8 @@ final class Landmarks {
          }
 
          b.set(cx + 7, y + 2, cz - 11, Structures.log(Axis.Y));
+         // the Ferryman's notice, nailed to the post at the end of the dock
+         b.set(cx + 7, y + 1, cz - 6, Structures.note(0, Direction.SOUTH, false));
          b.set(cx + 7, y + 3, cz - 11, Structures.lantern(false));
          b.setLinked(cx + 4, y + 2, cz - 11, Structures.chain());
          b.set(cx + 3, y + 1, cz - 10, Structures.facing(ModBlocks.GHOSTWOOD_TABLE, Direction.SOUTH));
@@ -105,8 +106,15 @@ final class Landmarks {
          int bx0 = cx + 10;
          int bed = y - 2;
 
-         for (int k = 0; k < 4; k++) {
-            b.set(bx0 + k, bed + 1, cz - 11, Structures.facing(ModBlocks.FERRY, Direction.EAST).setValue(FerryBlock.PART, k));
+         // the river's gone: the ferry stands on its end by the dock, leaning on a log
+         int ground = Layout.surface(is, cx + 9, cz - 7);
+         if (ground != -2147483648) {
+            for (int k = 0; k < 4; k++) {
+               b.set(cx + 9, ground + 1 + k, cz - 7,
+                  Structures.facing(ModBlocks.FERRY, Direction.SOUTH).setValue(FerryBlock.PART, k).setValue(FerryBlock.UPRIGHT, true));
+            }
+
+            b.fill(cx + 9, ground + 1, cz - 8, cx + 9, ground + 3, cz - 8, Structures.log(Axis.Y));
          }
 
          b.chest(bx0 + 1, bed + 1, cz - 9, Direction.NORTH, FERRY_LOOT);
@@ -126,10 +134,6 @@ final class Landmarks {
             }
          }
 
-         if (b.in(cx + 1, cz + 14)) {
-            b.barrel(cx + 1, y - 1, cz + 14, Direction.UP, QUEST_BALL);
-         }
-
          for (int z = cz + 12; z <= cz + 17; z++) {
             int top = Layout.surface(is, cx, z);
             b.fill(cx - 2, y - 2, z, cx + 2, y - 1, z, Structures.STONE);
@@ -141,10 +145,14 @@ final class Landmarks {
             }
          }
 
+         // the dry river runs on under the footbridge: only the two ends rest on stone
          for (int z = cz + 13; z <= cz + 16; z++) {
-            b.fill(cx - 1, y - 2, z, cx + 1, y - 2, z, DRY_BED);
-            b.fill(cx - 1, y - 1, z, cx + 1, y - 1, z, Structures.AIR);
+            b.fill(cx - 2, y - 3, z, cx + 2, y - 3, z, DRY_BED);
+            b.fill(cx - 2, y - 2, z, cx + 2, y - 1, z, Structures.AIR);
          }
+
+         // Pip's ball, where it rolled: on the dry bed under the footbridge (placed after the bed is cut, or it gets erased)
+         b.set(cx + 1, y - 2, cz + 14, ModBlocks.PIPS_BALL.defaultBlockState());
 
          b.set(cx - 2, y + 2, cz + 12, Structures.lantern(false));
          b.set(cx + 2, y + 2, cz + 17, Structures.lantern(false));

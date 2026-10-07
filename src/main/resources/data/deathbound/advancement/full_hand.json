@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:bound",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:soulbound_charm"
+    },
+    "title": {
+      "translate": "advancements.deathbound.full_hand.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.full_hand.description"
+    },
+    "frame": "goal"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

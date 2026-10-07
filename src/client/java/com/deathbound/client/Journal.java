@@ -6,18 +6,26 @@ import net.minecraft.world.item.component.WrittenBookContent;
 
 import net.minecraft.world.item.ItemStack;
 
+import com.deathbound.item.AldousLanternItem;
 import com.deathbound.npc.Quests;
+import com.deathbound.npc.Soulforge;
 import com.deathbound.registry.ModAttachments;
+import com.deathbound.registry.ModBlocks;
+import com.deathbound.registry.ModItems;
+import com.deathbound.story.Stories;
+import com.deathbound.world.QuestEvents;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.locale.Language;
 import net.minecraft.client.gui.screens.inventory.BookViewScreen;
 import net.minecraft.client.gui.screens.inventory.BookViewScreen.BookAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 
 public final class Journal {
    public static void open(Player p) {
@@ -33,6 +41,7 @@ public final class Journal {
             .append("\n\n")
             .append(Component.translatable("journal.deathbound.count", open, done).withStyle(ChatFormatting.DARK_PURPLE))
       );
+      pages.add(Component.translatable("journal.deathbound.tasks").withStyle(ChatFormatting.BOLD).append("\n\n").append(checklist(q)));
 
       for (Quests.Quest x : Quests.ALL) {
          int s = q.getOrDefault(x.id(), 0);
@@ -46,10 +55,52 @@ public final class Journal {
             page.append(
                Component.translatable(k + ".stage" + Math.min(s, x.last())).withStyle(s >= x.last() ? ChatFormatting.DARK_GREEN : ChatFormatting.BLACK)
             );
-            pages.add(page);
+            MutableComponent more = s < x.last() ? progress(p, x.id(), s) : Component.empty();
+            if (fits(page.copy().append(more))) {
+               pages.add(page.append(more));
+            } else {
+               // too long for one page: the progress goes on the next one, under the quest's name
+               pages.add(page);
+               pages.add(Component.translatable(k + ".title").withStyle(ChatFormatting.BOLD).append(more));
+            }
          }
       }
 
+      // stories of the dead the player has read: a contents page, then each story
+      List<String> stories = p.getAttachedOrElse(ModAttachments.STORIES_FOUND, List.of());
+      MutableComponent contents = Component.translatable("journal.deathbound.stories_title")
+         .withStyle(ChatFormatting.BOLD)
+         .append("\n\n")
+         .append(Component.translatable("journal.deathbound.stories_count", stories.size(), Stories.BOOKS.size() + Stories.NOTES.size()).withStyle(ChatFormatting.DARK_PURPLE))
+         .append("\n\n");
+      if (stories.isEmpty()) {
+         contents.append(Component.translatable("journal.deathbound.stories_none").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
+      }
+
+      List<Component> storyPages = new ArrayList<>();
+      for (String id : stories) {
+         String k = "story.deathbound." + id;
+         contents.append(Component.literal("\u2022 ").append(Component.translatable(k + ".title")).append("\n"));
+         MutableComponent page = Component.translatable(k + ".title").withStyle(ChatFormatting.BOLD);
+         if (Language.getInstance().has(k + ".author")) {
+            page.append("\n").append(Component.translatable(k + ".author").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
+         }
+
+         for (int i = 1; Language.getInstance().has(k + ".p" + i); i++) {
+            MutableComponent para = Component.literal("\n\n").append(Component.translatable(k + ".p" + i));
+            if (!fits(page.copy().append(para))) {
+               storyPages.add(page);
+               page = Component.empty().append(Component.translatable(k + ".p" + i));
+            } else {
+               page.append(para);
+            }
+         }
+
+         storyPages.add(page);
+      }
+
+      pages.add(contents);
+      pages.addAll(storyPages);
       List<ItemStack> lore = p.getAttachedOrElse(ModAttachments.LORE_PAGES, List.of());
       if (!lore.isEmpty()) {
          pages.add(
@@ -77,11 +128,77 @@ public final class Journal {
          }
       }
 
-      if (pages.size() == 1) {
+      if (pages.size() == 3 && stories.isEmpty() && lore.isEmpty() && q.isEmpty()) {
          pages.add(Component.translatable("journal.deathbound.empty").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
       }
 
       Minecraft.getInstance().gui.setScreen(new BookViewScreen(new BookAccess(pages)));
+   }
+
+   // every task at a glance: done, in hand, or not met yet
+   private static MutableComponent checklist(Map<String, Integer> q) {
+      MutableComponent list = Component.empty();
+      for (Quests.Quest x : Quests.ALL) {
+         int s = q.getOrDefault(x.id(), 0);
+         Component name = s > 0 ? Component.translatable("quest.deathbound." + x.id() + ".title") : Component.translatable("journal.deathbound.unknown");
+         if (s >= x.last()) {
+            list.append(Component.literal("\u2714 ").append(name).withStyle(ChatFormatting.DARK_GREEN));
+         } else if (s > 0) {
+            list.append(Component.literal("\u2022 ").append(name).withStyle(ChatFormatting.BLACK));
+         } else {
+            list.append(Component.literal("\u2022 ").append(name).withStyle(ChatFormatting.GRAY));
+         }
+
+         list.append("\n");
+      }
+
+      return list;
+   }
+
+   // a book page shows 14 lines of 114px; anything past that is cut off
+   private static boolean fits(Component page) {
+      return Minecraft.getInstance().font.split(page, 114).size() <= 14;
+   }
+
+   // live progress under a quest that is still open: what the player has on them right now
+   private static MutableComponent progress(Player p, String id, int stage) {
+      List<Component> lines = new ArrayList<>();
+      switch (id) {
+         case "mira" -> {
+            if (stage == 1) {
+               ItemStack lantern = Soulforge.find(p, ModItems.ALDOUS_LANTERN);
+               if (lantern.isEmpty()) {
+                  lines.add(Component.translatable("journal.deathbound.progress.no_lantern"));
+               } else if (AldousLanternItem.isOut(lantern)) {
+                  lines.add(Component.translatable("journal.deathbound.progress.lantern_out"));
+               } else {
+                  lines.add(Component.translatable("journal.deathbound.progress.lantern", AldousLanternItem.MAX_HITS - AldousLanternItem.hits(lantern), AldousLanternItem.MAX_HITS));
+               }
+
+               String clue = p.getAttachedOrElse(ModAttachments.QUEST_NOTES, Map.of()).get("mira");
+               lines.add(clue == null ? Component.translatable("journal.deathbound.progress.no_clue") : Component.translatable("journal.deathbound.progress.clue", QuestEvents.clue(clue)));
+            } else if (Soulforge.count(p, ModItems.MIRAS_RIBBON) > 0) {
+               lines.add(Component.translatable("journal.deathbound.progress.ribbon"));
+            }
+         }
+         case "lamps" -> lines.add(Component.translatable("journal.deathbound.progress.jars", Math.min(Soulforge.count(p, ModBlocks.SOUL_JAR.asItem()), 3)));
+         case "oar" -> lines.add(found(p, ModItems.FERRYMANS_OAR));
+         case "ball" -> lines.add(found(p, ModItems.PIPS_BALL));
+         case "name" -> lines.add(found(p, ModItems.SENTRYS_TAG));
+         default -> {
+         }
+      }
+
+      MutableComponent out = Component.empty();
+      for (Component line : lines) {
+         out.append("\n\n").append(line.copy().withStyle(ChatFormatting.DARK_PURPLE));
+      }
+
+      return out;
+   }
+
+   private static Component found(Player p, Item item) {
+      return Component.translatable(Soulforge.count(p, item) > 0 ? "journal.deathbound.progress.found" : "journal.deathbound.progress.not_found");
    }
 
    private Journal() {

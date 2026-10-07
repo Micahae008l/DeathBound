@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:errand",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:aldous_lantern"
+    },
+    "title": {
+      "translate": "advancements.deathbound.keep_it_lit.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.keep_it_lit.description"
+    },
+    "frame": "task"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

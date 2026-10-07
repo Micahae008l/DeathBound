@@ -5,6 +5,7 @@ import com.deathbound.item.AldousLanternItem;
 import com.deathbound.registry.ModAttachments;
 import com.deathbound.registry.ModBlocks;
 import com.deathbound.registry.ModItems;
+import com.deathbound.world.Milestones;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,6 +78,7 @@ public final class Quests {
             Soulforge.take(p, ModItems.ALDOUS_LANTERN, 1);
             Rewards.give(p, from("mira"), new ItemStack(ModItems.MIRAS_RIBBON));
             set(p, "mira", 2);
+            Milestones.award(p, "keep_it_lit");
             open(p, "quest.mira.met");
          } else {
             open(p, s >= 2 ? "quest.mira.met_after" : "quest.mira.alone");
@@ -93,6 +95,8 @@ public final class Quests {
                } else if (turnIn(p, q, s)) {
                   set(p, id, q.last());
                   note(p, id, true);
+                  Milestones.award(p, "errand");
+                  Milestones.award(p, "every_errand", id);
                   open(p, "quest." + id + ".done");
                } else {
                   open(p, "quest." + id + ".wait" + (id.equals("mira") && s == 2 ? "2" : ""));

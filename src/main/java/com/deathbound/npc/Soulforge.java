@@ -3,6 +3,7 @@ package com.deathbound.npc;
 import com.deathbound.DeathBound;
 import com.deathbound.registry.ModEntities;
 import com.deathbound.registry.ModItems;
+import com.deathbound.world.Milestones;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
@@ -93,6 +94,7 @@ public final class Soulforge {
    }
 
    private static void bind(ServerPlayer player, ItemStack piece, Soulforge.Tier tier) {
+      Milestones.award(player, "soulforged");
       RegistryAccess reg = player.level().registryAccess();
       piece.set(
          DataComponents.TRIM,

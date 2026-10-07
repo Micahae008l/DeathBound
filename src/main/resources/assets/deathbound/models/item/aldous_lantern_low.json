@@ -6,135 +6,68 @@
   "elements": [
     {
       "from": [
-        4.5,
-        0,
-        4.5
-      ],
-      "to": [
-        11.5,
-        1,
-        11.5
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "south": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "east": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "west": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "up": {
-          "uv": [
-            6,
-            0,
-            12,
-            6
-          ],
-          "texture": "#lantern"
-        },
-        "down": {
-          "uv": [
-            6,
-            0,
-            12,
-            6
-          ],
-          "texture": "#lantern"
-        }
-      }
-    },
-    {
-      "from": [
         5,
-        1,
+        0,
         5
       ],
       "to": [
         11,
-        9,
+        7,
         11
       ],
       "faces": {
+        "down": {
+          "uv": [
+            0,
+            9,
+            6,
+            15
+          ],
+          "texture": "#lantern",
+          "cullface": "down"
+        },
+        "up": {
+          "uv": [
+            0,
+            9,
+            6,
+            15
+          ],
+          "texture": "#lantern"
+        },
         "north": {
           "uv": [
             0,
-            0,
+            2,
             6,
-            8
+            9
           ],
           "texture": "#lantern"
         },
         "south": {
           "uv": [
             0,
-            0,
+            2,
             6,
-            8
-          ],
-          "texture": "#lantern"
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            6,
-            8
+            9
           ],
           "texture": "#lantern"
         },
         "west": {
           "uv": [
             0,
-            0,
+            2,
             6,
-            8
+            9
           ],
           "texture": "#lantern"
         },
-        "up": {
+        "east": {
           "uv": [
-            6,
             0,
-            12,
-            6
-          ],
-          "texture": "#lantern"
-        },
-        "down": {
-          "uv": [
+            2,
             6,
-            0,
-            12,
-            6
+            9
           ],
           "texture": "#lantern"
         }
@@ -143,203 +76,58 @@
     },
     {
       "from": [
-        4.5,
-        9,
-        4.5
-      ],
-      "to": [
-        11.5,
-        10,
-        11.5
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "south": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "east": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "west": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "up": {
-          "uv": [
-            6,
-            0,
-            12,
-            6
-          ],
-          "texture": "#lantern"
-        },
-        "down": {
-          "uv": [
-            6,
-            0,
-            12,
-            6
-          ],
-          "texture": "#lantern"
-        }
-      }
-    },
-    {
-      "from": [
-        5.5,
-        10,
-        5.5
-      ],
-      "to": [
-        10.5,
-        11,
-        10.5
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "south": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "east": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "west": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "up": {
-          "uv": [
-            6,
-            0,
-            12,
-            6
-          ],
-          "texture": "#lantern"
-        },
-        "down": {
-          "uv": [
-            6,
-            0,
-            12,
-            6
-          ],
-          "texture": "#lantern"
-        }
-      }
-    },
-    {
-      "from": [
+        6,
         7,
-        11,
-        7
+        6
       ],
       "to": [
+        10,
         9,
-        12,
-        9
+        10
       ],
       "faces": {
+        "up": {
+          "uv": [
+            1,
+            10,
+            5,
+            14
+          ],
+          "texture": "#lantern"
+        },
         "north": {
           "uv": [
-            6,
+            1,
             0,
-            12,
-            1
+            5,
+            2
           ],
           "texture": "#lantern"
         },
         "south": {
           "uv": [
-            6,
+            1,
             0,
-            12,
-            1
-          ],
-          "texture": "#lantern"
-        },
-        "east": {
-          "uv": [
-            6,
-            0,
-            12,
-            1
+            5,
+            2
           ],
           "texture": "#lantern"
         },
         "west": {
           "uv": [
-            6,
+            1,
             0,
-            12,
-            1
+            5,
+            2
           ],
           "texture": "#lantern"
         },
-        "up": {
+        "east": {
           "uv": [
-            6,
+            1,
             0,
-            12,
-            6
-          ],
-          "texture": "#lantern"
-        },
-        "down": {
-          "uv": [
-            6,
-            0,
-            12,
-            6
+            5,
+            2
           ],
           "texture": "#lantern"
         }
@@ -348,39 +136,40 @@
     {
       "from": [
         6.5,
-        12,
+        9,
         8
       ],
       "to": [
         9.5,
-        14,
+        11,
         8
       ],
       "rotation": {
         "origin": [
           8,
-          12,
+          8,
           8
         ],
         "axis": "y",
         "angle": 45
       },
+      "shade_direction_override": "up",
       "faces": {
         "north": {
           "uv": [
-            12,
-            0,
-            15,
-            2
+            14,
+            1,
+            11,
+            3
           ],
           "texture": "#lantern"
         },
         "south": {
           "uv": [
-            12,
-            0,
-            15,
-            2
+            11,
+            1,
+            14,
+            3
           ],
           "texture": "#lantern"
         }
@@ -388,40 +177,41 @@
     },
     {
       "from": [
-        6.5,
-        12,
-        8
+        8,
+        9,
+        6.5
       ],
       "to": [
-        9.5,
-        14,
-        8
+        8,
+        11,
+        9.5
       ],
       "rotation": {
         "origin": [
           8,
-          12,
+          8,
           8
         ],
         "axis": "y",
-        "angle": -45
+        "angle": 45
       },
+      "shade_direction_override": "up",
       "faces": {
-        "north": {
+        "west": {
           "uv": [
-            12,
-            0,
-            15,
-            2
+            14,
+            10,
+            11,
+            12
           ],
           "texture": "#lantern"
         },
-        "south": {
+        "east": {
           "uv": [
-            12,
-            0,
-            15,
-            2
+            11,
+            10,
+            14,
+            12
           ],
           "texture": "#lantern"
         }
@@ -437,7 +227,7 @@
       ],
       "translation": [
         0,
-        -1,
+        2,
         0
       ],
       "scale": [
@@ -454,7 +244,7 @@
       ],
       "translation": [
         0,
-        2,
+        3,
         0
       ],
       "scale": [
@@ -471,13 +261,13 @@
       ],
       "translation": [
         0,
-        0,
+        2,
         0
       ],
       "scale": [
-        0.75,
-        0.75,
-        0.75
+        0.8,
+        0.8,
+        0.8
       ]
     },
     "head": {
@@ -499,36 +289,36 @@
     },
     "thirdperson_righthand": {
       "rotation": [
-        0,
+        90,
         45,
         0
       ],
       "translation": [
         0,
-        -2.5,
-        1.5
+        0.5,
+        -2
       ],
       "scale": [
-        0.55,
-        0.55,
-        0.55
+        0.6,
+        0.6,
+        0.6
       ]
     },
     "thirdperson_lefthand": {
       "rotation": [
-        0,
+        90,
         45,
         0
       ],
       "translation": [
         0,
-        -2.5,
-        1.5
+        0.5,
+        -2
       ],
       "scale": [
-        0.55,
-        0.55,
-        0.55
+        0.6,
+        0.6,
+        0.6
       ]
     },
     "firstperson_righthand": {
@@ -538,14 +328,14 @@
         0
       ],
       "translation": [
-        0,
-        0,
-        0
+        1.5,
+        4,
+        -1
       ],
       "scale": [
-        0.6,
-        0.6,
-        0.6
+        0.5,
+        0.5,
+        0.5
       ]
     },
     "firstperson_lefthand": {
@@ -555,14 +345,14 @@
         0
       ],
       "translation": [
-        0,
-        0,
-        0
+        1.5,
+        4,
+        -1
       ],
       "scale": [
-        0.6,
-        0.6,
-        0.6
+        0.5,
+        0.5,
+        0.5
       ]
     }
   }

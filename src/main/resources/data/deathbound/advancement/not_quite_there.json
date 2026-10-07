@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:bound",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:phantom_charm"
+    },
+    "title": {
+      "translate": "advancements.deathbound.not_quite_there.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.not_quite_there.description"
+    },
+    "frame": "task"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

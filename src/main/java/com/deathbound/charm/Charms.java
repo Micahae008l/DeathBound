@@ -9,6 +9,7 @@ import com.deathbound.registry.ModItems;
 import com.deathbound.registry.ModParticles;
 import com.deathbound.world.Dread;
 import com.deathbound.world.UnderworldTravel;
+import com.deathbound.world.Milestones;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -316,6 +317,7 @@ public final class Charms {
 
       ServerLevel level = player.level();
       PHANTOM_READY.put(player.getUUID(), level.getServer().getTickCount() + PHANTOM_COOLDOWN);
+      Milestones.award(player, "not_quite_there");
       player.setInvulnerableTime(20);
       player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 12, 0, true, false, false));
       level.sendParticles(ModParticles.SOUL_MOTE, player.getX(), player.getY() + 1.0, player.getZ(), 24, 0.35, 0.6, 0.35, 0.03);

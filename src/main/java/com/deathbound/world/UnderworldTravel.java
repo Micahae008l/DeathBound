@@ -70,6 +70,7 @@ public final class UnderworldTravel {
    }
 
    public static void returnToLife(ServerPlayer player, boolean viaFerry) {
+      Milestones.award(player, "return_fare");
       GlobalPos back = player.removeAttached(ModAttachments.RETURN_POINT);
       ServerLevel target = back == null ? null : player.level().getServer().getLevel(back.dimension());
       ModNet.cinematic(player, 1);

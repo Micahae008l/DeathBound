@@ -6,6 +6,7 @@ import com.deathbound.entity.LostSoul;
 import com.deathbound.item.AldousLanternItem;
 import com.deathbound.npc.Quests;
 import com.deathbound.npc.Soulforge;
+import com.deathbound.registry.ModAttachments;
 import com.deathbound.registry.ModEffects;
 import com.deathbound.registry.ModEntities;
 import com.deathbound.registry.ModItems;
@@ -165,8 +166,20 @@ public final class QuestEvents {
          key = far < 24.0 ? "behind_close" : "behind_far";
       }
 
-      Component clue = Component.translatable("quest.deathbound.mira.clue." + key + "." + pick);
-      return far < 30.0 ? Component.translatable("quest.deathbound.mira.clue.with_side", clue, Component.translatable("quest.deathbound.mira.clue." + side)) : clue;
+      String clueKey = "quest.deathbound.mira.clue." + key + "." + pick;
+      Map<String, String> notes = new HashMap<>(p.getAttachedOrElse(ModAttachments.QUEST_NOTES, Map.of()));
+      notes.put("mira", far < 30.0 ? clueKey + "|" + side : clueKey);
+      p.setAttached(ModAttachments.QUEST_NOTES, notes);
+      return clue(notes.get("mira"));
+   }
+
+   /** Rebuilds a clue saved as "translation key" or "translation key|side". */
+   public static Component clue(String note) {
+      String[] parts = note.split("\\|");
+      Component clue = Component.translatable(parts[0]);
+      return parts.length > 1
+         ? Component.translatable("quest.deathbound.mira.clue.with_side", clue, Component.translatable("quest.deathbound.mira.clue." + parts[1]))
+         : clue;
    }
 
    // ---- per tick ----

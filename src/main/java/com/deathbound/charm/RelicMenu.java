@@ -3,7 +3,9 @@ package com.deathbound.charm;
 import com.deathbound.item.CharmItem;
 import com.deathbound.registry.ModItems;
 import com.deathbound.registry.ModMenus;
+import com.deathbound.world.Milestones;
 import net.minecraft.core.NonNullList;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
@@ -85,6 +87,16 @@ public class RelicMenu extends AbstractContainerMenu {
          }
 
          relic.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(list));
+         if (this.player instanceof ServerPlayer sp) {
+            long bound = list.stream().filter(s -> !s.isEmpty()).count();
+            if (bound > 0) {
+               Milestones.award(sp, "bound");
+            }
+
+            if (bound == this.slotCount) {
+               Milestones.award(sp, "full_hand");
+            }
+         }
       }
    }
 

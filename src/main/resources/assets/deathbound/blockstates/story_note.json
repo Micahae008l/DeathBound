@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,flat=false": {
+      "model": "deathbound:block/story_note_pinned"
+    },
+    "facing=north,flat=true": {
+      "model": "deathbound:block/story_note_flat"
+    },
+    "facing=east,flat=false": {
+      "model": "deathbound:block/story_note_pinned",
+      "y": 90
+    },
+    "facing=east,flat=true": {
+      "model": "deathbound:block/story_note_flat",
+      "y": 90
+    },
+    "facing=south,flat=false": {
+      "model": "deathbound:block/story_note_pinned",
+      "y": 180
+    },
+    "facing=south,flat=true": {
+      "model": "deathbound:block/story_note_flat",
+      "y": 180
+    },
+    "facing=west,flat=false": {
+      "model": "deathbound:block/story_note_pinned",
+      "y": 270
+    },
+    "facing=west,flat=true": {
+      "model": "deathbound:block/story_note_flat",
+      "y": 270
+    }
+  }
+}

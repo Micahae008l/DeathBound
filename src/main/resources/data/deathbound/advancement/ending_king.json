@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:death_of_death",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:kings_quill"
+    },
+    "title": {
+      "translate": "advancements.deathbound.ending_king.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.ending_king.description"
+    },
+    "frame": "goal"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

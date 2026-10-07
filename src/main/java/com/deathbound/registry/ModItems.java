@@ -10,6 +10,7 @@ import com.deathbound.item.HuntersBowItem;
 import com.deathbound.item.JournalItem;
 import com.deathbound.item.LanternWispItem;
 import com.deathbound.item.ReaperScytheItem;
+import com.deathbound.item.StoryBookItem;
 import com.mojang.serialization.Codec;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +64,11 @@ public final class ModItems {
       DeathBound.id("reaped"),
       DataComponentType.<Integer>builder().persistent(Codec.intRange(0, 99)).networkSynchronized(ByteBufCodecs.VAR_INT).ignoreSwapAnimation().build()
    );
+   public static final DataComponentType<String> STORY = Registry.register(
+      BuiltInRegistries.DATA_COMPONENT_TYPE,
+      DeathBound.id("story"),
+      DataComponentType.<String>builder().persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build()
+   );
    public static final Item DEATHBOUND_RELIC = register(
       "deathbound_relic",
       DeathboundRelicItem::new,
@@ -78,6 +84,7 @@ public final class ModItems {
    public static final Item COLLECTORS_CHARM = charm(Charm.COLLECTOR, new Properties());
    public static final Item PHANTOM_CHARM = charm(Charm.PHANTOM, new Properties().fireResistant());
    public static final Item SOUL = register("soul", Item::new, new Properties().rarity(Rarity.UNCOMMON));
+   public static final Item STORY_BOOK = register("story_book", StoryBookItem::new, new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
    public static final Item GRAVE_RUNE = register("grave_rune", Item::new, new Properties().rarity(Rarity.RARE));
    public static final Item HEART_OF_DEATH = register("heart_of_death", HeartOfDeathItem::new, new Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant());
    public static final Item FERRY_COIN = artifact("ferry_coin");

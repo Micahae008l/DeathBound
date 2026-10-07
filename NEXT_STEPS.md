@@ -1,8 +1,10 @@
 # Where we stopped (Oct 7)
 
-Everything below compiles (`./gradlew build`), but **none of it has been tested in game yet**.
-The next session should start with a test pass (`./gradlew runClientGameTest`, extend
-`src/gametest/java/com/deathbound/test/FixesClientTest.java`) and screenshots.
+Everything below compiles. Tested in game with `UW_NEW=1 ./gradlew runClientGameTest`
+(checks + screenshots, `src/gametest/.../NewWorkChecks.java`). Screenshot-only run: `UW_SHOTS=1`.
+Last run: all checks PASS except the lantern's 3-hit check, which was a test-timing problem
+(its first hit landed during damage cooldown). The test now waits; rerun to confirm.
+Not covered by the test: the double Death King, the rift on the BREAK ending, the music.
 
 ## Bug list: coded, needs testing
 - **Warden (Death's Guard) didn't react to arrows from far away.** Anyone who hurts him becomes his target, and he gives up beyond 48 blocks from his post (`entity/DeathsGuard.java` hurtServer + customServerAiStep).
@@ -18,6 +20,7 @@ The next session should start with a test pass (`./gradlew runClientGameTest`, e
 - **Ferryman's Charm** is single use: it shatters after one crossing. The Ferryman sells it for 8 souls, unlimited stock.
 - **Phantom Charm (new, epic).** Once every 30 seconds, a hit from a mob or projectile passes through you. A quiet sound tells you when it's ready again. Drops from Death's Guard (in its random charm pool) and tower chests (10%). Icon: screaming wraith.
 - **Collector's Charm (new).** Underworld kills have a 35% chance to drop an extra Soul. Sold by the Collector for 16 souls. **Still waiting on Michael:** keep it, or swap it for Bonecage / Featherbone / another idea.
+- Worldgen changes (boat, shed roots, Pip's ball, the bridge) only appear in newly generated worlds.
 - Rejected and removed: Lamplighter's, Gravedigger's, Shade's, Gravecaller's.
 - NPC shops restock once in existing worlds (trades version bump in `UnderworldNpc`).
 
@@ -36,8 +39,28 @@ The next session should start with a test pass (`./gradlew runClientGameTest`, e
   - The roots are **worldgen**, so they only appear in newly generated worlds.
 
 ## Not done yet
-1. **3D Aldous's Lantern.** The model and 4 flame states exist (`tools/lantern3d.py`), but the display transforms (hand, first person, GUI) haven't been looked at. Take screenshots and tune. The old flat `textures/item/aldous_lantern.png` is now unused.
-2. **Ferryman's boat at the Landing** (`ferry_0..3` block models, ~200 elements). Michael wants it much simpler, resting on a few blocks. Not started (`Landmarks.java` ~line 105 places it).
-3. **Pip's ball** is still a flat item in a barrel under the footbridge. A 3D ball lying under the bridge was offered; no answer yet.
+1. ~~3D Aldous's Lantern~~ Done. It's built from the vanilla lantern with a softer golden-white light (`tools/lantern3d.py`). Michael said the first custom version looked like a bell. It hangs from the hand in third person. The old flat `textures/item/aldous_lantern.png` is now unused.
+2. ~~Ferryman's boat~~ Done. It has the vanilla boat shape (straight spruce hull, dark oak floor) and stands on its end by the dock, leaning on a log (`FerryBlock.UPRIGHT`, `Landmarks.landing`). Michael approved the look.
+3. ~~Pip's ball~~ Done. It's a 3D ball block on the dry bed under the footbridge (`PipsBallBlock`); use or punch it to pick it up. This also fixed an old bug: the barrel holding the ball was overwritten by the riverbed fill, so the quest couldn't be finished. The river now runs under the bridge.
 4. Check that Mira's 12 spots are clear of structures, and that the clues read right.
 5. Test pass for everything above, then tune the numbers.
+
+## Added Oct 7 (afternoon): tested in game with screenshots
+- **DeathBound advancement tab:** 18 advancements (`tools/advancements.py` writes the JSON and English text). Anything without a vanilla trigger is awarded from code through `world/Milestones.java`: return to life, charm binding, the Phantom dodge, Soulforge, quests, the Collector's 8 artifacts, the Warden, the seals, the Death King and the endings. The Hollow Hunter one is hidden and uses the vanilla kill trigger.
+- **Journal:** a TASKS checklist page, plus live progress per open quest: lantern flames, Mira's last clue (saved in the synced `QUEST_NOTES` attachment), found or not found, and the Soul Jar count. Progress moves to its own page when it doesn't fit (14 lines × 114px).
+
+## Stories rework (Oct 7, evening): coded and compiles, NOT tested in game yet
+Michael wanted three things: each story only once per world, more stories, notes you right-click in the world, and a better reading screen than the plain book page.
+- `story/Stories.java` holds the catalog: 24 chest stories (the original 15 plus 9 new) and 8 notes. The text lives in the lang file, written by `tools/stories.py`.
+- Chest loot table `deathbound:journal` now drops a **Lost Journal** (`deathbound:story_book`). `LootTableEvents.MODIFY_DROPS` gives it a story nobody in this world has had yet (`CLAIMED_STORIES` on the overworld); once all 24 are out, a Soul drops instead.
+- **Notes** (`StoryNoteBlock`, `story` = index in `Stories.NOTES`, pinned or `flat`), unbreakable, placed in worldgen:
+  - the Ferryman's notice on the dock post at the Landing
+  - 3 on Ghostwood trees (nearest the middle, furthest out, nearest the boat-shed)
+  - 4 on house tables in Lantern's End (houses 2, 5, 8, 11)
+- **Reading screen** (`client/StoryScreen.java`): a parchment sheet sized to the text with title, author, divider and paragraphs. Long stories turn pages. Notes get a smaller sheet with a nail. Use the item to read; sneak + use files it away. Reading anything adds it to `STORIES_FOUND`.
+- **Journal:** a "STORIES OF THE DEAD" contents page (found X of 32), then every story you've read.
+- Next: run `UW_SHOTS=1 ./gradlew runClientGameTest`. The shots run already checks:
+  - 30 chest rolls give 24 different stories and then Souls
+  - all 8 notes exist
+  - screenshots of the notes and the reading screens
+

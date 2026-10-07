@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:the_other_side",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:ferrymans_charm"
+    },
+    "title": {
+      "translate": "advancements.deathbound.return_fare.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.return_fare.description"
+    },
+    "frame": "task"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

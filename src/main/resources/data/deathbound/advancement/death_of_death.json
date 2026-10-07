@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:three_locks",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:heart_of_death"
+    },
+    "title": {
+      "translate": "advancements.deathbound.death_of_death.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.death_of_death.description"
+    },
+    "frame": "challenge"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

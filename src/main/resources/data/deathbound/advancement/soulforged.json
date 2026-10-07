@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:the_other_side",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:grave_rune"
+    },
+    "title": {
+      "translate": "advancements.deathbound.soulforged.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.soulforged.description"
+    },
+    "frame": "task"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

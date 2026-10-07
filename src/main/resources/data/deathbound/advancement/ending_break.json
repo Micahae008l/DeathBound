@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:death_of_death",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:cracked_soulstone_bricks"
+    },
+    "title": {
+      "translate": "advancements.deathbound.ending_break.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.ending_break.description"
+    },
+    "frame": "goal"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:the_other_side",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:kings_ring"
+    },
+    "title": {
+      "translate": "advancements.deathbound.forgotten_things.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.forgotten_things.description"
+    },
+    "frame": "challenge"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

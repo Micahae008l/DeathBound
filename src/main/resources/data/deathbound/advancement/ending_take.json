@@ -1,0 +1,25 @@
+{
+  "parent": "deathbound:death_of_death",
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "deathbound:reaper_scythe"
+    },
+    "title": {
+      "translate": "advancements.deathbound.ending_take.title"
+    },
+    "description": {
+      "translate": "advancements.deathbound.ending_take.description"
+    },
+    "frame": "goal"
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}
