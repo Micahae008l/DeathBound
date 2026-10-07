@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Mira",
+    "color": "#a9bfe0",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Mira"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Did he cry? He cries at everything. He cried at a cat once.",
+        "color": "#d6e2f5"
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:talk",
+        "payload": "mira"
+      }
+    }
+  ]
+}

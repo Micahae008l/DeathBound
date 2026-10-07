@@ -1,0 +1,129 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Ferryman",
+    "color": "#9d8f6e",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Ferryman"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "The Warden knelt to you? Then remember this: he kneels to whoever sits on that throne. Always has.",
+        "color": "#cdc4ae"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Be careful what you sit on, bearer.",
+        "color": "#cdc4ae"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "His gate won't open for you, by the way. He locked it. Ask the blind man how. He knows everything he can't see.",
+        "color": "#cdc4ae",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "What happens if I win?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:ferryman_win"
+      }
+    },
+    {
+      "label": {
+        "text": "Who are you?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:ferryman_who"
+      }
+    },
+    {
+      "label": {
+        "text": "What is this place?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:ferryman_where"
+      }
+    },
+    {
+      "label": {
+        "text": "What happened to the river?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:ferryman_river"
+      }
+    },
+    {
+      "label": {
+        "text": "Who else came down here alive?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:ferryman_others"
+      }
+    },
+    {
+      "label": {
+        "text": "Do you have my things?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:reclaim"
+      }
+    },
+    {
+      "label": {
+        "text": "Show me what you sell."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:trade"
+      }
+    },
+    {
+      "label": {
+        "text": "Can I do anything for you?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:quest",
+        "payload": "ferryman"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

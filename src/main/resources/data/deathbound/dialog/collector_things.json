@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Collector",
+    "color": "#8fa877",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Collector"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Forgotten things. A coin, a toy, a ring, a quill. Things with a story stuck to them.",
+        "color": "#c9d6b8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "There are eight I want. Bring them to me and I'll pay you well: souls, runes, brews. Something better if you bring all eight.",
+        "color": "#c9d6b8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Where are they? Where things are forgotten. Boats. Tombs. Bosses. The bottom of a lake.",
+        "color": "#c9d6b8",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "collector"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/bedroll"
+    },
+    "facing=east": {
+      "model": "deathbound:block/bedroll",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/bedroll",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/bedroll",
+      "y": 270
+    }
+  }
+}

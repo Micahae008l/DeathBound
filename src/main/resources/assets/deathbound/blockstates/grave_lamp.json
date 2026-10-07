@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "deathbound:block/grave_lamp"
+    },
+    "lit=true": {
+      "model": "deathbound:block/grave_lamp_lit"
+    }
+  }
+}

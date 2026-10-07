@@ -1,0 +1,54 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Mira",
+    "color": "#a9bfe0",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Mira"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "That's Papa's lantern. He leaves it lit on the windowsill so I can find the house in the dark.",
+        "color": "#d6e2f5"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "She holds it for a long time. Then she unties the ribbon from her braid and puts it in your hand.",
+        "color": "#d6e2f5",
+        "italic": true
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Give him this. So he knows I'm not scared. I'm not, really. Tell him to go home.",
+        "color": "#d6e2f5",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "I'll give it to him."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:talk",
+        "payload": "mira"
+      }
+    }
+  ]
+}

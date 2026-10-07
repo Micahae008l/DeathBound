@@ -1,0 +1,54 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Clatter, the Bonesmith",
+    "color": "#a3adbd",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Clatter, the Bonesmith"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He points at the water. Then far off, toward the Citadel. He mimes drinking, a lot, and wipes his jaw.",
+        "color": "#cdd3dd",
+        "italic": true
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "The Death King drank the River and the Lake of Souls dry. He never noticed the Mere. It was too small.",
+        "color": "#cdd3dd"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He dips one finger in. Little lights rise where he touches it. Whatever sank in here, the water still remembers it.",
+        "color": "#cdd3dd",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "bonesmith"
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Ferryman",
+    "color": "#9d8f6e",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Ferryman"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Then the throne is empty. And this place hates an empty throne.",
+        "color": "#cdc4ae"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Something will want you to fill it. Everything down here will.",
+        "color": "#cdc4ae",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "ferryman"
+      }
+    }
+  ]
+}

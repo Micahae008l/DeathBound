@@ -1,0 +1,108 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Aldous, the Traveler",
+    "color": "#b08d5c",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Aldous, the Traveler"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Stay back! ...Wait. You're warm. You're alive, like me.",
+        "color": "#dcc9a8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "I'm Aldous. I came down here looking for my daughter. I've been looking a long time.",
+        "color": "#dcc9a8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "I was a smith up top. Bring me souls and grave runes and I'll make your armor stronger. Or we can trade.",
+        "color": "#dcc9a8"
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Why are you down here?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:gravedigger_why"
+      }
+    },
+    {
+      "label": {
+        "text": "Where did you get your chain?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:gravedigger_chain"
+      }
+    },
+    {
+      "label": {
+        "text": "What happened to this village?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:gravedigger_village"
+      }
+    },
+    {
+      "label": {
+        "text": "Can you make my armor stronger?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:gravedigger_forge"
+      }
+    },
+    {
+      "label": {
+        "text": "Let's trade."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:trade"
+      }
+    },
+    {
+      "label": {
+        "text": "About Mira..."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:quest",
+        "payload": "gravedigger"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

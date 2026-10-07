@@ -1,0 +1,64 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Aldous, the Traveler",
+    "color": "#b08d5c",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Aldous, the Traveler"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "She's in that line at the Door. My Mira. I know it. But I can't get near it, not with the Warden standing there.",
+        "color": "#dcc9a8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "You could. You're braver than me, or you're stupider, and down here it's the same thing.",
+        "color": "#dcc9a8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Take her my lantern. She hated the dark. Then come back and tell me she's all right.",
+        "color": "#dcc9a8",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "I'll take it to her."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:quest_accept",
+        "payload": "mira"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Not now."
+    },
+    "width": 250,
+    "action": {
+      "type": "minecraft:custom",
+      "id": "deathbound:talk",
+      "payload": "gravedigger"
+    }
+  }
+}

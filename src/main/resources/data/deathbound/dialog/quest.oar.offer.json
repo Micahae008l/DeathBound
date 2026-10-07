@@ -1,0 +1,64 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Ferryman",
+    "color": "#9d8f6e",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Ferryman"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "There's something you could do. My oar. The good one, the one that knew the river.",
+        "color": "#cdc4ae"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "When the water went, I put her in the boat-shed at the south of the Ghostwood. The wood took the shed. I don't go in there.",
+        "color": "#cdc4ae"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Bring her back to me, and I'll give you something that's worth more than a trip across.",
+        "color": "#cdc4ae",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "I'll find it."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:quest_accept",
+        "payload": "oar"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Not now."
+    },
+    "width": 250,
+    "action": {
+      "type": "minecraft:custom",
+      "id": "deathbound:talk",
+      "payload": "ferryman"
+    }
+  }
+}

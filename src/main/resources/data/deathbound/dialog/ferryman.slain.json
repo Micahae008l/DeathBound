@@ -1,0 +1,79 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Ferryman",
+    "color": "#9d8f6e",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Ferryman"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "It's quiet. Even the line stopped whispering. He's gone, isn't he?",
+        "color": "#cdc4ae"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Then the throne is empty, and every soul down here is waiting to see what you do with it.",
+        "color": "#cdc4ae"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Take his Heart to the throne. You'll know what to do. Or you won't. Nobody ever does.",
+        "color": "#cdc4ae",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Do you have my things?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:reclaim"
+      }
+    },
+    {
+      "label": {
+        "text": "Show me what you sell."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:trade"
+      }
+    },
+    {
+      "label": {
+        "text": "Can I do anything for you?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:quest",
+        "payload": "ferryman"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

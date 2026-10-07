@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "deathbound:block/soulstone_tiles"
+      },
+      {
+        "model": "deathbound:block/soulstone_tiles_1"
+      }
+    ]
+  }
+}

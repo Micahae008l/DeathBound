@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "deathbound:soulstone_brick_slab",
+    "S": "deathbound:soul"
+  },
+  "pattern": [
+    "#",
+    "S"
+  ],
+  "result": {
+    "count": 1,
+    "id": "deathbound:chiseled_soulstone"
+  }
+}

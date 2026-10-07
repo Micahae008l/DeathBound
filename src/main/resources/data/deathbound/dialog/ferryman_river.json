@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Ferryman",
+    "color": "#9d8f6e",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Ferryman"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "A living man came down, like you. He killed the King and sat on the throne. The Warden knelt to him.",
+        "color": "#cdc4ae"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He shut the Great Door. Then he started eating the souls in the line. Then he drank from the Lake of Souls, every night, until there was nothing left.",
+        "color": "#cdc4ae"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "No Lake, no river. No river, and the land cracks into pieces and floats away. That's what you're standing on.",
+        "color": "#cdc4ae"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He calls himself the Death King. He picked the name himself.",
+        "color": "#cdc4ae",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "ferryman"
+      }
+    }
+  ]
+}

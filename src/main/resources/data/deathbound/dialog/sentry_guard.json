@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Sentry",
+    "color": "#8fa4c2",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Sentry"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "The Watch. The west. What's out west is the Hollow, and what's in the Hollow is him. The Hunter.",
+        "color": "#c2d0e2"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "I was posted here to warn the King if he ever came east. I've been waiting a very long time. He never comes. That's worse.",
+        "color": "#c2d0e2",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "sentry"
+      }
+    }
+  ]
+}

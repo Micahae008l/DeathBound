@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross_emissive",
+  "textures": {
+    "cross": "deathbound:block/medium_soul_shard",
+    "cross_emissive": "deathbound:block/medium_soul_shard"
+  }
+}

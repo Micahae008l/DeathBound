@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "deathbound:block/soulstone_bricks",
+    "side": "deathbound:block/soulstone_bricks",
+    "top": "deathbound:block/soulstone_bricks"
+  }
+}

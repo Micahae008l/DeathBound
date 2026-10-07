@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": "deathbound:ghostwood_planks",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "P  ",
+    "PPP",
+    "S S"
+  ],
+  "result": {
+    "count": 2,
+    "id": "deathbound:ghostwood_chair"
+  }
+}

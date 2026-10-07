@@ -1,0 +1,64 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Pip",
+    "color": "#c7bda8",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Pip"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Tib kicked our ball off the bridge. Really hard. It went all the way to the Crossing, by the old footbridge, in the dry river.",
+        "color": "#e6dccb"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "We're not allowed to go to the Crossing. Things eat you at the Crossing.",
+        "color": "#e6dccb"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Can you get it? Please? I'll give you my best thing.",
+        "color": "#e6dccb",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "I'll get your ball."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:quest_accept",
+        "payload": "ball"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Not now."
+    },
+    "width": 250,
+    "action": {
+      "type": "minecraft:custom",
+      "id": "deathbound:talk",
+      "payload": "kid"
+    }
+  }
+}

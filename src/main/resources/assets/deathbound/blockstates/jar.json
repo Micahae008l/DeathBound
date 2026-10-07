@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/jar"
+    },
+    "facing=east": {
+      "model": "deathbound:block/jar",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/jar",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/jar",
+      "y": 270
+    }
+  }
+}

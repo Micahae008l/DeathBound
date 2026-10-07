@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/stuck_arrows"
+    },
+    "facing=east": {
+      "model": "deathbound:block/stuck_arrows",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/stuck_arrows",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/stuck_arrows",
+      "y": 270
+    }
+  }
+}

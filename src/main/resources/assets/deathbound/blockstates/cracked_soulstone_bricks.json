@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "deathbound:block/cracked_soulstone_bricks"
+      },
+      {
+        "model": "deathbound:block/cracked_soulstone_bricks_1"
+      }
+    ]
+  }
+}

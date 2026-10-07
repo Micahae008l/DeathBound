@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Sentry",
+    "color": "#8fa4c2",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Sentry"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Corwin. I've been saying it all day. Corwin. It sounds right.",
+        "color": "#c2d0e2"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "I remember my mother calling it down the street. Funny, what comes back with a name.",
+        "color": "#c2d0e2",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Leave"
+      },
+      "width": 250
+    }
+  ]
+}

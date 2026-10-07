@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/coffin"
+    },
+    "facing=east": {
+      "model": "deathbound:block/coffin",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/coffin",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/coffin",
+      "y": 270
+    }
+  }
+}

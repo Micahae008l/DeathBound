@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Collector",
+    "color": "#8fa877",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Collector"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Nobody. A collector. I keep what the Underworld forgets, so that something remembers it.",
+        "color": "#c9d6b8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Every King thinks he's the first. Every King is wrong. I have their things to prove it.",
+        "color": "#c9d6b8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "How long have I been down here? Longer than the King. Not as long as the Hunter.",
+        "color": "#c9d6b8",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "collector"
+      }
+    }
+  ]
+}

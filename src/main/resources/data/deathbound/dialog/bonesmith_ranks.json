@@ -1,0 +1,55 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Clatter, the Bonesmith",
+    "color": "#a3adbd",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Clatter, the Bonesmith"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "One finger: he dips a blade, and it comes out keener.",
+        "color": "#cdd3dd",
+        "italic": true
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Two fingers: he mimes a ghost lighting up and stumbling when it's struck. He won't do this one until the Warden has knelt to you.",
+        "color": "#cdd3dd",
+        "italic": true
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Three fingers: he strikes something down, then breathes in, deep, as if its life went into him. Not while the Hunter lives.",
+        "color": "#cdd3dd",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "bonesmith"
+      }
+    }
+  ]
+}

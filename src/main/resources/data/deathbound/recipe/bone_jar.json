@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "deathbound:jar",
+    "minecraft:bone",
+    "minecraft:bone"
+  ],
+  "result": {
+    "count": 1,
+    "id": "deathbound:bone_jar"
+  }
+}

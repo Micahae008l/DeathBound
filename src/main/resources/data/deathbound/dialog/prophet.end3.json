@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Old King",
+    "color": "#c9a8ff",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Old King"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "You broke it. There's no throne. No King. Nobody to keep the order.",
+        "color": "#e2d3ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Maybe that's what the Hunter knew, all those years ago. Leave me. I want to listen to them walk through.",
+        "color": "#e2d3ff",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Goodbye."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:bye"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

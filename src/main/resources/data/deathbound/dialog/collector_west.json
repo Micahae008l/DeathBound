@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Collector",
+    "color": "#8fa877",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Collector"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "West? Past the Watch? No. Nobody goes west.",
+        "color": "#c9d6b8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He was the first, you know. Before the King, before Halden. The very first living soul to come down. They offered him the throne.",
+        "color": "#c9d6b8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He said no. He wanted something better than a throne. He wanted prey.",
+        "color": "#c9d6b8",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "collector"
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "deathbound:block/ashen_soil"
+      },
+      {
+        "model": "deathbound:block/ashen_soil",
+        "y": 90
+      },
+      {
+        "model": "deathbound:block/ashen_soil",
+        "y": 180
+      },
+      {
+        "model": "deathbound:block/ashen_soil",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Sentry",
+    "color": "#8fa4c2",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Sentry"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He holds the tag up to his empty eyes.* Corwin. I'm Corwin. Private Corwin, of the Watch.",
+        "color": "#c2d0e2",
+        "italic": true
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Thank you. Here: runes, souls, whatever I'd been keeping for the King. And this, for free: the Hunter can't see you if you stand still in his blind. He hunts what runs.",
+        "color": "#c2d0e2"
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:talk",
+        "payload": "sentry"
+      }
+    }
+  ]
+}

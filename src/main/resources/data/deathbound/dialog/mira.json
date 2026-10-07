@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Mira",
+    "color": "#a9bfe0",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Mira"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Are you here for the line? It's very long. I'm counting. I got to four hundred and then a lady sneezed and I lost it.",
+        "color": "#d6e2f5"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "She's small, and see-through, and missing a front tooth. She smiles with the gap anyway.",
+        "color": "#d6e2f5",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Who are you?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:mira_who"
+      }
+    },
+    {
+      "label": {
+        "text": "Your father sent me."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:quest",
+        "payload": "mira"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

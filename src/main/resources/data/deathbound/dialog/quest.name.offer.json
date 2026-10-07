@@ -1,0 +1,64 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Sentry",
+    "color": "#8fa4c2",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Sentry"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "I can't remember my name. Isn't that stupid? I remember my post, my orders, my sergeant's face. Not my name.",
+        "color": "#c2d0e2"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "It's on my tag. I went out across the broken bridge once, toward the Hollow. Something moved out there and I ran. I dropped it halfway.",
+        "color": "#c2d0e2"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "If you're going that way anyway. If you're mad enough. Bring it back?",
+        "color": "#c2d0e2",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "I'll bring your tag back."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:quest_accept",
+        "payload": "name"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Not now."
+    },
+    "width": 250,
+    "action": {
+      "type": "minecraft:custom",
+      "id": "deathbound:talk",
+      "payload": "sentry"
+    }
+  }
+}

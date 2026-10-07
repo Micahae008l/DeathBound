@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Chained Prophet",
+    "color": "#9b7be0",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Chained Prophet"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "The Warden can't stop. He swore to guard the throne's Door, and the oath doesn't care who's on the throne.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "When his blade swings wide, get in close. When he lifts it high, back away. After he lunges he's slow to turn, so hit his back. When he drives his blade into the ground, move sideways.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Beat him, and the Door will open for you.",
+        "color": "#c7b2ff",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "prophet"
+      }
+    }
+  ]
+}

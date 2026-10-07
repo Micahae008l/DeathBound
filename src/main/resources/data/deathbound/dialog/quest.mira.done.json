@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Aldous, the Traveler",
+    "color": "#b08d5c",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Aldous, the Traveler"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Her ribbon. She tied this round my wrist every morning so I wouldn't forget her at the forge. As if I could.",
+        "color": "#dcc9a8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "She said go home? ...She would say that.",
+        "color": "#dcc9a8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He's quiet for a while. Then he presses something into your hand: runes, and souls. \"I was saving them for her. She won't need them.\"",
+        "color": "#dcc9a8",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:talk",
+        "payload": "gravedigger"
+      }
+    }
+  ]
+}

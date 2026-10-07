@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Pip",
+    "color": "#c7bda8",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Pip"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "We've been playing ALL DAY. Tib kicked it in the fountain twice.",
+        "color": "#e6dccb"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "You're our favourite alive person. Don't tell the Lamplighter.",
+        "color": "#e6dccb",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Leave"
+      },
+      "width": 250
+    }
+  ]
+}

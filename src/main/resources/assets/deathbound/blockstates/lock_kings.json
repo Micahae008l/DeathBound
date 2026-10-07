@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,filled=false": {
+      "model": "deathbound:block/lock_kings"
+    },
+    "facing=north,filled=true": {
+      "model": "deathbound:block/lock_kings_filled"
+    },
+    "facing=east,filled=false": {
+      "model": "deathbound:block/lock_kings",
+      "y": 90
+    },
+    "facing=east,filled=true": {
+      "model": "deathbound:block/lock_kings_filled",
+      "y": 90
+    },
+    "facing=south,filled=false": {
+      "model": "deathbound:block/lock_kings",
+      "y": 180
+    },
+    "facing=south,filled=true": {
+      "model": "deathbound:block/lock_kings_filled",
+      "y": 180
+    },
+    "facing=west,filled=false": {
+      "model": "deathbound:block/lock_kings",
+      "y": 270
+    },
+    "facing=west,filled=true": {
+      "model": "deathbound:block/lock_kings_filled",
+      "y": 270
+    }
+  }
+}

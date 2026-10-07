@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Aldous, the Traveler",
+    "color": "#b08d5c",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Aldous, the Traveler"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Home? Up there it's spring, probably. The bread's gone hard and the dog's gone to my sister's.",
+        "color": "#dcc9a8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "I'll go. When the forge has had enough of me. Not yet.",
+        "color": "#dcc9a8",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "gravedigger"
+      }
+    }
+  ]
+}

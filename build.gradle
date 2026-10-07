@@ -3,6 +3,10 @@ plugins {
 	id 'maven-publish'
 }
 
+base {
+	archivesName = "DeathBound"
+}
+
 repositories {
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
@@ -15,20 +19,10 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"underworld" {
+		"deathbound" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
-	}
-}
-
-fabricApi {
-	configureTests {
-		createSourceSet = true
-		modId = "underworld-gametest"
-		enableGameTests = false
-		enableClientGameTests = true
-		eula = true
 	}
 }
 

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "deathbound:item/hollow_hunter_spawn_egg"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Mira",
+    "color": "#a9bfe0",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Mira"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "It's very long and very slow. Everybody's nice, mostly. A man in front of me keeps telling the same joke.",
+        "color": "#d6e2f5"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Sometimes the line moves and everyone cheers, even though it's only one step.",
+        "color": "#d6e2f5",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "mira"
+      }
+    }
+  ]
+}

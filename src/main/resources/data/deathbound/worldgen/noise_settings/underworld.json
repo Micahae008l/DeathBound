@@ -1,0 +1,26 @@
+{
+  "default_block": "deathbound:soulstone",
+  "default_fluid": "minecraft:air",
+  "disable_mob_generation": false,
+  "legacy_random_source": false,
+  "material_rule": {
+    "type": "minecraft:block",
+    "result_state": "deathbound:soulstone"
+  },
+  "noise": {
+    "min_y": 0,
+    "height": 256
+  },
+  "sea_level": 0,
+  "spawn_target": [],
+  "noise_router": {
+    "chunk_surface_level": 0.0,
+    "continents": 0.0,
+    "depth": 0.0,
+    "erosion": 0.0,
+    "ridges": 0.0,
+    "temperature": 0.0,
+    "vegetation": 0.0,
+    "final_density": -1.0
+  }
+}

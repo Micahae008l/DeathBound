@@ -1,0 +1,108 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Collector",
+    "color": "#8fa877",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Collector"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Mind the floor. Ah, you found it already. Good.",
+        "color": "#c9d6b8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "You're warm. A living thing with a chain, down here. How rare. How very collectable.",
+        "color": "#c9d6b8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "I don't want your soul. I want your pockets.",
+        "color": "#c9d6b8",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Who are you?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:collector_who"
+      }
+    },
+    {
+      "label": {
+        "text": "What do you collect?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:collector_things"
+      }
+    },
+    {
+      "label": {
+        "text": "What do you know about the Kings?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:collector_kings"
+      }
+    },
+    {
+      "label": {
+        "text": "Is there anything out west?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:collector_west"
+      }
+    },
+    {
+      "label": {
+        "text": "I found something for you."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:collect"
+      }
+    },
+    {
+      "label": {
+        "text": "Show me what you sell."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:trade"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

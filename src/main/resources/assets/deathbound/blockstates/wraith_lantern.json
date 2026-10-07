@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "deathbound:block/wraith_lantern"
+    },
+    "hanging=true": {
+      "model": "deathbound:block/wraith_lantern_hanging"
+    }
+  }
+}

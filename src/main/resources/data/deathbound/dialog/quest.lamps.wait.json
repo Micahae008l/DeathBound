@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Lamplighter",
+    "color": "#b9b2c9",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Lamplighter"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Three soul jars. The lamps can wait a little longer. They've waited a long time already.",
+        "color": "#d8d2e2"
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:talk",
+        "payload": "lamplighter"
+      }
+    }
+  ]
+}

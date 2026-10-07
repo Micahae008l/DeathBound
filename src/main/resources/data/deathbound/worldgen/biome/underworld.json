@@ -1,0 +1,102 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.5,
+  "downfall": 0.0,
+  "effects": {
+    "water_color": "#5a2e9a",
+    "grass_color": "#6b5a8a",
+    "foliage_color": "#5a4a78"
+  },
+  "attributes": {
+    "minecraft:visual/fog_color": "#110f15",
+    "minecraft:visual/water_fog_color": "#1a0a30",
+    "minecraft:visual/ambient_particles": {
+      "modifier": "append",
+      "argument": [
+        {
+          "particle": {
+            "type": "deathbound:soul_mote"
+          },
+          "probability": 0.0006
+        },
+        {
+          "particle": {
+            "type": "minecraft:white_ash"
+          },
+          "probability": 0.03
+        },
+        {
+          "particle": {
+            "type": "minecraft:ash"
+          },
+          "probability": 0.02
+        }
+      ]
+    },
+    "minecraft:audio/background_music": {
+      "default": {
+        "sound": "minecraft:music.overworld.deep_dark",
+        "min_delay": 3000,
+        "max_delay": 9000
+      }
+    },
+    "minecraft:audio/ambient_sounds": {
+      "loop": "minecraft:ambient.soul_sand_valley.loop",
+      "mood": {
+        "sound": "minecraft:ambient.cave",
+        "tick_delay": 1200,
+        "block_search_extent": 8,
+        "offset": 2.0
+      },
+      "additions": {
+        "sound": "deathbound:dread.air",
+        "tick_chance": 0.008
+      }
+    },
+    "minecraft:gameplay/natural_mob_spawns": {
+      "modifier": "overlay",
+      "argument": {
+        "spawns_by_category": {
+          "monster": [
+            {
+              "type": "deathbound:gravebound",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 100
+            },
+            {
+              "type": "deathbound:soul_wisp",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 1
+              },
+              "weight": 55
+            }
+          ],
+          "creature": [],
+          "ambient": []
+        },
+        "spawn_costs": {
+          "deathbound:gravebound": {
+            "energy_budget": 0.08,
+            "charge": 0.7
+          },
+          "deathbound:soul_wisp": {
+            "energy_budget": 0.07,
+            "charge": 0.7
+          }
+        }
+      }
+    }
+  },
+  "carvers": [],
+  "features": [
+    [
+      "deathbound:underworld_builder"
+    ]
+  ]
+}

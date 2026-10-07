@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,filled=false": {
+      "model": "deathbound:block/lock_watchers"
+    },
+    "facing=north,filled=true": {
+      "model": "deathbound:block/lock_watchers_filled"
+    },
+    "facing=east,filled=false": {
+      "model": "deathbound:block/lock_watchers",
+      "y": 90
+    },
+    "facing=east,filled=true": {
+      "model": "deathbound:block/lock_watchers_filled",
+      "y": 90
+    },
+    "facing=south,filled=false": {
+      "model": "deathbound:block/lock_watchers",
+      "y": 180
+    },
+    "facing=south,filled=true": {
+      "model": "deathbound:block/lock_watchers_filled",
+      "y": 180
+    },
+    "facing=west,filled=false": {
+      "model": "deathbound:block/lock_watchers",
+      "y": 270
+    },
+    "facing=west,filled=true": {
+      "model": "deathbound:block/lock_watchers_filled",
+      "y": 270
+    }
+  }
+}

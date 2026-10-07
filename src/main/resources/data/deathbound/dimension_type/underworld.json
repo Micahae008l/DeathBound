@@ -1,0 +1,43 @@
+{
+  "has_skylight": false,
+  "has_ceiling": true,
+  "has_ender_dragon_fight": false,
+  "has_fixed_time": true,
+  "coordinate_scale": 1.0,
+  "min_y": 0,
+  "height": 256,
+  "logical_height": 256,
+  "infiniburn": "#minecraft:infiniburn_nether",
+  "ambient_light": 0.07,
+  "monster_spawn_light_level": 7,
+  "monster_spawn_block_light_limit": 0,
+  "skybox": "none",
+  "cardinal_light": "default",
+  "timelines": "#minecraft:in_nether",
+  "attributes": {
+    "minecraft:visual/fog_color": "#110f15",
+    "minecraft:visual/fog_start_distance": 0.0,
+    "minecraft:visual/fog_end_distance": 60.0,
+    "minecraft:visual/sky_fog_end_distance": 60.0,
+    "minecraft:visual/sky_light_factor": 0.0,
+    "minecraft:visual/sky_light_color": "#6a4a9a",
+    "minecraft:visual/ambient_light_color": "#1c1923",
+    "minecraft:visual/block_light_tint": "#c8a2ff",
+    "minecraft:visual/default_dripstone_particle": {
+      "type": "minecraft:dripping_obsidian_tear"
+    },
+    "minecraft:gameplay/sky_light_level": 2.0,
+    "minecraft:gameplay/bed_rule": {
+      "can_sleep": "never",
+      "can_set_spawn": "never",
+      "destroy_on_use": true
+    },
+    "minecraft:gameplay/straw_bed_rule": {
+      "can_sleep": "never",
+      "can_set_spawn": "never",
+      "destroy_on_use": true
+    },
+    "minecraft:gameplay/respawn_anchor_works": false,
+    "minecraft:gameplay/can_start_raid": false
+  }
+}

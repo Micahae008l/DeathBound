@@ -1,0 +1,88 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Chained Prophet",
+    "color": "#9b7be0",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Chained Prophet"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "The chain. I can hear it. Good. You came.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "I served the King. When the Death King took the throne, he put out my eyes and hung me here, so I could never tell anyone what I saw.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Ask, and I'll tell you what I can.",
+        "color": "#c7b2ff",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "What did you see?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:prophet_saw"
+      }
+    },
+    {
+      "label": {
+        "text": "How do I get past the Warden?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:prophet_guard"
+      }
+    },
+    {
+      "label": {
+        "text": "How do I beat the Death King?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:prophet_death"
+      }
+    },
+    {
+      "label": {
+        "text": "Is there a girl named Mira here?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:prophet_mira"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

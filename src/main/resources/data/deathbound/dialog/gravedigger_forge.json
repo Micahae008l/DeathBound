@@ -1,0 +1,92 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Aldous, the Traveler",
+    "color": "#b08d5c",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Aldous, the Traveler"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Wear the piece you want forged. Runes and souls, and I'll beat the strength of the dead into it.",
+        "color": "#dcc9a8"
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Helm"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:soulforge",
+        "payload": "head"
+      },
+      "tooltip": {
+        "text": "1 rune, 10 souls. +1 armor, +1 toughness, Underworld hits 4% softer."
+      }
+    },
+    {
+      "label": {
+        "text": "Chestplate"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:soulforge",
+        "payload": "chest"
+      },
+      "tooltip": {
+        "text": "2 runes, 22 souls. +2 armor, +2 toughness, Underworld hits 8% softer."
+      }
+    },
+    {
+      "label": {
+        "text": "Leggings"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:soulforge",
+        "payload": "legs"
+      },
+      "tooltip": {
+        "text": "2 runes, 16 souls. +2 armor, +1 toughness, Underworld hits 6% softer."
+      }
+    },
+    {
+      "label": {
+        "text": "Boots"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:soulforge",
+        "payload": "feet"
+      },
+      "tooltip": {
+        "text": "1 rune, 10 souls. +1 armor, +1 toughness, Underworld hits 4% softer."
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Back"
+    },
+    "width": 250,
+    "action": {
+      "type": "minecraft:custom",
+      "id": "deathbound:talk",
+      "payload": "gravedigger"
+    }
+  }
+}

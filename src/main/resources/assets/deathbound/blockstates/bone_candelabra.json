@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/bone_candelabra"
+    },
+    "facing=east": {
+      "model": "deathbound:block/bone_candelabra",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/bone_candelabra",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/bone_candelabra",
+      "y": 270
+    }
+  }
+}

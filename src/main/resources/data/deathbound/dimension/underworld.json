@@ -1,0 +1,11 @@
+{
+  "type": "deathbound:underworld",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "deathbound:underworld",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "deathbound:underworld"
+    }
+  }
+}

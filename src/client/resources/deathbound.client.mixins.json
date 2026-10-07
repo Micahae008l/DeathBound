@@ -1,0 +1,21 @@
+{
+	"required": true,
+	"package": "com.deathbound.client.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"CameraMixin",
+		"FirstPersonHandsMixin",
+		"HumanoidModelMixin",
+		"BossMusicMixin",
+		"ShowDialogMixin",
+		"GameRendererMixin",
+		"BossOverlayMixin",
+		"MarkedHeartsMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

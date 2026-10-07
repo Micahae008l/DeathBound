@@ -1,0 +1,81 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Empty Throne",
+    "color": "#b48cff",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Empty Throne"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "The throne is empty. The Heart beats in your hand, slow and heavy.",
+        "color": "#d9c7f2"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "The Warden is waiting at the foot of the steps. Somewhere below, a blind man is listening.",
+        "color": "#d9c7f2"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Whatever you choose, the Underworld will remember it.",
+        "color": "#d9c7f2",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Sit on the throne."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:ending",
+        "payload": "take"
+      }
+    },
+    {
+      "label": {
+        "text": "Free the old King."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:ending",
+        "payload": "king"
+      }
+    },
+    {
+      "label": {
+        "text": "Break the throne."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:ending",
+        "payload": "break"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Not yet"
+    },
+    "width": 250
+  }
+}

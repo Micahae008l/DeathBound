@@ -1,0 +1,79 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Clatter, the Bonesmith",
+    "color": "#a3adbd",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Clatter, the Bonesmith"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He holds out a hand for the weapon you're holding, then points at the black water.",
+        "color": "#cdd3dd",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Rank I"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:temper",
+        "payload": "1"
+      },
+      "tooltip": {
+        "text": "1 rune, 12 souls. +1.5 attack damage."
+      }
+    },
+    {
+      "label": {
+        "text": "Rank II"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:temper",
+        "payload": "2"
+      },
+      "tooltip": {
+        "text": "2 runes, 20 souls. +3 attack damage; your hits light up the dead and drag at them."
+      }
+    },
+    {
+      "label": {
+        "text": "Rank III"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:temper",
+        "payload": "3"
+      },
+      "tooltip": {
+        "text": "3 runes, 32 souls. +4.5 attack damage; every dead thing you put down gives back a little life."
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Back"
+    },
+    "width": 250,
+    "action": {
+      "type": "minecraft:custom",
+      "id": "deathbound:talk",
+      "payload": "bonesmith"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "values": [
+    "deathbound:soulstone",
+    "deathbound:soulstone_bricks",
+    "deathbound:cracked_soulstone_bricks",
+    "deathbound:chiseled_soulstone",
+    "deathbound:soulstone_tiles",
+    "deathbound:soulstone_pillar",
+    "deathbound:soulstone_brick_stairs",
+    "deathbound:soulstone_brick_slab",
+    "deathbound:soulstone_brick_wall",
+    "deathbound:veiled_soulstone",
+    "deathbound:soul_crystal",
+    "deathbound:wraith_lantern",
+    "deathbound:polished_soulstone",
+    "deathbound:dark_soulstone_bricks",
+    "deathbound:soul_veined_bricks",
+    "deathbound:small_soul_shard",
+    "deathbound:medium_soul_shard",
+    "deathbound:large_soul_shard",
+    "deathbound:soul_brazier",
+    "deathbound:skull_spike"
+  ]
+}

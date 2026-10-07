@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "deathbound:block/dark_soulstone_bricks"
+      },
+      {
+        "model": "deathbound:block/dark_soulstone_bricks_1"
+      }
+    ]
+  }
+}

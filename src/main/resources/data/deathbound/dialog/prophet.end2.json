@@ -1,0 +1,68 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Old King",
+    "color": "#c9a8ff",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Old King"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "My throne. My order. Thank you, bearer. You paid well.",
+        "color": "#e2d3ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Go home? With what? You have no chain now. You'll stay, and work, and rest when it's your turn. Like everyone.",
+        "color": "#e2d3ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Chains are dangerous things. Someone has to keep them safe. Someone has to keep them... close.",
+        "color": "#e2d3ff",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "You've changed."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:king_changed"
+      }
+    },
+    {
+      "label": {
+        "text": "Goodbye."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:bye"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

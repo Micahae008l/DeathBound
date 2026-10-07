@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/wall_glowcap"
+    },
+    "facing=east": {
+      "model": "deathbound:block/wall_glowcap",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/wall_glowcap",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/wall_glowcap",
+      "y": 270
+    }
+  }
+}

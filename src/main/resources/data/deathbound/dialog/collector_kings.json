@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Collector",
+    "color": "#8fa877",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Collector"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Halden dug down from up top and took the throne with a pickaxe. Ysolde shot him off it. The King strangled Ysolde with her own bowstring. And then a boy called Silas.",
+        "color": "#c9d6b8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Every one of them came down alive. Every one of them meant to go home.",
+        "color": "#c9d6b8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Look at my crowns. Then ask yourself why there's never a crown for anyone who left.",
+        "color": "#c9d6b8",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "collector"
+      }
+    }
+  ]
+}

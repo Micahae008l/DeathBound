@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Pip",
+    "color": "#c7bda8",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Pip"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "I'm Pip. That's Tib, and Nell, and the little one doesn't have a name yet. He's still deciding.",
+        "color": "#e6dccb"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "We used to have a ball. We had the best ball.",
+        "color": "#e6dccb",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "kid"
+      }
+    }
+  ]
+}

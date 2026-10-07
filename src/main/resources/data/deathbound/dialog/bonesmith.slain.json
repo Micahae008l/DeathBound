@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Clatter, the Bonesmith",
+    "color": "#a3adbd",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Clatter, the Bonesmith"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He points toward the Citadel and mimes a crown falling off a head. He nods, slowly.",
+        "color": "#cdd3dd",
+        "italic": true
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Then he holds out his hand. Weapons first. Celebrating later.",
+        "color": "#cdd3dd",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Leave"
+      },
+      "width": 250
+    }
+  ]
+}

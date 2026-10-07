@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/grave_bell"
+    },
+    "facing=east": {
+      "model": "deathbound:block/grave_bell",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/grave_bell",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/grave_bell",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Aldous, the Traveler",
+    "color": "#b08d5c",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Aldous, the Traveler"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He's tied her ribbon round his wrist.* She used to do that. Every morning, so I wouldn't forget her at the forge.",
+        "color": "#dcc9a8",
+        "italic": true
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "She told me to go home. She was always the sensible one.",
+        "color": "#dcc9a8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "I'll stay a little longer. Somebody should keep the forge lit, in case she ever comes this way.",
+        "color": "#dcc9a8",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Leave"
+      },
+      "width": 250
+    }
+  ]
+}

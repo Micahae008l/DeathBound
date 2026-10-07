@@ -1,0 +1,64 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Lamplighter",
+    "color": "#b9b2c9",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Lamplighter"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "The souls are going out of the lamps. The Death King's been eating them, the way he eats everything.",
+        "color": "#d8d2e2"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Bring me three jars with a soul in each. The Collector sells them, or you can bottle your own: a jar and a soul.",
+        "color": "#d8d2e2"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Do that, and I'll give you a little light of your own. One that follows.",
+        "color": "#d8d2e2",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "I'll bring them."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:quest_accept",
+        "payload": "lamps"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Not now."
+    },
+    "width": 250,
+    "action": {
+      "type": "minecraft:custom",
+      "id": "deathbound:talk",
+      "payload": "lamplighter"
+    }
+  }
+}

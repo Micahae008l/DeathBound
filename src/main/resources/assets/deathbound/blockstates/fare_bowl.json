@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/fare_bowl"
+    },
+    "facing=east": {
+      "model": "deathbound:block/fare_bowl",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/fare_bowl",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/fare_bowl",
+      "y": 270
+    }
+  }
+}

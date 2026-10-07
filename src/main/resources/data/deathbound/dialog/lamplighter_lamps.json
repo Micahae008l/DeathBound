@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Lamplighter",
+    "color": "#b9b2c9",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Lamplighter"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Why light them? Because somebody might be walking home in the dark.",
+        "color": "#d8d2e2"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Nobody walks home down here. That's not the point. The point is the light's there if they do.",
+        "color": "#d8d2e2",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "lamplighter"
+      }
+    }
+  ]
+}

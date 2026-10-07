@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/ghostwood_table"
+    },
+    "facing=east": {
+      "model": "deathbound:block/ghostwood_table",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/ghostwood_table",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/ghostwood_table",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Chained Prophet",
+    "color": "#9b7be0",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Chained Prophet"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Of course it is. He locked himself in. Three locks, and he hid the keys where he thought nobody would look.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "One is with the Kings who came before him. In the Tomb of Kings. Light their way, in the order they ruled.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "One is at the top of the Spire, where the skulls keep watch.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "One is in the bell at Lantern's End. Ring it for the Kings. All of them. Even him.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He thought nobody would ever come looking. Nobody ever does, down here.",
+        "color": "#c7b2ff",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "prophet"
+      }
+    }
+  ]
+}

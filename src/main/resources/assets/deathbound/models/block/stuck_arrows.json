@@ -1,0 +1,495 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "deathbound:block/remains_bone",
+    "shaft": "deathbound:block/hunter_arrow_shaft",
+    "fletch": "deathbound:block/hunter_arrow_fletch",
+    "head": "deathbound:block/hunter_arrow_head"
+  },
+  "elements": [
+    {
+      "from": [
+        4.7,
+        0.0,
+        5.7
+      ],
+      "to": [
+        5.3,
+        9.0,
+        6.3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            0.5999999999999996,
+            9.0
+          ],
+          "texture": "#shaft"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0.5999999999999996,
+            9.0
+          ],
+          "texture": "#shaft"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            0.5999999999999996,
+            9.0
+          ],
+          "texture": "#shaft"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            0.5999999999999996,
+            9.0
+          ],
+          "texture": "#shaft"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            0.5999999999999996,
+            0.5999999999999996
+          ],
+          "texture": "#shaft"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            0.5999999999999996,
+            0.5999999999999996
+          ],
+          "texture": "#shaft"
+        }
+      },
+      "rotation": {
+        "origin": [
+          5,
+          0.0,
+          6
+        ],
+        "axis": "x",
+        "angle": 25
+      }
+    },
+    {
+      "from": [
+        3.9,
+        6.2,
+        6
+      ],
+      "to": [
+        6.1,
+        9.0,
+        6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            2.1999999999999997,
+            2.8
+          ],
+          "texture": "#fletch"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2.1999999999999997,
+            2.8
+          ],
+          "texture": "#fletch"
+        }
+      },
+      "rotation": {
+        "origin": [
+          5,
+          0.0,
+          6
+        ],
+        "axis": "x",
+        "angle": 25
+      },
+      "light_emission": 15
+    },
+    {
+      "from": [
+        5,
+        6.2,
+        4.9
+      ],
+      "to": [
+        5,
+        9.0,
+        7.1
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            0,
+            0,
+            2.1999999999999993,
+            2.8
+          ],
+          "texture": "#fletch"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2.1999999999999993,
+            2.8
+          ],
+          "texture": "#fletch"
+        }
+      },
+      "rotation": {
+        "origin": [
+          5,
+          0.0,
+          6
+        ],
+        "axis": "x",
+        "angle": 25
+      },
+      "light_emission": 15
+    },
+    {
+      "from": [
+        10.2,
+        0.0,
+        8.7
+      ],
+      "to": [
+        10.8,
+        9.0,
+        9.3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            0.6000000000000014,
+            9.0
+          ],
+          "texture": "#shaft"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0.6000000000000014,
+            9.0
+          ],
+          "texture": "#shaft"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            0.6000000000000014,
+            9.0
+          ],
+          "texture": "#shaft"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            0.6000000000000014,
+            9.0
+          ],
+          "texture": "#shaft"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            0.6000000000000014,
+            0.6000000000000014
+          ],
+          "texture": "#shaft"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            0.6000000000000014,
+            0.6000000000000014
+          ],
+          "texture": "#shaft"
+        }
+      },
+      "rotation": {
+        "origin": [
+          10.5,
+          0.0,
+          9
+        ],
+        "axis": "z",
+        "angle": -20
+      }
+    },
+    {
+      "from": [
+        9.4,
+        6.2,
+        9
+      ],
+      "to": [
+        11.6,
+        9.0,
+        9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            2.1999999999999993,
+            2.8
+          ],
+          "texture": "#fletch"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2.1999999999999993,
+            2.8
+          ],
+          "texture": "#fletch"
+        }
+      },
+      "rotation": {
+        "origin": [
+          10.5,
+          0.0,
+          9
+        ],
+        "axis": "z",
+        "angle": -20
+      },
+      "light_emission": 15
+    },
+    {
+      "from": [
+        10.5,
+        6.2,
+        7.9
+      ],
+      "to": [
+        10.5,
+        9.0,
+        10.1
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            0,
+            0,
+            2.1999999999999993,
+            2.8
+          ],
+          "texture": "#fletch"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2.1999999999999993,
+            2.8
+          ],
+          "texture": "#fletch"
+        }
+      },
+      "rotation": {
+        "origin": [
+          10.5,
+          0.0,
+          9
+        ],
+        "axis": "z",
+        "angle": -20
+      },
+      "light_emission": 15
+    },
+    {
+      "from": [
+        6.7,
+        0.0,
+        12.2
+      ],
+      "to": [
+        7.3,
+        7.5,
+        12.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            0.5999999999999996,
+            7.5
+          ],
+          "texture": "#shaft"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0.5999999999999996,
+            7.5
+          ],
+          "texture": "#shaft"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            0.6000000000000014,
+            7.5
+          ],
+          "texture": "#shaft"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            0.6000000000000014,
+            7.5
+          ],
+          "texture": "#shaft"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            0.5999999999999996,
+            0.6000000000000014
+          ],
+          "texture": "#shaft"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            0.5999999999999996,
+            0.6000000000000014
+          ],
+          "texture": "#shaft"
+        }
+      },
+      "rotation": {
+        "origin": [
+          7,
+          0.0,
+          12.5
+        ],
+        "axis": "x",
+        "angle": -18
+      }
+    },
+    {
+      "from": [
+        5.9,
+        4.7,
+        12.5
+      ],
+      "to": [
+        8.1,
+        7.5,
+        12.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            2.1999999999999993,
+            2.8
+          ],
+          "texture": "#fletch"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2.1999999999999993,
+            2.8
+          ],
+          "texture": "#fletch"
+        }
+      },
+      "rotation": {
+        "origin": [
+          7,
+          0.0,
+          12.5
+        ],
+        "axis": "x",
+        "angle": -18
+      },
+      "light_emission": 15
+    },
+    {
+      "from": [
+        7,
+        4.7,
+        11.4
+      ],
+      "to": [
+        7,
+        7.5,
+        13.6
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            0,
+            0,
+            2.1999999999999993,
+            2.8
+          ],
+          "texture": "#fletch"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2.1999999999999993,
+            2.8
+          ],
+          "texture": "#fletch"
+        }
+      },
+      "rotation": {
+        "origin": [
+          7,
+          0.0,
+          12.5
+        ],
+        "axis": "x",
+        "angle": -18
+      },
+      "light_emission": 15
+    }
+  ]
+}

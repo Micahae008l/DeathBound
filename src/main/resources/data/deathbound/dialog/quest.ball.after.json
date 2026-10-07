@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Pip",
+    "color": "#c7bda8",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Pip"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "You can play if you want. You'd have to be the line. Everyone new has to be the line.",
+        "color": "#e6dccb"
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:talk",
+        "payload": "kid"
+      }
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Sentry",
+    "color": "#8fa4c2",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Sentry"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Halt. Who goes. ...Sorry. Habit. Nobody's come this way in a long time.",
+        "color": "#c2d0e2"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "A soldier's ghost, in a dented helm, facing west across the gap. He never turns his back on it.",
+        "color": "#c2d0e2",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "What are you guarding?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:sentry_guard"
+      }
+    },
+    {
+      "label": {
+        "text": "Is something wrong?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:quest",
+        "payload": "sentry"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

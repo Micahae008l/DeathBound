@@ -1,16 +1,30 @@
 {
 	"schemaVersion": 1,
-	"id": "underworld",
+	"id": "deathbound",
 	"version": "${version}",
-	"name": "Underworld Characters",
-	"description": "The Hollow Hunter and The Collector, built standalone for merging into the Underworld mod.",
-	"authors": ["Michael"],
+	"name": "DeathBound",
+	"description": "Conquer Death, or be forgotten. Bind your soul to the Deathbound Relic, die by choice, and cross into the Underworld: floating islands over a purple void, the Great Door, and Death's Citadel.",
+	"authors": [
+		"Michael"
+	],
 	"license": "All-Rights-Reserved",
+	"icon": "assets/deathbound/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": ["com.underworld.Underworld"],
-		"client": ["com.underworld.client.UnderworldClient"]
+		"main": [
+			"com.deathbound.DeathBound"
+		],
+		"client": [
+			"com.deathbound.client.DeathBoundClient"
+		]
 	},
+	"mixins": [
+		"deathbound.mixins.json",
+		{
+			"config": "deathbound.client.mixins.json",
+			"environment": "client"
+		}
+	],
 	"depends": {
 		"fabricloader": ">=0.19.5",
 		"minecraft": "~26.3",

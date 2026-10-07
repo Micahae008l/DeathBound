@@ -1,0 +1,51 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "deathbound:block/soulstone"
+      },
+      {
+        "model": "deathbound:block/soulstone",
+        "y": 90
+      },
+      {
+        "model": "deathbound:block/soulstone",
+        "y": 180
+      },
+      {
+        "model": "deathbound:block/soulstone",
+        "y": 270
+      },
+      {
+        "model": "deathbound:block/soulstone_1"
+      },
+      {
+        "model": "deathbound:block/soulstone_1",
+        "y": 90
+      },
+      {
+        "model": "deathbound:block/soulstone_1",
+        "y": 180
+      },
+      {
+        "model": "deathbound:block/soulstone_1",
+        "y": 270
+      },
+      {
+        "model": "deathbound:block/soulstone_2"
+      },
+      {
+        "model": "deathbound:block/soulstone_2",
+        "y": 90
+      },
+      {
+        "model": "deathbound:block/soulstone_2",
+        "y": 180
+      },
+      {
+        "model": "deathbound:block/soulstone_2",
+        "y": 270
+      }
+    ]
+  }
+}

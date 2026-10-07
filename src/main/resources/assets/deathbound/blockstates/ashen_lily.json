@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "deathbound:block/ashen_lily",
+        "y": 0
+      },
+      {
+        "model": "deathbound:block/ashen_lily",
+        "y": 90
+      },
+      {
+        "model": "deathbound:block/ashen_lily",
+        "y": 180
+      },
+      {
+        "model": "deathbound:block/ashen_lily",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Chained Prophet",
+    "color": "#9b7be0",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Chained Prophet"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "The Death King has three forms. You have to beat all three.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "First, on the throne. He won't get up. Four anchors feed him souls. Break them.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Second, the Reaper. He vanishes and comes at you from behind. Hit him when he appears.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Last, the Beast: every soul he ever ate, all at once. Let it charge past you, then hit it as it turns.",
+        "color": "#c7b2ff",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "prophet"
+      }
+    }
+  ]
+}

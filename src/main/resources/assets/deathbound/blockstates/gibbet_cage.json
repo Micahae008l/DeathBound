@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/gibbet_cage"
+    },
+    "facing=east": {
+      "model": "deathbound:block/gibbet_cage",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/gibbet_cage",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/gibbet_cage",
+      "y": 270
+    }
+  }
+}

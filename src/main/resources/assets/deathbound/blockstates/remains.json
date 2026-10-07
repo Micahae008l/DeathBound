@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,twitch=false": {
+      "model": "deathbound:block/remains"
+    },
+    "facing=north,twitch=true": {
+      "model": "deathbound:block/remains_twitch"
+    },
+    "facing=east,twitch=false": {
+      "model": "deathbound:block/remains",
+      "y": 90
+    },
+    "facing=east,twitch=true": {
+      "model": "deathbound:block/remains_twitch",
+      "y": 90
+    },
+    "facing=south,twitch=false": {
+      "model": "deathbound:block/remains",
+      "y": 180
+    },
+    "facing=south,twitch=true": {
+      "model": "deathbound:block/remains_twitch",
+      "y": 180
+    },
+    "facing=west,twitch=false": {
+      "model": "deathbound:block/remains",
+      "y": 270
+    },
+    "facing=west,twitch=true": {
+      "model": "deathbound:block/remains_twitch",
+      "y": 270
+    }
+  }
+}

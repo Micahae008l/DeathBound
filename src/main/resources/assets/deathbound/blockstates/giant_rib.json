@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=north,shape=0": {
+      "model": "deathbound:block/giant_rib_0"
+    },
+    "facing=north,shape=1": {
+      "model": "deathbound:block/giant_rib_1"
+    },
+    "facing=north,shape=2": {
+      "model": "deathbound:block/giant_rib_2"
+    },
+    "facing=east,shape=0": {
+      "model": "deathbound:block/giant_rib_0",
+      "y": 90
+    },
+    "facing=east,shape=1": {
+      "model": "deathbound:block/giant_rib_1",
+      "y": 90
+    },
+    "facing=east,shape=2": {
+      "model": "deathbound:block/giant_rib_2",
+      "y": 90
+    },
+    "facing=south,shape=0": {
+      "model": "deathbound:block/giant_rib_0",
+      "y": 180
+    },
+    "facing=south,shape=1": {
+      "model": "deathbound:block/giant_rib_1",
+      "y": 180
+    },
+    "facing=south,shape=2": {
+      "model": "deathbound:block/giant_rib_2",
+      "y": 180
+    },
+    "facing=west,shape=0": {
+      "model": "deathbound:block/giant_rib_0",
+      "y": 270
+    },
+    "facing=west,shape=1": {
+      "model": "deathbound:block/giant_rib_1",
+      "y": 270
+    },
+    "facing=west,shape=2": {
+      "model": "deathbound:block/giant_rib_2",
+      "y": 270
+    }
+  }
+}

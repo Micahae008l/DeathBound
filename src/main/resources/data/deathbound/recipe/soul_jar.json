@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "deathbound:jar",
+    "deathbound:soul"
+  ],
+  "result": {
+    "count": 1,
+    "id": "deathbound:soul_jar"
+  }
+}

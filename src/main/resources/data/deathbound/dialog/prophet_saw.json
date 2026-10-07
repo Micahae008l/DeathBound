@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Chained Prophet",
+    "color": "#9b7be0",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Chained Prophet"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "A living man walked up the steps to the throne. The King stood up to meet him. He wasn't afraid.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "The man killed him. And the Warden knelt to the man, as if he'd been waiting for him.",
+        "color": "#c7b2ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "The Warden didn't betray anyone. He serves the throne, whoever sits on it. That is his oath.",
+        "color": "#c7b2ff",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Back"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:back",
+        "payload": "prophet"
+      }
+    }
+  ]
+}

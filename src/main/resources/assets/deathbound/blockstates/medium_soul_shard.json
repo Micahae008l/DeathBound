@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "deathbound:block/medium_soul_shard",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "deathbound:block/medium_soul_shard",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "deathbound:block/medium_soul_shard",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/medium_soul_shard",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "deathbound:block/medium_soul_shard"
+    },
+    "facing=west": {
+      "model": "deathbound:block/medium_soul_shard",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

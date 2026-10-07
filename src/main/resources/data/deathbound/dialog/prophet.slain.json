@@ -1,0 +1,68 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Old King",
+    "color": "#c9a8ff",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Old King"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He's dead. I heard his heart stop from here.",
+        "color": "#e2d3ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Now listen. I didn't serve the King. I am the King. He couldn't kill me. Nobody can kill the dead. So he took my eyes and hung me with the rest.",
+        "color": "#e2d3ff"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Take his Heart to the empty throne, and set me free. I'll open the Door. I'll put everything back.",
+        "color": "#e2d3ff",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "You sent my chain."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:king_chain"
+      }
+    },
+    {
+      "label": {
+        "text": "Why should I trust you?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:king_trust"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

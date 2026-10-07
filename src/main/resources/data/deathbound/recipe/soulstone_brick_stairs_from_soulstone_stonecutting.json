@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "deathbound:soulstone",
+  "result": {
+    "count": 1,
+    "id": "deathbound:soulstone_brick_stairs"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/jar_crown"
+    },
+    "facing=east": {
+      "model": "deathbound:block/jar_crown",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/jar_crown",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/jar_crown",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "deathbound:block/soulstone_pillar_top",
+    "side": "deathbound:block/soulstone_pillar"
+  }
+}

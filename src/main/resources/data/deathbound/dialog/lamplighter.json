@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Lamplighter",
+    "color": "#b9b2c9",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Lamplighter"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Evening. It's always evening. I light the lamps of Lantern's End, so the dead can find their way home.",
+        "color": "#d8d2e2"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He lifts his lamp to look at you, the way you'd look at a lamp that had come on by itself.",
+        "color": "#d8d2e2",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Who are you?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:lamplighter_who"
+      }
+    },
+    {
+      "label": {
+        "text": "Can I help you with anything?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:quest",
+        "payload": "lamplighter"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

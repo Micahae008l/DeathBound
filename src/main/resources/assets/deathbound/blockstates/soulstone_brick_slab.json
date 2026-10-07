@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "deathbound:block/soulstone_brick_slab"
+    },
+    "type=double": {
+      "model": "deathbound:block/soulstone_bricks"
+    },
+    "type=top": {
+      "model": "deathbound:block/soulstone_brick_slab_top"
+    }
+  }
+}

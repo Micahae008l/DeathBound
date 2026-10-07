@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "The Lamplighter",
+    "color": "#b9b2c9",
+    "bold": true
+  },
+  "external_title": {
+    "text": "The Lamplighter"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Look at the street. Three lamps burning properly, for the first time in years.",
+        "color": "#d8d2e2"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Your wisp's been happy? It hums when you're near. I can hear it.",
+        "color": "#d8d2e2",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Leave"
+      },
+      "width": 250
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Pip",
+    "color": "#c7bda8",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Pip"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Are you ALIVE? You're so alive. You're all warm and pink. Ew.",
+        "color": "#e6dccb"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "We're playing Judgement. Tib's the Warden and everyone else is the line, and if you get judged you have to go in the fountain.",
+        "color": "#e6dccb"
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Who are you?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:kid_who"
+      }
+    },
+    {
+      "label": {
+        "text": "Can I help with anything?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:custom",
+        "id": "deathbound:quest",
+        "payload": "kid"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

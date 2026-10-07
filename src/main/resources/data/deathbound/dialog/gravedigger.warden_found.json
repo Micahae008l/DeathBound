@@ -1,0 +1,48 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Aldous, the Traveler",
+    "color": "#b08d5c",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Aldous, the Traveler"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "You beat the Warden? Then one day the Door opens, and she walks through it. Good. That's where she was going.",
+        "color": "#dcc9a8"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He turns the ribbon on his wrist.* The blind man came to me in a dream. He said a King can send a soul home. I told him she already knows the way.",
+        "color": "#dcc9a8",
+        "italic": true
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "If you're after the bell at Lantern's End: I put a ladder up the tower. Nobody's rung it in years. Nobody living.",
+        "color": "#dcc9a8"
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "Leave"
+      },
+      "width": 250
+    }
+  ]
+}

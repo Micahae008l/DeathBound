@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/armor_rack"
+    },
+    "facing=east": {
+      "model": "deathbound:block/armor_rack",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/armor_rack",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/armor_rack",
+      "y": 270
+    }
+  }
+}

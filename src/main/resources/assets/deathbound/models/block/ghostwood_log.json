@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "deathbound:block/ghostwood_log_top",
+    "side": "deathbound:block/ghostwood_log"
+  }
+}

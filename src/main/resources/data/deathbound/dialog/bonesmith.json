@@ -1,0 +1,79 @@
+{
+  "type": "minecraft:multi_action",
+  "title": {
+    "text": "Clatter, the Bonesmith",
+    "color": "#a3adbd",
+    "bold": true
+  },
+  "external_title": {
+    "text": "Clatter, the Bonesmith"
+  },
+  "pause": false,
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "Clack. Clack-clack.",
+        "color": "#cdd3dd",
+        "italic": true
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "A golem of stacked bones and grave-stone, no taller than you, with a head like a box of skulls. He looks at your weapon. Then at the black water. Then back at your weapon.",
+        "color": "#cdd3dd"
+      }
+    },
+    {
+      "type": "minecraft:plain_message",
+      "width": 310,
+      "contents": {
+        "text": "He holds out a hand the size of a shovel.",
+        "color": "#cdd3dd",
+        "italic": true
+      }
+    }
+  ],
+  "columns": 1,
+  "actions": [
+    {
+      "label": {
+        "text": "What is this place?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:bonesmith_mere"
+      }
+    },
+    {
+      "label": {
+        "text": "Who made you?"
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:bonesmith_who"
+      }
+    },
+    {
+      "label": {
+        "text": "Temper my weapon."
+      },
+      "width": 250,
+      "action": {
+        "type": "minecraft:show_dialog",
+        "dialog": "deathbound:bonesmith_temper"
+      }
+    }
+  ],
+  "exit_action": {
+    "label": {
+      "text": "Leave"
+    },
+    "width": 250
+  }
+}

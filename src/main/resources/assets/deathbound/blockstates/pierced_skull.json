@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "deathbound:block/pierced_skull"
+    },
+    "facing=east": {
+      "model": "deathbound:block/pierced_skull",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "deathbound:block/pierced_skull",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "deathbound:block/pierced_skull",
+      "y": 270
+    }
+  }
+}

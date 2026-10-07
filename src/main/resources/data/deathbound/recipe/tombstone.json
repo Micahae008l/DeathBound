@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "S": "deathbound:soulstone"
+  },
+  "pattern": [
+    " S ",
+    "SSS",
+    "SSS"
+  ],
+  "result": {
+    "count": 2,
+    "id": "deathbound:tombstone"
+  }
+}
