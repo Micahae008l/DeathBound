@@ -51,7 +51,8 @@ Not covered by the test: the double Death King, the rift on the BREAK ending, th
 
 ## Stories rework (Oct 7, evening): tested in game, all checks PASS
 Michael wanted three things: each story only once per world, more stories, notes you right-click in the world, and a better reading screen than the plain book page.
-- `story/Stories.java` holds the catalog: 24 chest stories (the original 15 plus 9 new) and 8 notes. The text lives in the lang file, written by `tools/stories.py`.
+- `story/Stories.java` holds the catalog: 24 chest stories and 8 notes. The text lives in the lang file, written by `tools/stories.py` (run it after editing a story; it also writes the note signature line).
+- **Writing style (Michael, Oct 7):** simple words and short sentences, but keep some poetry and mystery: one strange image each, and an ending that leaves something unanswered. **No em dashes.** Every chest story is a different death; six that repeated another one (Warden, Guardian, elytra, raid, powder snow, the void) were replaced with: digging straight down, the swamp witch, a ghast on a Nether bridge, silverfish, hitting a villager (iron golem), and a cactus fence.
 - Chest loot table `deathbound:journal` now drops a **Lost Journal** (`deathbound:story_book`). `LootTableEvents.MODIFY_DROPS` gives it a story nobody in this world has had yet (`CLAIMED_STORIES` on the overworld); once all 24 are out, a Soul drops instead.
 - **Notes** (`StoryNoteBlock`, `story` = index in `Stories.NOTES`, pinned or `flat`), unbreakable, placed in worldgen:
   - the Ferryman's notice on the dock post at the Landing

@@ -23,9 +23,9 @@ import org.jspecify.annotations.Nullable;
  */
 public final class Stories {
    public static final List<String> BOOKS = List.of(
-      "sand_keeps_time", "three_skulls", "bait", "something_listening", "a_soft_hiss", "go_to_bed", "under_me_stars", "wear_the_gold",
-      "a_bed_in_the_nether", "green_light", "the_gate", "so_soft", "for_a_second", "small_blue_spiders", "the_cat_is_patient", "last_torch",
-      "light_as_snow", "wings", "shh", "bad_omen", "under_the_sea", "one_good_throw", "kid", "channeling"
+      "sand_keeps_time", "three_skulls", "bait", "a_soft_hiss", "go_to_bed", "under_me_stars", "wear_the_gold", "a_bed_in_the_nether",
+      "the_cat_is_patient", "last_torch", "light_as_snow", "wings", "shh", "bad_omen", "under_the_sea", "kid", "channeling",
+      "small_blue_spiders", "straight_down", "the_nice_lady", "return_to_sender", "the_stone_moved", "bad_trade", "cactus_fence"
    );
    public static final List<String> NOTES = List.of(
       "note_ferry", "note_lights", "note_marks", "note_shed", "note_list", "note_yours", "note_tib", "note_lamps"
