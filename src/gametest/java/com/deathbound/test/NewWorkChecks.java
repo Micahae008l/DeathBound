@@ -626,3 +626,24 @@ final class NewWorkChecks {
 			int risen = p.level().getEntitiesOfClass(LivingEntity.class, new AABB(p.blockPosition()).inflate(24),
 				e -> e instanceof Gravebound || e instanceof SoulWisp).size();
 			log("ghostwood: things risen around the player=" + risen + " -> " + pass(risen > 0));
+		});
+		ctx.takeScreenshot("new_wood_wakes");
+		server.runOnServer(s -> take(player(s), ModItems.FERRYMANS_OAR, 1));
+		ctx.waitTicks(25);
+		server.runOnServer(s -> player(s).getInventory().add(new ItemStack(ModItems.FERRYMANS_OAR)));
+		ctx.waitTicks(110);
+		server.runOnServer(s -> log("ghostwood: oar dropped and picked up again (everything risen must still crumble below)"));
+		tp(server, (Layout.FOREST.x() + Layout.FOREST.radius() + 14) + " " + (Layout.FOREST.top() + 2) + " " + Layout.FOREST.z());
+		ctx.waitTicks(30);
+		server.runOnServer(s -> {
+			ServerLevel uw = s.getLevel(UnderworldTravel.UNDERWORLD);
+			int left = uw.getEntitiesOfClass(LivingEntity.class, new AABB(Layout.FOREST.x(), Layout.FOREST.top(), Layout.FOREST.z(), Layout.FOREST.x(), Layout.FOREST.top(), Layout.FOREST.z()).inflate(60),
+				e -> e instanceof Gravebound || e instanceof SoulWisp).size();
+			log("ghostwood: out of the trees -> risen left=" + left + " -> " + pass(left == 0));
+		});
+		log("done");
+	}
+
+	private NewWorkChecks() {
+	}
+}
