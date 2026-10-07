@@ -54,6 +54,54 @@ public class FixesClientTest implements FabricClientGameTest {
 			ctx.waitTicks(10);
 
 			boolean onlyHunter = System.getenv("UW_HUNTER") != null;
+			if (System.getenv("UW_TEXTURES") != null) {
+				String tag = System.getenv("UW_TEXTURES");
+				server.runCommand("gamemode spectator @a");
+				server.runCommand("fill -12 199 -6 12 199 6 minecraft:smooth_stone");
+				String[] mod = {"soulstone", "soulstone_bricks", "cracked_soulstone_bricks", "dark_soulstone_bricks", "soul_veined_bricks",
+					"soulstone_tiles", "polished_soulstone", "chiseled_soulstone", "soulstone_pillar", "ashen_soil", "ghostwood_log",
+					"ghostwood_planks", "ossified_log", "curio_shelf", "ossuary_shelf", "ferry"};
+				String[] van = {"cobbled_deepslate", "stone_bricks", "cracked_stone_bricks", "deepslate_bricks", "deepslate_bricks",
+					"deepslate_tiles", "polished_deepslate", "chiseled_deepslate", "quartz_pillar", "soul_soil", "oak_log",
+					"oak_planks", "birch_log", "bookshelf", "bookshelf", "dark_oak_planks"};
+				for (int i = 0; i < mod.length; i++) {
+					int x = -8 + i;
+					server.runCommand("setblock " + x + " 200 0 deathbound:" + mod[i]);
+					server.runCommand("setblock " + x + " 201 0 deathbound:" + mod[i]);
+					server.runCommand("setblock " + x + " 200 -2 minecraft:" + van[i]);
+				}
+				server.runCommand("setblock 9 200 1 deathbound:tombstone");
+				server.runCommand("setblock 10 202 0 deathbound:tattered_banner");
+				ctx.waitTicks(20);
+				world.getConnection().waitForChunksRender();
+				server.runCommand("tp @a -4.5 200.3 5.5 180 12");
+				ctx.waitTicks(20);
+				ctx.takeScreenshot(tag + "_row_left");
+				server.runCommand("tp @a 3.5 200.3 5.5 180 12");
+				ctx.waitTicks(20);
+				ctx.takeScreenshot(tag + "_row_right");
+				server.runCommand("tp @a -6.5 199.9 2.6 180 8");
+				ctx.waitTicks(20);
+				ctx.takeScreenshot(tag + "_close_bricks");
+				server.runCommand("tp @a 8.0 199.9 3.4 200 5");
+				ctx.waitTicks(20);
+				ctx.takeScreenshot(tag + "_close_tomb_banner");
+				// the Underworld itself
+				server.runCommand("execute in deathbound:underworld run tp @a " + (Layout.VILLAGE.x() - 6) + " " + (Layout.VILLAGE.top() + 6) + " " + (Layout.VILLAGE.z() + 18) + " 150 18");
+				ctx.waitTicks(60);
+				world.getConnection().waitForChunksRender();
+				ctx.takeScreenshot(tag + "_village");
+				server.runCommand("execute in deathbound:underworld run tp @a " + (Layout.CRYPT.x() + 10) + " " + (Layout.CRYPT.top() + 6) + " " + (Layout.CRYPT.z() + 16) + " 160 22");
+				ctx.waitTicks(60);
+				world.getConnection().waitForChunksRender();
+				ctx.takeScreenshot(tag + "_crypt");
+				server.runCommand("execute in deathbound:underworld run tp @a " + (Layout.FOREST.x() + 8) + " " + (Layout.FOREST.top() + 4) + " " + (Layout.FOREST.z() + 14) + " 160 10");
+				ctx.waitTicks(60);
+				world.getConnection().waitForChunksRender();
+				ctx.takeScreenshot(tag + "_forest");
+				return;
+			}
+
 			if (System.getenv("UW_SOLIDS") != null) {
 				server.runOnServer(s -> {
 					StringBuilder solid = new StringBuilder();
