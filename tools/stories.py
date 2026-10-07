@@ -5,130 +5,134 @@ import json
 
 LANG = "src/main/resources/assets/deathbound/lang/en_us.json"
 
-# Style: plain words and short sentences, one strange image each, and an ending that leaves something unanswered.
-# No em dashes. Every book is a different way to die.
+# Style: a real person telling what happened, in their own voice. Plain and concrete, no poetic lines.
+# Every book is a different death, every detail true to the game, and most end with a lesson or a punchline.
+# No em dashes.
 BOOKS = [
-    ("sand_keeps_time", "Sand Keeps Time", "Talia, treasure hunter", [
-        "Day one. A temple in the desert, and a blue stone in the floor shaped like an eye. I knew the gold was under it.",
-        "I dug, and the floor fell away. Gold, diamonds, and walls too high to climb.",
-        "Day six. I would trade every gem in here for one loaf of bread.",
-        "Sand falls from the ceiling, grain by grain. I think it's counting for me.",
+    ("sand_keeps_time", "Day Six", "Talia, treasure hunter", [
+        "Day 1. Found a desert temple and dug down to the treasure room. My pickaxe broke on the last block.",
+        "Four chests of gold, diamonds and rotten flesh. No pickaxe, nothing to stand on, and the hole is too high to jump.",
+        "Day 4. Ate the rotten flesh. Do not eat the rotten flesh.",
+        "Day 6. I have eleven diamonds and no wood to make a pickaxe. If you go into a temple, bring a spare pickaxe.",
     ]),
     ("three_skulls", "Three Skulls", "Corin", [
-        "Soul sand in the shape of a T. Three black skulls on top. I placed the last one, and the sky went dark.",
-        "It had three heads, and all three knew my name. My sword was a twig. My armor was paper.",
-        "I wanted to be a hero. I was only the one who woke it. Sorry, everyone who lived nearby.",
+        "To my brother Aldric. You said I'd never build the Wither. Well, I got the third skull today. Forty trips to the Nether fortress.",
+        "I built it in the middle of the village so everyone could watch me beat it.",
+        "Quick update. It's not going well. It blew up the church, the blacksmith and most of the villagers. Now it's flying toward your house.",
+        "Sorry about your house. You were right.",
     ]),
-    ("bait", "Bait", "Edda, miner", [
-        "Four diamonds, shining at the bottom of a cave. I ran to them.",
-        "The stone under my feet broke. Under it was something orange, and loud, and very warm.",
-        "If you see diamonds next to lava, walk away. Some things shine only to bring you closer.",
+    ("bait", "Nine Hours", "Edda, miner", [
+        "I'd been mining for nine hours and found nothing. Then I saw four diamond ores in the wall of a ravine.",
+        "I mined the first one, and lava poured out of the hole behind it. I stepped back, right into more lava.",
+        "Everything burned, the diamonds too. Always carry a water bucket. Always.",
     ]),
-    ("a_soft_hiss", "A Soft Hiss", "Bram, farmer", [
-        "I built my house with my own hands. Oak walls, a glass window, a field of wheat.",
-        "One evening I stood in the field, watching the wheat move in the wind. Then I heard a soft hiss behind me.",
-        "I never turned around. I'm glad. Some faces you don't need to see.",
+    ("a_soft_hiss", "Two Years of Work", "Bram, farmer", [
+        "I spent two years on my farm. Wheat, carrots, a pumpkin patch, forty cows and a house with a real glass window.",
+        "I never put torches around it. I thought they looked ugly next to the crops.",
+        "Last night I was harvesting the wheat and heard a hiss right behind me. I didn't even have time to turn around.",
+        "Put up the torches. They look fine. A crater looks worse.",
     ]),
     ("go_to_bed", "Go To Bed", "Lio", [
-        "Three nights without sleep. There was always one more tunnel, one more ore.",
-        "On the fourth night the sky grew wings. They were blue and torn, and they screamed as they fell on me.",
-        "If you are reading this, go to bed. The night remembers who stays awake.",
+        "I hadn't slept in four days. I was building a castle and didn't want to stop. Beds are for people with no plans.",
+        "On the fifth night, big blue flying things started diving at me out of the sky. Three of them. Then five.",
+        "I ran for my bed. It was on the other side of the castle. I had built a really big castle.",
     ]),
-    ("under_me_stars", "Under Me, Stars", "Saro", [
-        "I beat the dragon. I stood at the edge of the world and laughed.",
-        "A tall dark thing was staring at me. I took one step back.",
-        "There was no ground. Only stars above me and stars below me, and a long, quiet fall. It was almost pretty.",
+    ("under_me_stars", "The Dragon Egg", "Saro", [
+        "I killed the Ender Dragon. Alone! I ran around the island screaming.",
+        "Then I went for the egg. When you hit it, it teleports, so I chased it all the way to the edge of the island.",
+        "An enderman was standing there. I looked at it by accident. It screamed, and I took one step back.",
+        "There was nothing behind me. I never got the egg.",
     ]),
     ("wear_the_gold", "Wear The Gold", "Fenna", [
-        "Everyone said the pig folk love gold. I took my gold boots off. They looked silly.",
-        "The pig folk saw my bare feet. Then there were a lot of them, and they were very fast.",
-        "Wear the gold. Even if it looks silly. Especially then.",
+        "Everyone says piglins leave you alone if you wear one piece of gold. I had my gold boots on.",
+        "Then I opened a chest in their bastion. They don't like that, gold or no gold. Nobody tells you that part.",
+        "Twenty piglins and one very angry brute. My boots are still there if you want them.",
     ]),
-    ("a_bed_in_the_nether", "A Bed In The Nether", "Ivo", [
-        "It was late, and home was far. I thought: I'll just sleep here, in my red bed.",
-        "The bed had other ideas.",
-        "My last thought was how pretty the fire looked on the red stone. Strange, what you think about at the end.",
+    ("a_bed_in_the_nether", "Good Night", "Ivo", [
+        "My first trip to the Nether. It was getting late and I was tired, so I put down my bed to skip the night.",
+        "There is no night in the Nether. There is no day either.",
+        "The bed exploded and took me and half the fortress with it. Do not sleep in the Nether.",
     ]),
     ("the_cat_is_patient", "The Cat Is Patient", "Mabel", [
-        "I had a long life in a little house by the river. A cat, a garden, a good view.",
-        "One night I lay down and didn't get up. I wasn't scared. I thought I would see the river again.",
-        "But this river is dry, and the line is long. I'm still waiting, my cat in my arms. He is patient. So am I.",
+        "I didn't die fighting anything. I got old in my house by the river, with my cat Biscuit.",
+        "One night I went to bed and woke up here, standing in a line. Biscuit was in my arms. I don't know how he got here.",
+        "The line hasn't moved in a long time. Biscuit doesn't mind, he sleeps a lot. If you ever reach the front, tell them we're still waiting.",
     ]),
     ("last_torch", "The Last Torch", "Wren, explorer", [
-        "I took sixty-four torches into the cave and placed one every ten steps.",
-        "At the bottom I found iron, gold, a whole wall of coal. I placed my last torch and kept digging.",
-        "When I turned around, the way back was dark. Something in the dark was putting my torches out, one by one.",
-        "It never came closer. It didn't need to. It only had to wait.",
+        "I went into the cave with sixty-four torches and put one down every ten blocks.",
+        "Four hours later I found a wall full of iron. I put down my last torch and started mining.",
+        "I got so into it that I wandered out of the light. It's very dark out there.",
+        "Skeletons. A lot of them. I couldn't see where the arrows came from. Bring two stacks of torches, not one.",
     ]),
-    ("light_as_snow", "Light As Snow", "Oskar", [
-        "The snow on the mountain looked soft enough to sleep in.",
-        "I stepped off the path for a better view. The snow opened like a mouth, and I sank.",
-        "It's very quiet under the snow. After a while my hands stopped hurting. That's how I knew.",
+    ("light_as_snow", "Powder Snow", "Oskar", [
+        "I was climbing a mountain for the view. There was a patch of snow on the path that looked exactly like all the other snow.",
+        "It wasn't. It was powder snow. I fell straight through it and couldn't climb back out.",
+        "I wasn't wearing leather boots. That's the whole story. Wear leather boots on mountains.",
     ]),
     ("wings", "Wings", "Juno", [
-        "I found wings on a ship at the end of the world, floating over nothing.",
-        "I flew home over the sea, laughing. Seventeen rockets. Then sixteen. Then none.",
-        "The sea was a long way down. I had plenty of time to count the rockets I should have brought.",
+        "I found elytra on a ship in the End. I put them on and jumped off the ship screaming like a kid.",
+        "I flew home with my rockets. I didn't count them. I should have counted them.",
+        "I ran out above the mountains, way up high. I tried to glide down slowly. I didn't glide slowly enough.",
     ]),
     ("shh", "Shh", "Ada, explorer", [
-        "Deep under the caves there is a city. Grey stone, blue fire, and black moss that whispers when you step on it.",
-        "I walked softly. I held my breath. Then I opened a chest, and the moss screamed.",
-        "The thing that came has no eyes. It doesn't need them. It heard my heart, and my heart was very loud.",
+        "Deep under the caves I found an ancient city. Black sculk everywhere, and chests full of good loot.",
+        "I sneaked the whole way. I was so careful. Then I stepped on a shrieker. It screamed. I stepped on another one.",
+        "The ground shook, and the Warden dug its way up out of the floor. It can't see, but it can smell you. It took two hits.",
     ]),
     ("bad_omen", "Bad Omen", "Captain Hode", [
-        "I killed a raider captain and took his banner. It looked good on my wall.",
-        "When I walked into the village, the air felt wrong. Then the bell rang. Then the horns.",
-        "They came in waves, with axes and spells and a beast that walked through my door. The villagers hid. I didn't have time to.",
+        "I killed a pillager captain and took his banner home. After that I felt strange, like something was following me.",
+        "The next day I walked into a village to trade. The bell started ringing and every villager ran inside.",
+        "Pillagers, axe men, witches, and a ravager that walked straight through a house. I fought four waves. The fifth got me.",
     ]),
     ("under_the_sea", "Under The Sea", "Hob, diver", [
-        "A temple under the sea, glowing green from inside. I swam down to look.",
-        "A great eye opened in the water and looked back at me. My arms went weak.",
-        "Then the eye began to glow. I didn't know fish could do that. I know now.",
+        "I found an ocean monument, a big green building on the sea floor. There's gold inside, they say.",
+        "I swam in with three water breathing potions. A huge grey fish looked at me, and suddenly I could barely break a block.",
+        "Then the small fish started shooting lasers. My last potion ran out halfway back to the surface.",
     ]),
-    ("kid", "Kid", "Hal, shepherd", [
-        "I climbed the mountain for a goat horn. They say it sounds like the wind calling you home.",
-        "A goat lowered its head and looked at me. I thought it was being friendly.",
-        "I never got the horn. I got a very good view of the valley, very quickly.",
+    ("kid", "The Goat", "Hal, shepherd", [
+        "I climbed a mountain for a goat horn. When a goat rams into a rock, its horn falls off.",
+        "So I stood in front of a rock and waited for a goat to charge at me.",
+        "It charged. I jumped out of the way too late, and it knocked me off the mountain. The rock was fine.",
     ]),
     ("channeling", "Channeling", "Ines, smith", [
-        "Storms never scared me. I had a new trident, and the book said it could call the lightning.",
-        "A zombie came at me through the rain. I threw the trident. It was standing very close.",
-        "The sky answered. It doesn't care who it hits. Remember that, when you call it.",
+        "I got a trident with Channeling. Throw it at something during a thunderstorm, and lightning strikes what you hit.",
+        "A zombie came at me in the rain. It was right in front of me. I threw the trident anyway.",
+        "Lightning doesn't only hit the target. It hits everything next to it. I was next to it.",
     ]),
     ("small_blue_spiders", "Small Blue Spiders", "Tam", [
-        "An old mine full of rails and cobwebs. I followed the rails down into the dark.",
-        "Small blue spiders came out of a cage. Then more. Then more.",
-        "Every bite made me sicker. I found a minecart and sat down in it to rest. I'm still resting.",
+        "I found an old mineshaft and followed the rails down. Cobwebs everywhere.",
+        "Then I found the spawner. Cave spiders, small and blue and fast, coming out of the cage one after another.",
+        "Their bites poison you. I got out with half a heart left and no food. Then a zombie came around the corner.",
     ]),
     ("straight_down", "Straight Down", "Nils, miner", [
-        "Everyone says never dig straight down. I thought it was just something people say.",
-        "I dug down and down. It was quick, and the stone was quiet.",
-        "Then the floor broke. Under it was a cave so big it had its own wind. I fell for a long time.",
+        "Rule one of mining: never dig straight down. I knew the rule. I did it anyway, because it was faster.",
+        "I dug forty blocks down with no problems. I thought the rule was dumb.",
+        "On block forty-one the floor opened into a huge cave, and I fell all the way to the bottom. The rule is not dumb.",
     ]),
-    ("the_nice_lady", "The Nice Lady", "Pim", [
-        "A little hut in the swamp, on thin wooden legs. A lady in a purple robe lived there, with a cat.",
-        "I waved. She smiled, and threw a bottle at me. Then another.",
-        "I grew slow, then weak, then sick. She laughed the whole time. The cat watched. It never blinked.",
+    ("the_nice_lady", "The Witch", "Pim", [
+        "I found a little hut on stilts in the swamp. Inside was an old lady in a purple robe, with a black cat.",
+        "I thought she was a villager and walked up to trade. She threw a potion at me. Slowness. Then poison.",
+        "Every time I hit her, she drank something and healed. Witches aren't nice. The cat was fine, though.",
     ]),
     ("return_to_sender", "Return To Sender", "Dov", [
-        "I built a bridge across the lava lake, one block wide.",
-        "Something white floated out of the smoke. It cried like a baby, and spat fire at me.",
-        "You can hit the fire back. I found that out on the way down.",
+        "I built a bridge across a lava lake in the Nether. Cobblestone, one block wide, nice and straight.",
+        "A ghast floated out of the smoke and started shooting fireballs at me. I ran for the other side.",
+        "A fireball hit the bridge right in front of me. You can hit fireballs back at a ghast with your sword. I know that now.",
     ]),
-    ("the_stone_moved", "The Stone Moved", "Uma", [
-        "Deep underground there's an old stone fort, all halls and iron doors. I went looking for the way to the End.",
-        "I broke one stone in the wall, and a little grey bug crawled out. I hit it.",
-        "Then the walls began to move. Every stone was full of them. If you meet the first one, don't hit it. Just run.",
+    ("the_stone_moved", "Silverfish", "Uma", [
+        "I was looking for the End portal in a stronghold. Stone brick halls and iron doors, all the way down.",
+        "I broke a stone brick in the wall, and a silverfish crawled out. I hit it.",
+        "When you hit a silverfish, it calls the others out of the walls. The whole hallway came alive. Don't hit the first one. Just walk away.",
     ]),
     ("bad_trade", "Bad Trade", "Rook", [
-        "The villager wanted twenty emeralds for one old book. I got angry, and I hit him.",
-        "Behind me, something very big and made of iron turned around. It was holding a red flower.",
-        "It threw me into the sky. For a moment I could see the whole village, small and safe. Then I came down.",
+        "A librarian wanted twenty-four emeralds for a Mending book. I had twenty.",
+        "I got mad and punched him.",
+        "The village iron golem saw. It threw me so high I could see three biomes. Then I came back down.",
     ]),
     ("cactus_fence", "Cactus Fence", "Della", [
-        "The zombies kept walking into my garden. So I grew a cactus fence all the way around it.",
-        "It worked. Nothing got in. Then one night a skeleton shot at me from the dark, and I stepped back.",
-        "I was very proud of that fence. It was a good fence. It still is.",
+        "Zombies kept walking into my garden at night, so I planted a cactus wall all the way around it. It took a week.",
+        "It worked. No more zombies. I was really proud of it.",
+        "Then a skeleton started shooting at me from outside. I backed away from the arrows, right into my own cactus wall. Twice.",
     ]),
 ]
 
