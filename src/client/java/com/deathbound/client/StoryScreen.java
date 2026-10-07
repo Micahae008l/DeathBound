@@ -12,6 +12,8 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FontDescription;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
 import org.jspecify.annotations.Nullable;
@@ -27,6 +29,8 @@ public class StoryScreen extends Screen {
    private static final int PAPER = 0xFFE9DCC0;
    private static final int PAPER_EDGE = 0xFFC9B48A;
    private static final int PAPER_DARK = 0xFF9E8862;
+   private static final int OTHER_INK = 0xFF4A5470;
+   private static final FontDescription OTHER_HAND = new FontDescription.Resource(Identifier.withDefaultNamespace("uniform"));
    private static final int LINE = 10;
    private static final int GAP = 6;
    private final String id;
@@ -84,9 +88,16 @@ public class StoryScreen extends Screen {
       List<List<Row>> paragraphs = new ArrayList<>();
       for (int i = 1; lang.has(key + ".p" + i); i++) {
          List<Row> p = new ArrayList<>();
-         List<FormattedCharSequence> lines = this.font.split(Component.translatable(key + ".p" + i), textW);
+         // a line someone else added later: another hand, another ink
+         boolean other = lang.has(key + ".p" + i + ".hand");
+         Component text = Component.translatable(key + ".p" + i);
+         if (other) {
+            text = text.copy().withStyle(s -> s.withFont(OTHER_HAND));
+         }
+
+         List<FormattedCharSequence> lines = this.font.split(text, textW);
          for (int j = 0; j < lines.size(); j++) {
-            p.add(new Row(lines.get(j), INK, false, j == 0 ? GAP : 0, false));
+            p.add(new Row(lines.get(j), other ? OTHER_INK : INK, false, j == 0 ? GAP : 0, false));
          }
 
          paragraphs.add(p);

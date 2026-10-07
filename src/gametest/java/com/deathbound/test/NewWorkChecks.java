@@ -130,6 +130,7 @@ final class NewWorkChecks {
 		}
 		log("notes found: " + notes.size() + " of " + com.deathbound.story.Stories.NOTES.size() + " -> " + pass(notes.size() == com.deathbound.story.Stories.NOTES.size()));
 		// every note where it sits: eye level in front of a pinned one, from above for one on a table (no HUD, no gravity)
+		server.runCommand("gamerule send_command_feedback false");
 		server.runCommand("gamemode spectator @a");
 		ctx.runOnClient(mc -> { if (!mc.gui.hud.isHidden()) mc.gui.hud.toggle(); });
 		for (int[] n : notes) {
@@ -146,7 +147,7 @@ final class NewWorkChecks {
 		ctx.runOnClient(mc -> { if (mc.gui.hud.isHidden()) mc.gui.hud.toggle(); });
 		server.runCommand("gamemode creative @a");
 		tp(server, "4.5 " + (Layout.ARRIVAL.top() + 1) + " 4.5 180 10");
-		settle(ctx, world, 20);
+		settle(ctx, world, 140); // let the area title fade before the reading screens
 
 		// ---- reading: right-click a note (server files it), then the screens
 		server.runOnServer(s -> {

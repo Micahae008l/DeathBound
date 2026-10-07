@@ -133,10 +133,11 @@ BOOKS = [
 ]
 
 # notes: index = blockstate "story" value; title says where it is, author is the signature ("" for none)
+# a paragraph starting with "~" was added by someone else: the reading screen shows it in another hand
 NOTES = [
     ("note_ferry", "Nailed to the post", "The Ferryman", [
         "NO COIN, NO CROSSING.",
-        "Scratched under it, in another hand: he takes charms too. Ask nicely.",
+        "~No coin? He sells charms. Each one carries you across once. Don't lose yours.",
     ]),
     ("note_lights", "Pinned to a tree", "", [
         "Don't follow the lights between the trees. They aren't lanterns.",
@@ -153,7 +154,8 @@ NOTES = [
     ("note_list", "A list on the table", "Bea", [
         "Bread. Candles. Thread for Mira's ribbon.",
         "Ask Aldous about the Door.",
-        "Feed the cat. (There's no cat. There used to be a cat.)",
+        "Feed the cat.",
+        "~(There is no cat.)",
     ]),
     ("note_yours", "Left on the table", "Odo", [
         "To whoever finds this house: it's yours. The kettle sticks and the roof leaks on the left.",
@@ -185,7 +187,9 @@ if __name__ == "__main__":
         if author:
             lang[key + ".author"] = author
         for i, p in enumerate(paras, 1):
-            lang[f"{key}.p{i}"] = p
+            if p.startswith("~"):
+                lang[f"{key}.p{i}.hand"] = "other"
+            lang[f"{key}.p{i}"] = p.lstrip("~")
     with open(LANG, "w") as f:
         json.dump(lang, f, indent=2, ensure_ascii=False)
         f.write("\n")
