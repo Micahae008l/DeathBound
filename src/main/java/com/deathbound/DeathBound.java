@@ -54,6 +54,7 @@ public class DeathBound implements ModInitializer {
       Director.init();
       Dread.init();
       QuestEvents.init();
+      com.deathbound.world.Milestones.init();
       com.deathbound.story.Stories.init();
       Puzzles.init();
       com.deathbound.item.LoreFiling.init();

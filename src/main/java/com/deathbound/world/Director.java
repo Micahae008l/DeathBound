@@ -167,7 +167,13 @@ public final class Director {
             h = new Director.Home(ModEntities.MIRA, QuestEvents.miraSpot(level), h.yaw, false);
          }
          if (level.getNearestPlayer(h.at.getX(), h.at.getY(), h.at.getZ(), 64.0, e -> true) != null && level.isPositionEntityTicking(h.at)) {
-            List<UnderworldNpc> there = level.getEntities(h.type, new AABB(h.at).inflate(24.0), e -> true);
+            Director.Home home2 = h;
+            List<? extends UnderworldNpc> there = level.getEntities(h.type, e -> true);
+            if (there.size() > 1) {   // one of each: keep the one nearest the post
+               UnderworldNpc keep = there.stream().min(java.util.Comparator.comparingDouble(n -> n.distanceToSqr(Vec3.atCenterOf(home2.at)))).get();
+               there.stream().filter(n -> n != keep).forEach(n -> n.discard());
+               there = List.of(keep);
+            }
             if (there.isEmpty()) {
                BlockPos stand = h.floats ? h.at : standingSpot(level, h.at);
                UnderworldNpc npc = h.type.create(level, EntitySpawnReason.STRUCTURE);

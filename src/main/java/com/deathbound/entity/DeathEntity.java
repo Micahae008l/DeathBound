@@ -463,7 +463,7 @@ public class DeathEntity extends Monster {
                for (LivingEntity v : level.getEntitiesOfClass(
                   LivingEntity.class, this.getBoundingBox().inflate(this.novaRadius + 1.0F, 1.5, this.novaRadius + 1.0F)
                )) {
-                  if (v != this && !v.isAlliedTo(this) && !(v instanceof SoulAnchor) && !this.struck.contains(v.getUUID())) {
+                  if (v != this && !v.isAlliedTo(this) && !Hazards.sameSide(this, v) && !(v instanceof SoulAnchor) && !this.struck.contains(v.getUUID())) {
                      double d = v.position().distanceTo(this.position());
                      if (Math.abs(d - this.novaRadius) < 0.9 && v.getY() < this.getY() + 0.6) {
                         this.struck.add(v.getUUID());
@@ -576,6 +576,7 @@ public class DeathEntity extends Monster {
                for (LivingEntity v : level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.8))) {
                   if (v != this
                      && !v.isAlliedTo(this)
+                     && !Hazards.sameSide(this, v)
                      && !(v instanceof SoulAnchor)
                      && this.struck.add(v.getUUID())
                      && v.hurtServer(level, Hazards.crush(level, this), 13.0F)) {

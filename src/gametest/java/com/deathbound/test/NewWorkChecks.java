@@ -67,6 +67,29 @@ final class NewWorkChecks {
 		return relic;
 	}
 
+	/** Any of the mob's target goals running right now (a cleared target can be put straight back by one). */
+	private static boolean targetGoalRunning(net.minecraft.world.entity.Mob mob) {
+		try {
+			java.lang.reflect.Field f = net.minecraft.world.entity.Mob.class.getDeclaredField("targetSelector");
+			f.setAccessible(true);
+			return ((net.minecraft.world.entity.ai.goal.GoalSelector) f.get(mob)).getAvailableGoals().stream()
+				.anyMatch(net.minecraft.world.entity.ai.goal.WrappedGoal::isRunning);
+		} catch (ReflectiveOperationException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static void take(ServerPlayer p, net.minecraft.world.item.Item item, int amount) {
+		for (int k = 0; k < p.getInventory().getContainerSize() && amount > 0; k++) {
+			ItemStack st = p.getInventory().getItem(k);
+			if (st.is(item)) {
+				int t = Math.min(amount, st.getCount());
+				st.shrink(t);
+				amount -= t;
+			}
+		}
+	}
+
 	private static void tp(TestServerContext server, String where) {
 		server.runCommand("execute in deathbound:underworld run tp @a " + where);
 	}
@@ -90,6 +113,14 @@ final class NewWorkChecks {
 			ctx.waitTicks(3);
 			int[] pages = new int[1];
 			ctx.runOnClient(mc -> pages[0] = ((com.deathbound.client.StoryScreen) mc.gui.screen()).pageCount());
+			if (n == 1) {
+				int[] again = new int[1];
+				ctx.runOnClient(mc -> {
+					mc.gui.screen().resize(mc.gui.screen().width, mc.gui.screen().height);
+					again[0] = ((com.deathbound.client.StoryScreen) mc.gui.screen()).pageCount();
+				});
+				log("story screen: pages before a resize " + pages[0] + ", after " + again[0] + " -> " + pass(again[0] == pages[0]));
+			}
 			for (int pg = 0; pg < pages[0]; pg++) {
 				int to = pg;
 				ctx.runOnClient(mc -> ((com.deathbound.client.StoryScreen) mc.gui.screen()).turnPage(to));
@@ -273,6 +304,15 @@ final class NewWorkChecks {
 			p.hurtServer(lvl, lvl.damageSources().mobAttack(z), 4.0F);
 			log("phantom: first hit -> health " + p.getHealth() + " -> " + pass(p.getHealth() >= 19.99F));
 		});
+		ctx.waitTicks(3);
+		server.runOnServer(s -> {
+			ServerPlayer p = player(s);
+			ServerLevel lvl = p.level();
+			Zombie z = EntityTypes.ZOMBIE.create(lvl, EntitySpawnReason.COMMAND);
+			z.setPos(p.getX() + 1, p.getY(), p.getZ());
+			p.hurtServer(lvl, lvl.damageSources().mobAttack(z), 8.0F);
+			log("phantom: the same attack 3 ticks later (a lunge, a volley) -> health " + p.getHealth() + " -> " + pass(p.getHealth() >= 19.99F));
+		});
 		ctx.waitTicks(30);
 		server.runOnServer(s -> {
 			ServerPlayer p = player(s);
@@ -338,6 +378,80 @@ final class NewWorkChecks {
 			log("warden: player 70 blocks from his post -> gave up: " + let + " -> " + pass(let));
 			gs.forEach(DeathsGuard::discard);
 			p.teleportTo(lvl, p.getX() + 70, p.getY(), p.getZ(), Set.of(), 0.0F, 0.0F, true);
+		});
+
+		// ---------------------------------------------------------------- Warden: giving up sticks
+		// hit at his post (so his own target goals take you on), then you back off 60 from it with him close behind:
+		// vanilla's target goal would put you straight back every tick
+		server.runOnServer(s -> {
+			ServerPlayer p = player(s);
+			ServerLevel lvl = p.level();
+			DeathsGuard g = ModEntities.DEATHS_GUARD.spawn(lvl, p.blockPosition().offset(-60, 0, 0), EntitySpawnReason.COMMAND);
+			g.setNoGravity(true);
+			g.teleportTo(p.getX() - 62, p.getY(), p.getZ());   // you, two blocks from his post
+			p.teleportTo(lvl, p.getX() - 58, p.getY(), p.getZ(), Set.of(), 0.0F, 0.0F, true);
+			g.hurtServer(lvl, lvl.damageSources().playerAttack(p), 4.0F);
+		});
+		ctx.waitTicks(6);
+		server.runOnServer(s -> {
+			ServerPlayer p = player(s);
+			ServerLevel lvl = p.level();
+			p.teleportTo(lvl, p.getX() + 58, p.getY(), p.getZ(), Set.of(), 0.0F, 0.0F, true);
+			lvl.getEntitiesOfClass(DeathsGuard.class, new AABB(p.blockPosition()).inflate(120))
+				.forEach(g -> g.teleportTo(p.getX() - 20, p.getY(), p.getZ()));
+		});
+		ctx.waitTicks(40);
+		server.runOnServer(s -> {
+			ServerPlayer p = player(s);
+			ServerLevel lvl = p.level();
+			List<DeathsGuard> gs = lvl.getEntitiesOfClass(DeathsGuard.class, new AABB(p.blockPosition()).inflate(120));
+			boolean stays = !gs.isEmpty() && gs.getFirst().getTarget() == null && !targetGoalRunning(gs.getFirst());
+			log("warden: you 60 from his post, he's 20 from you -> stays given up: " + stays + " -> " + pass(stays));
+			gs.forEach(DeathsGuard::discard);
+		});
+
+		// ---------------------------------------------------------------- the Death King's nova passes his own dead by
+		server.runCommand("effect give @a resistance infinite 255 true");
+		server.runOnServer(s -> {
+			ServerPlayer p = player(s);
+			ServerLevel lvl = p.level();
+			DeathEntity king = ModEntities.DEATH.create(lvl, EntitySpawnReason.COMMAND);
+			king.setPos(p.getX() + 14, p.getY(), p.getZ());
+			lvl.addFreshEntity(king);
+			king.debugPhase(2);
+			for (int k = 0; k < 4; k++) {   // a ring of them at every distance the nova sweeps through
+				Gravebound gb = ModEntities.GRAVEBOUND.create(lvl, EntitySpawnReason.COMMAND);
+				gb.setPos(king.getX(), king.getY(), king.getZ() + 2 + k * 2);
+				gb.setNoAi(true);
+				lvl.addFreshEntity(gb);
+			}
+			king.debugAction(22);
+		});
+		ctx.waitTicks(60);
+		server.runOnServer(s -> {
+			ServerPlayer p = player(s);
+			ServerLevel lvl = p.level();
+			List<Gravebound> gbs = lvl.getEntitiesOfClass(Gravebound.class, new AABB(p.blockPosition()).inflate(40));
+			long hurt = gbs.stream().filter(g -> g.getHealth() < g.getMaxHealth()).count();
+			log("death king: his nova over 4 of his own Gravebound -> hurt " + hurt + " -> " + pass(gbs.size() == 4 && hurt == 0));
+			gbs.forEach(Gravebound::discard);
+			lvl.getEntitiesOfClass(DeathEntity.class, new AABB(p.blockPosition()).inflate(40)).forEach(DeathEntity::discard);
+		});
+		server.runCommand("effect clear @a");
+
+		// ---------------------------------------------------------------- ghosts in the line: Souls don't flow forever
+		server.runOnServer(s -> {
+			ServerPlayer p = player(s);
+			ServerLevel lvl = p.level();
+			int before = com.deathbound.npc.Soulforge.count(p, ModItems.SOUL);
+			for (int k = 0; k < 40; k++) {
+				LostSoul ghost = ModEntities.LOST_SOUL.create(lvl, EntitySpawnReason.COMMAND);
+				ghost.setPos(p.getX() + 2, p.getY(), p.getZ());
+				ghost.interact(p, InteractionHand.MAIN_HAND, Vec3.ZERO);
+			}
+			int got = com.deathbound.npc.Soulforge.count(p, ModItems.SOUL) - before;
+			log("ghosts: 40 ghosts in a row gave " + got + " Souls (at most 1 every 5 minutes) -> " + pass(got <= 1));
+			take(p, ModItems.SOUL, got);
 		});
 
 		// ---------------------------------------------------------------- Underworld mobs vs the Death King
@@ -433,6 +547,16 @@ final class NewWorkChecks {
 				log("mira: soul " + dz + " blocks " + (dz > 0 ? "behind" : "ahead of") + " her says: " + (clue == null ? "null" : clue.getString()));
 			}
 			p.setAttached(ModAttachments.QUESTS, Map.of());
+			// an existing world's Mira at her old place: one of them has to go
+			UnderworldNpc extra = ModEntities.MIRA.create(uw, EntitySpawnReason.COMMAND);
+			extra.setPos(m.getX() + 0.5, m.getY(), m.getZ() + 30.5);
+			uw.addFreshEntity(extra);
+		});
+		ctx.waitTicks(45);
+		server.runOnServer(s -> {
+			ServerLevel uw = s.getLevel(UnderworldTravel.UNDERWORLD);
+			int miras = uw.getEntities(ModEntities.MIRA, e -> true).size();
+			log("mira: a second Mira in the world -> Miras now " + miras + " -> " + pass(miras == 1));
 		});
 		server.runOnServer(s -> {
 			ServerLevel uw = s.getLevel(UnderworldTravel.UNDERWORLD);
@@ -502,19 +626,3 @@ final class NewWorkChecks {
 			int risen = p.level().getEntitiesOfClass(LivingEntity.class, new AABB(p.blockPosition()).inflate(24),
 				e -> e instanceof Gravebound || e instanceof SoulWisp).size();
 			log("ghostwood: things risen around the player=" + risen + " -> " + pass(risen > 0));
-		});
-		ctx.takeScreenshot("new_wood_wakes");
-		tp(server, (Layout.FOREST.x() + Layout.FOREST.radius() + 14) + " " + (Layout.FOREST.top() + 2) + " " + Layout.FOREST.z());
-		ctx.waitTicks(30);
-		server.runOnServer(s -> {
-			ServerLevel uw = s.getLevel(UnderworldTravel.UNDERWORLD);
-			int left = uw.getEntitiesOfClass(LivingEntity.class, new AABB(Layout.FOREST.x(), Layout.FOREST.top(), Layout.FOREST.z(), Layout.FOREST.x(), Layout.FOREST.top(), Layout.FOREST.z()).inflate(60),
-				e -> e instanceof Gravebound || e instanceof SoulWisp).size();
-			log("ghostwood: out of the trees -> risen left=" + left + " -> " + pass(left == 0));
-		});
-		log("done");
-	}
-
-	private NewWorkChecks() {
-	}
-}

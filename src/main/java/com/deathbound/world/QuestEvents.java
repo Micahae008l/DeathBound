@@ -87,6 +87,27 @@ public final class QuestEvents {
             tick(server, p);
          }
       });
+      // everything here counts server ticks, which start over with every world: forget it all when the world closes
+      net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+         LANTERN_SAFE_UNTIL.clear();
+         AMBUSH.clear();
+         AMBUSHED.clear();
+         WAKE.clear();
+         WOKEN.clear();
+      });
+      // a player who leaves takes their troubles with them: what the wood sent after them crumbles
+      net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+         ServerPlayer p = handler.getPlayer();
+         UUID id = p.getUUID();
+         Wake wake = WAKE.remove(id);
+         if (wake != null) {
+            settle(p.level(), wake);
+         }
+         LANTERN_SAFE_UNTIL.remove(id);
+         AMBUSH.remove(id);
+         AMBUSHED.remove(id);
+         WOKEN.remove(id);
+      });
    }
 
    // ---- Mira: the lantern ----
@@ -200,8 +221,10 @@ public final class QuestEvents {
 
          boolean oar = Soulforge.count(p, ModItems.FERRYMANS_OAR) > 0;
          if (!oar) {
-            WOKEN.remove(id);
-         } else if (below && !WOKEN.contains(id) && Quests.stage(p, "oar") == 1 && inForest(p, 0.0)) {
+            if (!WAKE.containsKey(id)) {   // a wake already running plays out: dropping the oar doesn't restart it
+               WOKEN.remove(id);
+            }
+         } else if (below && !WOKEN.contains(id) && !WAKE.containsKey(id) && Quests.stage(p, "oar") == 1 && inForest(p, 0.0)) {
             WOKEN.add(id);
             WAKE.put(id, new Wake(now, new ArrayList<>()));
             wakeTheWood(p);
@@ -347,6 +370,7 @@ public final class QuestEvents {
       Mob mob = (r.nextInt(4) == 0 ? ModEntities.SOUL_WISP : ModEntities.GRAVEBOUND).create(level, EntitySpawnReason.EVENT);
       if (mob != null) {
          mob.snapTo(at.getX() + 0.5, at.getY(), at.getZ() + 0.5, r.nextFloat() * 360.0F, 0.0F);
+         mob.finalizeSpawn(level, level.getCurrentDifficultyAt(at), EntitySpawnReason.EVENT, null);   // a Gravebound climbs out of the ground
          mob.setTarget(p);
          level.addFreshEntity(mob);
          wake.risen.add(mob);

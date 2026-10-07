@@ -57,6 +57,10 @@ public class LostSoul extends PathfinderMob {
    /** Chance that a Lost Soul gives a Soul the first time it is spoken to (rolled once per ghost). */
    public static final float SOUL_GIFT_CHANCE = 0.25F;
    private boolean soulRolled;
+   /** When each player was last given a Soul by a ghost (game time, which is saved with the world). */
+   private static final java.util.Map<java.util.UUID, Long> LAST_GIFT = new java.util.HashMap<>();
+   /** At most one Soul from the line every five minutes: new ghosts keep joining it, so without this it never runs out. */
+   static final int SOUL_GIFT_COOLDOWN = 6000;
 
    public void linger(BlockPos home, int place) {
       this.home = home;
@@ -298,7 +302,11 @@ public class LostSoul extends PathfinderMob {
          this.getLookControl().setLookAt(player);
          if (!this.soulRolled && player instanceof ServerPlayer sp && this.soulState() != 3) {
             this.soulRolled = true;
-            if (this.random.nextFloat() < SOUL_GIFT_CHANCE) {
+            long now = sp.level().getGameTime();
+            Long last = LAST_GIFT.get(sp.getUUID());
+            boolean due = last == null || now - last >= SOUL_GIFT_COOLDOWN || now < last;   // now < last: a different world
+            if (due && this.random.nextFloat() < SOUL_GIFT_CHANCE) {
+               LAST_GIFT.put(sp.getUUID(), now);
                this.giveSoul(sp);
             }
          }

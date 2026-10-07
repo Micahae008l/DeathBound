@@ -66,3 +66,25 @@ Michael wanted three things: each story only once per world, more stories, notes
   - clicking a Journal title opens the story, closing it returns to the Journal
   - screenshots of the notes, reading screens and Journal look right
 - Only shows up in **new worlds** (the notes are worldgen).
+
+## Review fixes (Oct 7, night): tested in game, all checks PASS
+A review of the code turned up the bugs below. Each check was run on the old code too: the ones marked "was" failed there.
+- **The Death King's nova and charge hurt his own Gravebound.** They now pass his own side by (`DeathEntity`, `Hazards.sameSide`). Test: 4 Gravebound in the nova, was 4 hurt, now 0.
+- **Lost Souls in the line gave a Soul every time.** Talking down the line farmed Souls. Now a player gets at most 1 every 5 minutes (`LostSoul`). Test: 40 ghosts, was 12 Souls, now 1.
+- **Two Miras in existing worlds.** Her new spot meant a second one spawned while the old one stayed. The extra one is removed; the one nearest her spot stays (`Director` tickNpcs). Test: was 2, now 1.
+- **The oar's wake.** Dropping the oar and picking it up again started a second wake, and the first wake's risen never crumbled. Test: was 5 left after leaving the trees, now 0. The risen now also climb out of the ground (`QuestEvents`).
+- **Tick timers survived into the next world.** The lantern, ambush and wake timers, and the Phantom cooldown, count server ticks, which start over in every world. They are cleared when the world closes. A player who logs out mid-wake has it settled (`QuestEvents`, `Charms`).
+- **Shop restock gave sold-out one-of-a-kind items back.** The trades version bump restocked everything. Single-use offers that were already sold now stay sold (`UnderworldNpc`).
+- **Quests finished before the advancement tab existed** award their advancements when the player joins (`Milestones.init`).
+- **Boss music restarted its intro** whenever a screen (inventory, pause) was opened mid-fight. Fixed (`BossMusicMixin`).
+- **A lost sigil could be re-granted forever** (a dupe). Now it's given again at most once (`Puzzles`).
+- **The story screen duplicated its pages** on a window resize (`StoryScreen`). Test: 1 page before, 1 after.
+
+Checked and not a bug (the tests stay as regression checks):
+- **Phantom Charm:** the rest of a multi-hit attack does not land after it fires. Vanilla's damage cooldown already blocks it.
+- **Warden:** he doesn't get pulled back into a chase once he has given up. His target goals only work within 8 blocks of his post.
+- **Gravebound** hit by the King keep their target on the player.
+
+Flaky: "ghostwood: things risen around the player" was 0 in 1 of 6 runs (the others saw 2 to 4). No King was left over, and nothing removes them early, so it looks like spawn luck. Rerun if it fails once.
+
+The generator scripts are now in `tools/` (see README). `datagen.py` and `art/build.py` refuse to run without `DB_REGEN=1`.

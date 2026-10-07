@@ -22,6 +22,19 @@ public final class Milestones {
       }
    }
 
+   public static void init() {
+      // favors finished before the advancements existed count once the player comes back
+      net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+         ServerPlayer p = handler.getPlayer();
+         for (com.deathbound.npc.Quests.Quest q : com.deathbound.npc.Quests.ALL) {
+            if (com.deathbound.npc.Quests.stage(p, q.id()) >= q.last()) {
+               award(p, "errand");
+               award(p, "every_errand", q.id());
+            }
+         }
+      });
+   }
+
    /** Everyone who was there: boss kills and endings are shared by the players nearby. */
    public static void awardNear(ServerLevel level, Vec3 at, double radius, String id) {
       for (ServerPlayer p : level.getPlayers(p -> !p.isSpectator() && p.position().distanceTo(at) <= radius)) {

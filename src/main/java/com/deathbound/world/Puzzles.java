@@ -216,7 +216,8 @@ public final class Puzzles {
       int bit = 1 << kind;
       int revealed = level.getAttachedOrElse(REVEALED, 0);
       boolean sealed = (Director.seals(level) & bit) != 0;
-      if (sealed || (revealed & bit) != 0 && sigilStillExists(level, sigil(kind))) {
+      int regranted = bit << 4;   // a lost sigil is given again at most once
+      if (sealed || (revealed & bit) != 0 && ((revealed & regranted) != 0 || sigilStillExists(level, sigil(kind)))) {
          level.playSound(null, at.x, at.y, at.z, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 1.0F, 0.5F);
          if (player != null) {
             tell(player, "already_solved");
@@ -224,7 +225,7 @@ public final class Puzzles {
          return;
       }
 
-      level.setAttached(REVEALED, revealed | bit);
+      level.setAttached(REVEALED, revealed | bit | ((revealed & bit) != 0 ? regranted : 0));
       ItemEntity item = new ItemEntity(level, at.x, at.y, at.z, new ItemStack(sigil(kind)));
       item.setDeltaMovement(0.0, 0.03, 0.0);
       item.setNoGravity(true);

@@ -42,7 +42,11 @@ abstract class BossMusicMixin {
       if (story != 0) {
          cir.setReturnValue(story == 1 ? THRONE : SILENCE);
       } else {
-         if (mc.player != null && mc.gui.screen() == null && UnderworldTravel.inUnderworld(mc.player) && mc.gui.hud.getBossOverlay().shouldPlayMusic()) {
+         if (mc.player != null && UnderworldTravel.inUnderworld(mc.player) && mc.gui.hud.getBossOverlay().shouldPlayMusic()) {
+            if (mc.gui.screen() != null) {
+               return;   // a screen open mid-fight: vanilla picks for now, and the fight keeps its place in the music
+            }
+
             List<DeathEntity> deaths = mc.player.level().getEntitiesOfClass(DeathEntity.class, mc.player.getBoundingBox().inflate(80.0));
             if (!mc.player.level().getEntitiesOfClass(HollowHunter.class, mc.player.getBoundingBox().inflate(80.0)).isEmpty()) {
                deathbound$introHeard = false;

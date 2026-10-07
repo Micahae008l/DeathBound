@@ -123,6 +123,10 @@ public final class Charms {
          }
       });
       ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> !(entity instanceof ServerPlayer player && phantomPhase(player, source, amount)));
+      // these count server ticks, which start over with every world: forget them when it closes
+      net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+         PHANTOM_READY.clear();
+      });
       ServerLivingEntityEvents.ALLOW_DEATH.register((entity, source, amount) -> {
          if (entity instanceof ServerPlayer player && !player.level().getGameRules().get(GameRules.KEEP_INVENTORY)) {
             stashSoulboundItems(player);

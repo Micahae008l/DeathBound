@@ -173,10 +173,21 @@ public class UnderworldNpc extends AbstractVillager {
       super.readAdditionalSaveData(input);
       this.setCorruption(input.getFloatOr("corruption", 0.0F));
       if (input.getIntOr("trades", 0) < TRADES) {
-         // the shop changed since this NPC was saved: restock with the current trades
+         // the shop changed since this NPC was saved: restock with the current trades, but what was one of a kind and
+         // already sold stays sold
+         if (this.offers != null) {
+            for (MerchantOffer offer : this.offers) {
+               if (offer.getMaxUses() <= 1 && offer.isOutOfStock()) {
+                  this.soldOut.add(offer.getResult().getItem());
+               }
+            }
+         }
          this.offers = null;
       }
    }
+
+   /** One-of-a-kind stock sold before a restock (see readAdditionalSaveData): marked sold again in the new shop. */
+   private final java.util.Set<net.minecraft.world.item.Item> soldOut = new java.util.HashSet<>();
 
    public UnderworldNpc(EntityType<? extends UnderworldNpc> type, Level level) {
       super(type, level);
@@ -294,6 +305,11 @@ public class UnderworldNpc extends AbstractVillager {
             o.add(sell(6, new ItemStack(Items.SPYGLASS), 999));
             o.add(sell(10, new ItemStack(Items.RECOVERY_COMPASS), 999));
             o.add(sell(16, new ItemStack(ModItems.COLLECTORS_CHARM), 1));
+      }
+      for (MerchantOffer offer : o) {
+         if (offer.getMaxUses() <= 1 && this.soldOut.contains(offer.getResult().getItem())) {
+            offer.setToOutOfStock();
+         }
       }
    }
 

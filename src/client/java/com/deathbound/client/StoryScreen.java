@@ -65,6 +65,7 @@ public class StoryScreen extends Screen {
 
    @Override
    protected void init() {
+      this.pages.clear();   // init runs again on every resize
       this.panelW = this.note ? 170 : 236;
       int pad = this.note ? 14 : 18;
       int textW = this.panelW - pad * 2;
@@ -107,7 +108,9 @@ public class StoryScreen extends Screen {
       int maxBody = Math.min(this.height - 60, this.note ? 220 : 200);
       List<Row> current = new ArrayList<>(head);
       for (List<Row> p : paragraphs) {
-         if (!current.isEmpty() && height(current) + height(p) > maxBody && current.size() > head.size()) {
+         // the first page keeps at least one paragraph under the title; later pages break as soon as they're full
+         int floor = this.pages.isEmpty() ? head.size() : 0;
+         if (!current.isEmpty() && height(current) + height(p) > maxBody && current.size() > floor) {
             this.pages.add(current);
             current = new ArrayList<>();
          }
@@ -116,6 +119,7 @@ public class StoryScreen extends Screen {
       }
 
       this.pages.add(current);
+      this.page = Math.min(this.page, this.pages.size() - 1);
       int tallest = this.pages.stream().mapToInt(StoryScreen::height).max().orElse(0);
       this.panelH = tallest + pad * 2 + (this.pages.size() > 1 ? 14 : 0) + (this.note ? 6 : 0);
       this.panelX = (this.width - this.panelW) / 2;
