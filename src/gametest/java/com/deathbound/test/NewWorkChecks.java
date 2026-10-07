@@ -129,32 +129,24 @@ final class NewWorkChecks {
 			});
 		}
 		log("notes found: " + notes.size() + " of " + com.deathbound.story.Stories.NOTES.size() + " -> " + pass(notes.size() == com.deathbound.story.Stories.NOTES.size()));
-		// look at a pinned one and a lying one
+		// every note where it sits: eye level in front of a pinned one, from above for one on a table (no HUD, no gravity)
+		server.runCommand("gamemode spectator @a");
+		ctx.runOnClient(mc -> { if (!mc.gui.hud.isHidden()) mc.gui.hud.toggle(); });
 		for (int[] n : notes) {
-			if (n[4] == 0 && n[0] != 7) {
-				Direction f = Direction.from2DDataValue(n[3]);
-				tp(server, (n[0] + 0.5 + f.getStepX() * 2.2) + " " + (n[1] - 0.6) + " " + (n[2] + 0.5 + f.getStepZ() * 2.2) + " facing " + (n[0] + 0.5) + " " + (n[1] + 0.5) + " " + (n[2] + 0.5));
-				settle(ctx, world, 120);
-				ctx.takeScreenshot("shot_note_tree");
-				break;
-			}
+			Direction f = Direction.from2DDataValue(n[3]);
+			String id = com.deathbound.story.Stories.NOTES.get(storyAt(server, n));
+			double cx = n[0] + 0.5, cz = n[2] + 0.5;
+			String at = n[4] == 0
+				? (cx + f.getStepX() * 1.6) + " " + (n[1] + 0.5 - 1.62) + " " + (cz + f.getStepZ() * 1.6) + " facing " + cx + " " + (n[1] + 0.5) + " " + cz
+				: (cx + f.getStepX() * 1.1) + " " + (n[1] + 1.3 - 1.62) + " " + (cz + f.getStepZ() * 1.1) + " facing " + cx + " " + (n[1] + 0.05) + " " + cz;
+			server.runCommand("execute in deathbound:underworld anchored eyes run tp @a " + at);
+			settle(ctx, world, 60);
+			ctx.takeScreenshot("note_" + id + "_world");
 		}
-		for (int[] n : notes) {
-			if (n[4] == 1) {
-				tp(server, (n[0] + 1.8) + " " + (n[1] + 0.9) + " " + (n[2] + 1.8) + " facing " + (n[0] + 0.5) + " " + (n[1]) + " " + (n[2] + 0.5));
-				settle(ctx, world, 120);
-				ctx.takeScreenshot("shot_note_table");
-				break;
-			}
-		}
-		for (int[] n : notes) {
-			if (n[0] == 7) {
-				tp(server, "7.5 " + (n[1] - 0.6) + " " + (n[2] + 2.7) + " facing 7.5 " + (n[1] + 0.5) + " " + (n[2] + 0.5));
-				settle(ctx, world, 120);
-				ctx.takeScreenshot("shot_note_dock");
-				break;
-			}
-		}
+		ctx.runOnClient(mc -> { if (mc.gui.hud.isHidden()) mc.gui.hud.toggle(); });
+		server.runCommand("gamemode creative @a");
+		tp(server, "4.5 " + (Layout.ARRIVAL.top() + 1) + " 4.5 180 10");
+		settle(ctx, world, 20);
 
 		// ---- reading: right-click a note (server files it), then the screens
 		server.runOnServer(s -> {
@@ -170,7 +162,9 @@ final class NewWorkChecks {
 			log("stories: in the Journal now " + p.getAttachedOrElse(ModAttachments.STORIES_FOUND, List.of()));
 		});
 		ctx.waitTicks(10);
-		for (String id : new String[]{"note_ferry", "note_shed", "last_torch", "bad_omen"}) {
+		java.util.List<String> toRead = new java.util.ArrayList<>(com.deathbound.story.Stories.NOTES);
+		toRead.addAll(List.of("last_torch", "bad_omen"));
+		for (String id : toRead) {
 			ctx.runOnClient(mc -> mc.gui.setScreen(new com.deathbound.client.StoryScreen(id)));
 			ctx.waitTicks(5);
 			ctx.takeScreenshot("shot_read_" + id);
@@ -210,6 +204,12 @@ final class NewWorkChecks {
 		ctx.waitTicks(5);
 		ctx.takeScreenshot("shot_book_in_hotbar");
 		log("shots done");
+	}
+
+	private static int storyAt(TestServerContext server, int[] n) {
+		int[] out = new int[1];
+		server.runOnServer(s -> out[0] = s.getLevel(UnderworldTravel.UNDERWORLD).getBlockState(new BlockPos(n[0], n[1], n[2])).getValue(com.deathbound.block.StoryNoteBlock.STORY));
+		return out[0];
 	}
 
 	static void run(ClientGameTestContext ctx, TestSingleplayerContext world, TestServerContext server) {
