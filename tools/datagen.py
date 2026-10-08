@@ -160,15 +160,16 @@ for name in ('deathbound_relic', 'soulbound_charm', 'seers_charm', 'wraiths_char
 # the scythe: flat icon in GUIs, a big two-handed blade in hand (same trick as the vanilla spear)
 write(os.path.join(A, 'models/item/reaper_scythe.json'), {'parent': 'minecraft:item/generated', 'textures': {'layer0': f'{NS}:item/reaper_scythe'}})
 write(os.path.join(A, 'models/item/reaper_scythe_in_hand.json'), {
-    'parent': 'minecraft:item/generated', 'gui_light': 'front', 'textures': {'layer0': f'{NS}:item/reaper_scythe'},
+    'parent': 'minecraft:item/generated', 'gui_light': 'front', 'textures': {'layer0': f'{NS}:item/reaper_scythe_in_hand'},
     'display': {
-        # the 16px icon, held upright: the blade over the head pointing at what you face (checked in game from the side,
-        # 3/4 front, first person and mid-swing)
-        'thirdperson_righthand': {'rotation': [0, -90, -45], 'translation': [0, 6, 13.7], 'scale': [1.85, 1.85, 0.9]},
-        'thirdperson_lefthand': {'rotation': [0, 90, 45], 'translation': [0, 6, 13.7], 'scale': [1.85, 1.85, 0.9]},
+        # the 32px drawing on a 64px canvas (tools/art/scythe.py), so at this scale its pixels are a vanilla held item's.
+        # Held upright, the blade over the head pointing forward and turned 35 degrees outward: a flat sprite is edge-on
+        # from some angle, and this way it reads from behind and in front in F5 and from the side (checked in game)
+        'thirdperson_righthand': {'rotation': [-90, -55, -135], 'translation': [-3.65, -5.15, 11.1], 'scale': [3.4, 3.4, 0.9]},
+        'thirdperson_lefthand': {'rotation': [-90, 55, 135], 'translation': [3.65, -5.15, 11.1], 'scale': [3.4, 3.4, 0.9]},
         # first person: the blade hooks toward the crosshair
-        'firstperson_righthand': {'rotation': [0, -90, 40], 'translation': [1.5, 3.4, -6.3], 'scale': [1.12, 1.12, 0.8]},
-        'firstperson_lefthand': {'rotation': [0, 90, -40], 'translation': [1.5, 3.4, -6.3], 'scale': [1.12, 1.12, 0.8]},
+        'firstperson_righthand': {'rotation': [0, -90, 40], 'translation': [1.5, 2.3, 0.54], 'scale': [2.3, 2.3, 0.8]},
+        'firstperson_lefthand': {'rotation': [0, 90, -40], 'translation': [1.5, 2.3, 0.54], 'scale': [2.3, 2.3, 0.8]},
     }})
 write(os.path.join(A, 'items/reaper_scythe.json'), {
     'model': {'type': 'minecraft:select', 'property': 'minecraft:display_context',

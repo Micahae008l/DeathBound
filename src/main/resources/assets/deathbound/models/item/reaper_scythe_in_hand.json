@@ -2,40 +2,40 @@
   "parent": "minecraft:item/generated",
   "gui_light": "front",
   "textures": {
-    "layer0": "deathbound:item/reaper_scythe"
+    "layer0": "deathbound:item/reaper_scythe_in_hand"
   },
   "display": {
     "thirdperson_righthand": {
       "rotation": [
-        0,
         -90,
-        -45
+        -55,
+        -135
       ],
       "translation": [
-        0,
-        6,
-        13.7
+        -3.65,
+        -5.15,
+        11.1
       ],
       "scale": [
-        1.85,
-        1.85,
+        3.4,
+        3.4,
         0.9
       ]
     },
     "thirdperson_lefthand": {
       "rotation": [
-        0,
-        90,
-        45
+        -90,
+        55,
+        135
       ],
       "translation": [
-        0,
-        6,
-        13.7
+        3.65,
+        -5.15,
+        11.1
       ],
       "scale": [
-        1.85,
-        1.85,
+        3.4,
+        3.4,
         0.9
       ]
     },
@@ -47,12 +47,12 @@
       ],
       "translation": [
         1.5,
-        3.4,
-        -6.3
+        2.3,
+        0.54
       ],
       "scale": [
-        1.12,
-        1.12,
+        2.3,
+        2.3,
         0.8
       ]
     },
@@ -64,12 +64,12 @@
       ],
       "translation": [
         1.5,
-        3.4,
-        -6.3
+        2.3,
+        0.54
       ],
       "scale": [
-        1.12,
-        1.12,
+        2.3,
+        2.3,
         0.8
       ]
     }

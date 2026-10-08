@@ -1,4 +1,4 @@
-"""The Reaper's Scythe sprites: the original 16px pixel design (the same sprite is held in hand), now shaded by hand-picked tones.
+"""The Reaper's Scythe sprites: the original pixel designs (16px icon, 32px in-hand), now shaded by hand-picked tones.
 
 Every blade pixel is toned by where it sits in the band: the pixel on the inner (cutting) edge is the brightest, the one
 behind it a step down, the outer spine dark with a rim of light where it faces up-left, the body a mid steel.
@@ -26,6 +26,41 @@ ICON = ["...KKKKKKK......",
         ".....KrhK.......",
         "....KshK........",
         "....KKK........."]
+
+IN_HAND = [
+    "........KKKKKKKKKK..............",
+    ".....KKKSSSSSSSSzzKKK...........",
+    "...KKSSSSzzzzzzzzzzzzKK.........",
+    "..KSSSzzzzzzzzzzzzzzzzzK........",
+    ".KSSzzzzzKKKKKKKKKzzzzzzK.......",
+    "KSSzzzKKK........KKKzzzzzK......",
+    "KSzzKK..............KKzzzzK.....",
+    "KSzK..................KKzzzK....",
+    "KzK.....................KzzzK...",
+    "KK.......................KzzzK..",
+    "K.........................KzzzK.",
+    "...........................KgvK.",
+    "..........................KgVvK.",
+    ".........................KsSgVK.",
+    "........................KrRsK...",
+    ".......................KrhRK....",
+    "......................KrhRK.....",
+    ".....................KrhRK......",
+    "....................KrhRK.......",
+    "...................KsSzK........",
+    "..................KrhRK.........",
+    ".................KrhRK..........",
+    "................KrhRK...........",
+    "...............KrhRK............",
+    "..............KrhRK.............",
+    ".............KsSzK..............",
+    "............KrhRK...............",
+    "...........KrhRK................",
+    "..........KrhRK.................",
+    ".........KSSzK..................",
+    "........KzzK....................",
+    "........KKK.....................",
+]
 
 
 def _shade(rows, center):
@@ -61,3 +96,16 @@ def _legend():
 
 def icon():
     return sp.stamp(sp.canvas(), _shade(ICON, (5, 9)), _legend())
+
+
+def in_hand():
+    """The scythe in hand: the 32px drawing (IN_HAND) as drawn, on a 64px canvas so the display scale can make it big
+    while its pixels stay the size of a vanilla held item's. The hold (upright, blade over the head and turned out a
+    little so it reads from behind and in front) is all in the model's display transforms: see datagen."""
+    shaded = _shade(IN_HAND, (12, 17))
+    n, big = len(shaded), 64
+    grid = [['.'] * big for _ in range(big)]
+    for y in range(n):
+        for x in range(n):
+            grid[y + 7][x + 7] = shaded[y][x]
+    return sp.stamp(sp.canvas(big, big), [''.join(r) for r in grid], _legend())

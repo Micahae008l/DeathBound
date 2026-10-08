@@ -13,7 +13,7 @@ Not covered by the test: the double Death King, the rift on the BREAK ending, th
 - **Portal stayed open after choosing to break the throne.** The rift now closes for the BREAK ending (`Director` wantRift).
 - **Bell clue** now reads "TOLL FOR ALL EXISTING KINGS." (still 4 tolls).
 - **Ghostwood planks/logs** are added to the vanilla `planks`, `logs` and `logs_that_burn` tags, so they work in all vanilla recipes (crafting table, sticks, chests, tools, fuel).
-- **Scythe in-hand texture** flipped to match the icon (`textures/item/reaper_scythe_in_hand.png`). Checked in game: that flip left the blade hanging down at the ground, curled back at the player. The hold is now upright, with the blade over the head pointing at the enemy, and in first person the blade hooks toward the crosshair (`models/item/reaper_scythe_in_hand.json` display). In hand it now uses the 16px icon like every other item; the 64px in-hand texture is gone.
+- **Scythe in-hand texture** flipped to match the icon (`textures/item/reaper_scythe_in_hand.png`). Checked in game: that flip left the blade hanging down at the ground, curled back at the player. The hold is now upright, with the blade over the head pointing at the enemy and turned 35 degrees outward so it reads as a scythe from behind and in front in F5. In first person the blade hooks toward the crosshair (`models/item/reaper_scythe_in_hand.json` display). The held texture stays 64px: at that size its pixels match a vanilla held item's (a 16px sprite blown up to scythe size was tried and looked blocky).
 - **Final boss music** is now Death's Requiem: the intro plays once, then the loop repeats for the whole Death King fight (`client/mixin/BossMusicMixin.java`, `sounds/music/deaths_requiem_*.ogg`).
 
 ## Charms

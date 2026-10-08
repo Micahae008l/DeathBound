@@ -99,7 +99,7 @@ ITEM, BLOCK, PART, GUI = (os.path.join(A, 'textures', d) for d in ('item', 'bloc
 relic = sp.relic()
 items = {'deathbound_relic': relic, 'soulbound_charm': sp.soulbound(), 'seers_charm': sp.seer(), 'wraiths_charm': sp.wraith(),
          'ferrymans_charm': sp.ferryman(), 'reapers_charm': sp.reaper(), 'soul': sp.soul(), 'heart_of_death': sp.heart(),
-         'reaper_scythe': scythe.icon(), 'soul_bolt': sp.purple_vanilla(jar, 'item/fire_charge', lift=0.5, sat=1.0), 'death_orb': sp.purple_vanilla(jar, 'item/fire_charge', lift=0.5, sat=1.0),
+         'reaper_scythe': scythe.icon(), 'reaper_scythe_in_hand': scythe.in_hand(), 'soul_bolt': sp.purple_vanilla(jar, 'item/fire_charge', lift=0.5, sat=1.0), 'death_orb': sp.purple_vanilla(jar, 'item/fire_charge', lift=0.5, sat=1.0),
          'gravebound_spawn_egg': sp.egg(('#1d1b22', '#2a2730', '#3a3640', '#4d4853'), ('#857a6a', '#b9ad96', '#e2d9c3'), 1),
          'soul_wisp_spawn_egg': sp.egg(('#16131c', '#24202c', '#35303e', '#47424e'), ('#4c1d7a', '#7a3cc2', '#c79bff'), 2),
          'deaths_guard_spawn_egg': sp.egg(('#17171d', '#2f2f38', '#464651', '#5c5c68'), ('#381753', '#62298d', '#9850cc'), 3),
