@@ -51,11 +51,11 @@ public final class ScytheSwing {
    private static final float HOLD_PITCH = (float)(-Math.PI / 10.0);
 
    /**
-    * Third person, the wrist. Held at rest the scythe stands upright with the blade over the head. The arms do the
-    * swinging (thirdPerson); left alone, raising them would lay the snath back over the shoulder and wave the blade over
-    * the head. So the wrist cancels the arm's pitch and tips the scythe its own way: cocked back on the wind-up, then
-    * over and down so the blade hangs in front at body height and is dragged through whatever you face (the slam brings
-    * it down to the ground).
+    * Third person, the wrist. At rest the scythe is held out like a sword, the snath angled forward and the blade hooking
+    * down in front. The arms do the swinging (thirdPerson); left alone, raising them would lay the snath back over the
+    * shoulder and wave the blade over the head. So the wrist cancels the arm's pitch and tips the scythe its own way:
+    * cocked up on the wind-up, then over and down so the blade hangs in front at body height and is dragged through
+    * whatever you face (the slam brings it down to the ground).
     */
    public static void thirdPersonItem(ArmedEntityRenderState state, HumanoidArm arm, ItemStack stack, PoseStack pose) {
       SwingDescription swing = state.currentSwing;
@@ -65,10 +65,10 @@ public final class ScytheSwing {
          float[] c = curve(state.swingAnimation);
          float pre = c[0];
          float cut = c[1];
-         float tip = switch (combo) {   // degrees, forward is negative
-            case 0 -> 25.0F * pre - 85.0F * cut;
-            case 1 -> 20.0F * pre - 80.0F * cut;
-            default -> 40.0F * pre - 95.0F * cut;
+         float tip = switch (combo) {   // degrees from the sword hold, forward is negative
+            case 0 -> 50.0F * pre - 32.0F * cut;
+            case 1 -> 45.0F * pre - 28.0F * cut;
+            default -> 70.0F * pre - 42.0F * cut;
          };
          float side = arm == HumanoidArm.RIGHT ? 1.0F : -1.0F;
          boolean slam = combo >= 2;
@@ -76,7 +76,7 @@ public final class ScytheSwing {
          pose.rotateDegrees(Axis.ZP, side * (slam ? 35.0F * cut : 0.0F));   // the slam comes down in front of you, not by your foot
          pose.rotateDegrees(Axis.XP, (float)Math.toDegrees(mainPitch(combo, pre, cut) - HOLD_PITCH) + tip);
          // turned out at rest so it can be seen; it swings facing ahead
-         pose.rotateDegrees(Axis.ZP, side * 40.0F * Math.min(1.0F, pre + cut));
+         pose.rotateDegrees(Axis.ZP, side * 25.0F * Math.min(1.0F, pre + cut));
          pose.translate(0.0F, -GRIP_Y, -GRIP_Z);
       }
    }

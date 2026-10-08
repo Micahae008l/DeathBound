@@ -27,33 +27,33 @@ ICON = ["...KKKKKKK......",
         "....KshK........",
         "....KKK........."]
 
-IN_HAND = [   # held: a straight snath, the blade off the top drooping forward (32px, the size of a vanilla spear in hand)
+IN_HAND = [   # held: a straight snath, the blade off the top drooping forward (32px, a vanilla held item's pixel size)
     "................................",
     "................................",
     "................................",
     "................................",
-    "...........KKKKKKKKK............",
-    "..........KSzzzzzzzzKK..........",
-    ".........KgvVzzzzzzzzzK.........",
-    ".........KgVvzzzzzzzzzzK........",
-    "..........KhzzzKKKKKzzzzK.......",
-    "..........KrKKK.....KKzzzK......",
-    "..........KhK.........KzzK......",
-    "..........KhK..........KzzK.....",
-    "..........KhK...........KzzK....",
-    "..........KrK............KzK....",
-    "..........KSK.............KzK...",
-    "..........KhK..............K....",
+    "................................",
+    "................................",
+    "................................",
+    "................................",
+    "................................",
+    "...........KKKKKK...............",
+    "..........KSzzzzzKK.............",
+    ".........KgvVzzzzzzK............",
+    ".........KgVvzzzzzzzK...........",
+    "..........KrzzKKKKKzzK..........",
+    "..........KhKK.....KzzK.........",
+    "..........KhK.......KzzK........",
+    "..........KhK........KzK........",
+    "..........KrK.........KzK.......",
+    "..........KSK..........K........",
+    "..........KhK...................",
     "..........KhK...................",
     "..........KrK...................",
     "..........KhK...................",
     "..........KhK...................",
     "..........KhK...................",
-    "..........KrK...................",
     "..........KSK...................",
-    "..........KhK...................",
-    "..........KhK...................",
-    "..........KrK...................",
     "..........KhK...................",
     "..........KhK...................",
     "..........KhK...................",
@@ -100,6 +100,6 @@ def icon():
 
 def in_hand():
     """The scythe in hand, at a vanilla held item's pixel size (32px at the spear's display scale). It's drawn upright with
-    the blade forward; the hold, the turn outward and the left hand's mirror are all in the model's display transforms
-    (see datagen), and the swing's wrist is in ScytheSwing."""
-    return sp.stamp(sp.canvas(32, 32), _shade(IN_HAND, (14, 16)), _legend())
+    the blade forward; the sword-like hold, the turn outward and the left hand's mirror are all in the model's display
+    transforms (see datagen), and the swing's wrist is in ScytheSwing."""
+    return sp.stamp(sp.canvas(32, 32), _shade(IN_HAND, (14, 19)), _legend())
