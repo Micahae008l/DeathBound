@@ -6,6 +6,7 @@
 		"CameraMixin",
 		"FirstPersonHandsMixin",
 		"HumanoidModelMixin",
+		"ItemInHandLayerMixin",
 		"BossMusicMixin",
 		"ShowDialogMixin",
 		"GameRendererMixin",

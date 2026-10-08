@@ -7,6 +7,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.state.level.PlayerRenderState;
@@ -34,6 +35,48 @@ public final class ScytheSwing {
       return entity instanceof ScytheCombo c ? c.deathbound$comboStep() : 0;
    }
 
+   /** The swinging arm's pitch (third person) for a combo step: forward is negative. */
+   private static float mainPitch(int combo, float pre, float cut) {
+      return switch (combo) {
+         case 0 -> -1.0F * pre - 1.35F * cut;
+         case 1 -> -1.25F * pre - 1.3F * cut;
+         default -> -2.95F * pre - 0.75F * cut;
+      };
+   }
+
+   /** Where the hand closes on the snath, in the item's frame (blocks): matches the model's third-person grip. */
+   private static final float GRIP_Y = -1.9F / 16.0F;
+   private static final float GRIP_Z = 1.5F / 16.0F;
+   /** The arm's pitch while just holding an item (vanilla's ITEM arm pose). */
+   private static final float HOLD_PITCH = (float)(-Math.PI / 10.0);
+
+   /**
+    * Third person, the wrist. Held at rest the scythe stands upright with the blade over the head. The arms do the
+    * swinging (thirdPerson); left alone, raising them would lay the snath back over the shoulder and wave the blade over
+    * the head. So the wrist cancels the arm's pitch and tips the scythe its own way: cocked back on the wind-up, then
+    * over and down so the blade hangs in front at body height and is dragged through whatever you face (the slam brings
+    * it down to the ground).
+    */
+   public static void thirdPersonItem(ArmedEntityRenderState state, HumanoidArm arm, ItemStack stack, PoseStack pose) {
+      SwingDescription swing = state.currentSwing;
+      if (swing != null && !(state.swingAnimation <= 0.0F) && stack.is(ModItems.REAPER_SCYTHE) && state instanceof AvatarRenderState avatar
+         && swing.hand().asArm(state.mainArm) == arm && Minecraft.getInstance().level != null) {
+         int combo = combo(Minecraft.getInstance().level.getEntity(avatar.id));
+         float[] c = curve(state.swingAnimation);
+         float pre = c[0];
+         float cut = c[1];
+         float tip = switch (combo) {   // degrees, forward is negative
+            case 0 -> 25.0F * pre - 85.0F * cut;
+            case 1 -> 20.0F * pre - 80.0F * cut;
+            default -> 40.0F * pre - 110.0F * cut;
+         };
+         pose.translate(0.0F, GRIP_Y, GRIP_Z);
+         pose.rotateDegrees(Axis.XP, (float)Math.toDegrees(mainPitch(combo, pre, cut) - HOLD_PITCH) + tip);
+         pose.rotateDegrees(Axis.ZP, (arm == HumanoidArm.RIGHT ? 40.0F : -40.0F) * Math.min(1.0F, pre + cut));   // turned out at rest to be seen; it swings facing ahead
+         pose.translate(0.0F, -GRIP_Y, -GRIP_Z);
+      }
+   }
+
    public static void firstPerson(PlayerRenderState playerState, InteractionHand hand, float attack, ItemStack stack, PoseStack pose) {
       AvatarRenderState a = playerState.avatarRenderState;
       if (a != null && stack.is(ModItems.REAPER_SCYTHE) && (!a.isUsingItem || a.useItemHand != hand)) {
@@ -50,32 +93,32 @@ public final class ScytheSwing {
             float tx = 0.0F;
             float ty = 0.0F;
             float tz = 0.0F;
+            // the frame here: x right, y up, z toward the camera; the scythe stands up from the hand with its blade
+            // pointing into the screen. Wind up to one side, then tip the top away (pitch) so the blade drops and hangs
+            // in front, and sweep it across the crosshair (yaw); the slam lifts it high and brings it straight down
             switch (combo(Minecraft.getInstance().player)) {
                case 0:
-                  yaw = inv * (55.0F * pre - 130.0F * cut);
-                  roll = inv * (-20.0F * pre - 35.0F * cut);
-                  pitch = -12.0F * pre + 18.0F * cut;
-                  tx = inv * (0.25F * pre - 0.62F * cut);
-                  ty = 0.08F * pre - 0.08F * cut;
-                  tz = 0.05F * pre - 0.22F * cut;
+                  roll = inv * -22.0F * pre;
+                  pitch = 12.0F * pre - 46.0F * cut;
+                  yaw = inv * (-28.0F * pre + 52.0F * cut);
+                  tx = inv * (0.12F * pre - 0.3F * cut);
+                  ty = 0.08F * pre + 0.1F * cut;
+                  tz = -0.1F * cut;
                   break;
                case 1:
-                  yaw = inv * (-70.0F * pre + 120.0F * cut);
-                  roll = inv * (30.0F * pre + 35.0F * cut);
-                  pitch = -18.0F * pre + 14.0F * cut;
-                  tx = inv * (-0.38F * pre + 0.55F * cut);
-                  ty = 0.12F * pre - 0.05F * cut;
-                  tz = 0.05F * pre - 0.22F * cut;
+                  roll = inv * 26.0F * pre;
+                  pitch = 10.0F * pre - 46.0F * cut;
+                  yaw = inv * (30.0F * pre + 20.0F * cut);
+                  tx = inv * (-0.26F * pre - 0.12F * cut);
+                  ty = 0.1F * pre + 0.1F * cut;
+                  tz = -0.1F * cut;
                   break;
                default:
-                  float spin = Ease.inOutCubic(span(attack, 0.1F, 0.5F));
-                  float slam = Ease.inCubic(span(attack, 0.42F, 0.56F)) * (1.0F - Ease.inOutSine(span(attack, 0.68F, 1.0F)));
-                  yaw = inv * -360 * spin;
-                  pitch = -35.0F * pre * (1.0F - slam) + 75.0F * slam;
-                  roll = inv * -12 * slam;
-                  ty = 0.22F * pre * (1.0F - slam) - 0.28F * slam;
-                  tz = -0.32F * slam;
-                  tx = inv * -0.12F * slam;
+                  pitch = 30.0F * pre - 62.0F * cut;
+                  yaw = inv * 14.0F * cut;
+                  tx = inv * -0.22F * cut;
+                  ty = 0.22F * pre + 0.07F * cut;
+                  tz = -0.1F * cut;
             }
 
             pose.translate(tx, ty, tz);
@@ -101,10 +144,10 @@ public final class ScytheSwing {
             float[] c = curve(state.swingAnimation);
             float pre = c[0];
             float cut = c[1];
+            float mainX = mainPitch(combo, pre, cut);
             float offZ = 0.0F;
             float yaw;
             float pitch;
-            float mainX;
             float mainY;
             float mainZ;
             float offX;
@@ -114,7 +157,6 @@ public final class ScytheSwing {
                case 0:
                   yaw = inv * (0.65F * pre - 0.85F * cut);
                   pitch = 0.16F * cut;
-                  mainX = -1.0F * pre - 1.35F * cut;
                   mainY = inv * (0.55F * pre - 0.65F * cut);
                   mainZ = inv * 0.25F * pre;
                   offX = -1.15F * pre - 1.25F * cut;
@@ -124,7 +166,6 @@ public final class ScytheSwing {
                case 1:
                   yaw = inv * (-0.7F * pre + 0.75F * cut);
                   pitch = 0.14F * cut;
-                  mainX = -1.25F * pre - 1.3F * cut;
                   mainY = inv * (-0.8F * pre + 0.5F * cut);
                   mainZ = -inv * 0.2F * pre;
                   offX = -1.0F * pre - 1.2F * cut;
@@ -134,7 +175,6 @@ public final class ScytheSwing {
                default:
                   yaw = inv * 0.15F * cut;
                   pitch = -0.22F * pre + 0.28F * cut;
-                  mainX = -2.95F * pre - 0.75F * cut;
                   mainY = inv * 0.1F * pre;
                   mainZ = inv * 0.15F * pre;
                   offX = -2.85F * pre - 0.7F * cut;
