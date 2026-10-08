@@ -68,11 +68,15 @@ public final class ScytheSwing {
          float tip = switch (combo) {   // degrees, forward is negative
             case 0 -> 25.0F * pre - 85.0F * cut;
             case 1 -> 20.0F * pre - 80.0F * cut;
-            default -> 40.0F * pre - 110.0F * cut;
+            default -> 40.0F * pre - 95.0F * cut;
          };
+         float side = arm == HumanoidArm.RIGHT ? 1.0F : -1.0F;
+         boolean slam = combo >= 2;
          pose.translate(0.0F, GRIP_Y, GRIP_Z);
+         pose.rotateDegrees(Axis.ZP, side * (slam ? 35.0F * cut : 0.0F));   // the slam comes down in front of you, not by your foot
          pose.rotateDegrees(Axis.XP, (float)Math.toDegrees(mainPitch(combo, pre, cut) - HOLD_PITCH) + tip);
-         pose.rotateDegrees(Axis.ZP, (arm == HumanoidArm.RIGHT ? 40.0F : -40.0F) * Math.min(1.0F, pre + cut));   // turned out at rest to be seen; it swings facing ahead
+         // turned out at rest so it can be seen; it swings facing ahead
+         pose.rotateDegrees(Axis.ZP, side * 40.0F * Math.min(1.0F, pre + cut));
          pose.translate(0.0F, -GRIP_Y, -GRIP_Z);
       }
    }
