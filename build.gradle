@@ -18,6 +18,18 @@ repositories {
 loom {
 	splitEnvironmentSourceSets()
 
+	runs {
+		// dev only: quick-plays the 'dbtest' world and follows run/test-script.txt (see DevHarness; tools/trailer/shots.py
+		// writes the scripts). Reset first: copy run/world to run/saves/dbtest.
+		testClient {
+			client()
+			name = "Test Client"
+			vmArg "-Ddeathbound.script=" + file("run/test-script.txt").absolutePath
+			vmArg "-Ddeathbound.ffmpeg=" + System.getProperty("user.home") + "/AppData/Roaming/Python/Python312/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe"
+			programArgs "--quickPlaySingleplayer", "dbtest", "--width", "1920", "--height", "1080", "--username", "Wanderer"
+		}
+	}
+
 	mods {
 		"deathbound" {
 			sourceSet sourceSets.main

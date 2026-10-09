@@ -21,7 +21,7 @@ has none of the work from Oct 7 on, so don't copy it back over this repo.
 | `tools/blocks16.py`, `tools/charms16.py`, `tools/lantern3d.py`, `tools/story_art.py` | Textures and models made since Oct 7 | Yes |
 | `tools/datagen.py` with `lore.py` and `talk.py` | Every dialog, the language file, models, block states, loot, `sounds.json`, `TalkData.java` | **Guarded** |
 | `tools/art/build.py` (and the modules in `tools/art/`) | The original textures and entity models (`ModelMeshes.java`) | **Guarded** |
-| `tools/trailer/` | Trailer, endings and characters videos (shot lists, score, edit) | Yes; needs footage in `run/trailer_keep` |
+| `tools/trailer/` | Trailer, endings and characters videos (shot lists, score, edit). `trailer4.py` is the latest cut | Yes; filming needs a template world in `run/world` (see below) |
 
 The two guarded scripts generated 1.0.0's resources. Run as they are now, they would overwrite everything changed since:
 - the stories and advancements in the language file
@@ -42,3 +42,10 @@ UW_SHOTS=1 ./gradlew runClientGameTest     # screenshots only
 ```
 
 Results print as `[DB-TEST] ... -> PASS/FAIL` lines in the game log.
+
+## Filming
+
+`tools/trailer/shots.py <session>` writes `run/test-script.txt`; `./gradlew runTestClient` plays it in a copy of
+`run/world` (copy it to `run/saves/dbtest` and delete `dimensions/deathbound` first, so the Underworld generates fresh).
+Clips land in `run/trailer/`. `run/` isn't in git, so `run/world` (any small flat world) has to be made once per machine.
+Film at Minecraft's default brightness: the trailers are graded dark on purpose.

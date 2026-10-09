@@ -89,3 +89,9 @@ Checked and not a bug (the tests stay as regression checks):
 Flaky: "ghostwood: things risen around the player" was 0 in 1 of 6 runs (the others saw 2 to 4). No King was left over, and nothing removes them early, so it looks like spawn luck. Rerun if it fails once.
 
 The generator scripts are now in `tools/` (see README). `datagen.py` and `art/build.py` refuse to run without `DB_REGEN=1`.
+
+## Trailer 4 (Oct 9)
+Michael asked for the trailer again with better shots. Same cut, cards and score as trailer 3; every shot refilmed (`tools/trailer/shots.py` t9a..t9i, t9k; `tools/trailer/trailer4.py` builds `build/trailer4/deathbound_trailer_full.mp4`).
+- Default brightness, no night vision (Michael: "it's a scary mod"). Subjects are lit like a film set: an invisible `minecraft:light` block near them, so they sit in a pool of light and the dark stays dark.
+- New: the scythe's three cuts and slam, the Collector in his vault, the market, the Sentry at his post with a Shade drifting in front of him, a Gravebound clawing out of the ground close up. Still no fights, no King's other forms, no endings.
+- Filming gotchas: the film camera keeps teleporting the player to where it last was, so NPCs whose post is elsewhere never get put there (`camoff` and stand there first). Killing the Death King ends the story and sends the player home: film the empty throne before he ever spawns.

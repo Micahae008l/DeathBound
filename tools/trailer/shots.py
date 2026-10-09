@@ -1517,8 +1517,190 @@ def session_tr8b():
     say('quit')
 
 
+def session_scout():
+    """Trailer 4 scouting: every island from its four sides (night vision on, just to see the layout), for picking angles."""
+    import math
+    say('hud off', 'fov 70', 'gamemode creative', 'view first', 'effect give @s night_vision infinite 0 true', 'filmlight on')
+    for name, x, z, y in ISLAND_CENTERS:
+        say(U + f'tp @s {x} {y + 20} {z}', 'wait 220')
+        for k, deg in enumerate((0, 90, 180, 270)):
+            a = math.radians(deg)
+            at = (round(x + 34 * math.sin(a), 1), y + 14, round(z + 34 * math.cos(a), 1))
+            _still(f'sc_{name}_{deg}', at, (x, y + 2, z), 25 if k == 0 else 15)
+    say('quit')
+
+
+# ------------------------------------------------------------------ trailer 4: the same cut as trailer 3, every shot new
+# Film t9a..t9i then t9k, in that order (later sessions refilm some of the earlier takes under the same names), then
+# `python tools/trailer/trailer4.py`.
+# Default brightness (not Moody, not Bright), fog on, no night vision. Subjects are lit like a film set: an invisible
+# minecraft:light (key) near them, so they sit in a pool of light and everything around stays dark. Slow pushes, cranes and
+# tracks only: nothing orbits, nothing turns fast. Mobs that must stand still are summoned high, let fall, then frozen
+# (NoAI mobs don't fall: summoned at the island's nominal top they end up buried in uneven ground).
+T9 = ('hud off', 'fov 62', 'gamemode creative', 'view first', 'effect clear @s night_vision', 'filmlight off', 'nodark on')
+
+
+def key(x, y, z, level=12):
+    """An invisible light (a film set's key light): lights the subject, leaves the dark around it alone."""
+    return U + f'setblock {x} {y} {z} minecraft:light[level={level}]'
+
+
+def freeze(kind):
+    """The nearest `kind` stops where it landed."""
+    return f'data merge entity @e[type={kind},limit=1,sort=nearest] {{NoAI:1b}}'
+
+
+def session_t9a():
+    """The living world: a figure in a storm-dark clearing, lightning ahead; then the rite, from the front."""
+    say('hud off', 'fov 60', 'gamemode survival', *TOUGH, 'clear @s',
+        'item replace entity @s weapon.offhand with deathbound:deathbound_relic',
+        'execute in minecraft:overworld run spreadplayers -232 -290 0 1 false @s', 'wait 40',
+        'fill ~-14 ~ ~-14 ~14 ~22 ~14 air', 'kill @e[type=item]',
+        'time set 18000', 'weather thunder', 'view back', 'look 0 -4', 'wait 200')
+    follow('t9_storm', 5.5, 'minecraft:player', 3.0, 0.35, 165, 172, 1.7, events=[(26, 'summon lightning_bolt ~-3 ~ ~16')])
+    follow('t9_rite', 7.5, 'minecraft:player', 3.4, 0.5, -12, -4, 1.65,
+           events=[(30, 'summon lightning_bolt ~5 ~ ~-12'), (40, 'deathbound descend')])
+    say('quit')
+
+
+def session_t9b():
+    """Below: waking among the pillars, the Ferryman, the line of the dead, one of them close, the Spire."""
+    say(*T9, U + 'tp @s 0 110 0', 'wait 240', 'gamemode survival', *TOUGH, STEADY, 'clear @s',
+        'item replace entity @s weapon.offhand with deathbound:deathbound_relic',
+        key(1, 102, 2, 11), key(2, 102, 7, 9), U + 'tp @s 0.5 101 7.5 180 0', 'view back', 'wait 20')
+    pan('t9_arrival', 7, (3.5, 109.0, 15.5), (2.2, 103.0, 10.6), (0.5, 102.3, 3.0), warm=30, events=[(30, 'hold forward 60')])
+    say('gamemode creative', 'view first', key(9, 103, -9, 13), key(8, 104, -11, 8))
+    pan('t9_ferryman', 6, (10.8, 102.3, -9.4), (8.9, 102.5, -9.25), (6.5, 102.85, -9.0), warm=20)
+    # the line: souls walking away from us toward the Gate, on the Hub's path
+    say(U + 'tp @s 0 104 -130', 'wait 320')
+    pan('t9_line', 8.5, (3.2, 99.5, -126.0), (2.6, 99.7, -133.0), (0.0, 100.4, -175.0), warm=20)
+    say('follow 0 deathbound:lost_soul 2.3 1.25 172 172 1.35', 'wait 30', 'rec t9_soul 30', 'follow 6 deathbound:lost_soul 2.0 1.3 172 180 1.35',
+        'wait 124', 'stop')
+    say(U + 'tp @s 90 104 -136', 'wait 240')
+    pan('t9_spire', 6, (86.0, 101.6, -136.0), (87.0, 104.6, -137.5), (96.0, 131.0, -152.0), warm=20)
+    say('quit')
+
+
+def session_t9c():
+    """Its people: the Collector among his shelves, the Lamplighter, Aldous at the forge, the Prophet in the crypt."""
+    say(*T9, U + 'tp @s 96 110 -150', 'wait 240', key(96, 92, -153, 12))
+    pan('t9_collector', 6, (96.5, 91.3, -155.6), (96.5, 91.4, -153.9), (96.5, 91.7, -150.5), warm=20)
+    say(U + 'tp @s 85 104 -44', 'wait 240', key(87, 102, -48, 12), key(89, 101, -49, 7))
+    pan('t9_lamplighter', 6, (87.6, 101.0, -45.2), (87.5, 101.2, -46.8), (87.5, 101.8, -50.0), warm=20)
+    say(key(77, 102, -35, 11), U + 'tp @s 78.0 100 -35.5 90 10', 'wait 20', 'gamemode survival', *TOUGH, 'clear @s',
+        'item replace entity @s armor.chest with minecraft:netherite_chestplate', 'give @s deathbound:grave_rune 6', 'give @s deathbound:soul 64', 'wait 10')
+    take('t9_forge', 'pan', 7, '77.6 101.2 -33.9 77.6 101.2 -33.9 75.0 101.0 -36.4', '77.6 101.2 -33.9 77.1 101.2 -34.5 75.0 101.0 -36.4',
+         warm=20, events=[(4, 'deathbound forge chest')], tail=6)
+    say('gamemode creative', U + 'tp @s -54 95 -168', 'wait 240', key(-54, 90, -169, 12))
+    pan('t9_prophet', 6, (-54.0, 88.9, -167.6), (-54.0, 89.1, -168.8), (-54.0, 90.4, -172.0), warm=20)
+    say('quit')
+
+
+def session_t9d():
+    """The Mere and Clatter's quench; the Western Watch and its Sentry; a Soul Wisp in the Ghostwood."""
+    say(*T9, U + 'tp @s 40 104 90', 'wait 260')
+    pan('t9_mere', 6, (27.0, 99.6, 87.0), (30.0, 99.3, 84.5), (42.0, 98.4, 74.0), warm=20)
+    pan('t9_water', 6, (31.0, 98.7, 80.0), (34.0, 98.6, 79.2), (36.0, 97.3, 74.0), warm=20)
+    pan('t9_ribs', 7, (61.0, 101.4, 75.5), (57.0, 101.2, 75.5), (47.0, 102.0, 75.5), warm=20)
+    say(key(41, 100, 77, 12), U + 'tp @s 44.0 98 75.5 90 15', 'wait 30', 'gamemode survival', *TOUGH,
+        'clear @s', 'give @s netherite_sword', 'give @s deathbound:grave_rune 6', 'give @s deathbound:soul 64', 'wait 10')
+    take('t9_quench', 'pan', 6.5, '41.6 99.5 79.8 41.6 99.5 79.8 41.0 98.4 75.5', '41.6 99.5 79.8 40.9 99.6 79.2 41.0 98.6 75.5',
+         warm=20, events=[(4, 'deathbound temper 1')], tail=10)
+    say('gamemode creative', U + 'tp @s -136 104 -96', 'wait 240', key(-143, 99, -99, 12))
+    pan('t9_sentry', 6, (-145.8, 98.2, -99.5), (-143.9, 98.4, -99.2), (-140.8, 98.85, -98.9), warm=20)
+    pan('t9_watch', 6, (-118.0, 97.4, -95.0), (-121.0, 98.6, -96.0), (-136.0, 116.0, -100.0), warm=20)
+    say(U + 'tp @s -76 110 -36', 'wait 240', U + 'summon deathbound:soul_wisp -76 106 -36 {PersistenceRequired:1b,NoAI:1b}', 'wait 20')
+    pan('t9_wisp', 5, (-70.6, 105.2, -30.6), (-72.8, 105.6, -32.8), (-76.0, 106.4, -36.0), warm=20)
+    say('quit')
+
+
+def session_t9e():
+    """The hunt: the dead clawing out between the gravestones; the Hollow; the Hunter standing in the dark; the scythe."""
+    say(*T9, U + 'tp @s 0 106 -222', 'wait 260', 'kill @e[type=deathbound:gravebound]',
+        U + 'summon deathbound:gravebound 3.5 101 -229 {PersistenceRequired:1b,NoAI:1b,Rotation:[160f,0f]}', key(2, 103, -226, 11), 'wait 10')
+    pan('t9_rise', 6, (1.2, 101.3, -222.0), (1.6, 101.4, -223.4), (3.5, 102.4, -229.0), warm=10, events=[(4, U + 'deathbound rise')])
+    say('kill @e[type=deathbound:gravebound]',
+        *[U + f'summon deathbound:gravebound {x} 101 {z} {{PersistenceRequired:1b,NoAI:1b,Rotation:[180f,0f]}}'
+          for x, z in ((-4.5, -232), (4.0, -236), (-2.0, -240), (6.5, -230), (-7.0, -238))],
+        key(0, 103, -234, 9), 'wait 10')
+    pan('t9_risefar', 7, (0.5, 101.4, -215.0), (0.5, 101.7, -218.0), (0.0, 102.4, -238.0), warm=10, events=[(4, U + 'deathbound rise')])
+    say('kill @e[type=deathbound:gravebound]', U + 'tp @s -196 106 -116', 'wait 240')
+    pan('t9_hollow', 7, (-194.0, 94.6, -110.0), (-190.0, 94.6, -115.0), (-206.0, 94.4, -126.0), warm=20)
+    say(U + 'summon deathbound:hollow_hunter -206 99 -126 {PersistenceRequired:1b,Rotation:[135f,0f]}', 'wait 60',
+        freeze('deathbound:hollow_hunter'), key(-203, 96, -123, 11), 'wait 10')
+    pan('t9_hunter', 7, (-198.8, 94.2, -118.6), (-201.4, 94.4, -121.2), (-206.0, 95.6, -126.0), warm=20)
+    say('kill @e[type=deathbound:hollow_hunter]', U + 'tp @s 0.5 106 10.5', 'wait 220', 'kill @e[type=deathbound:gravebound]',
+        'gamemode survival', *TOUGH, STEADY, 'clear @s', 'item replace entity @s weapon.mainhand with deathbound:reaper_scythe',
+        U + 'tp @s 0.5 101 10.5 180 0',
+        *[U + f'summon deathbound:gravebound {x} 101 {z} {{PersistenceRequired:1b,NoAI:1b,Rotation:[0f,0f]}}'
+          for x, z in ((0.5, 8.0), (-1.6, 8.6), (2.6, 8.6))],
+        key(0, 103, 9, 12), 'wait 10', 'view back', 'aim deathbound:gravebound')
+    take('t9_reap', 'pan', 6, '2.6 102.5 13.2 2.6 102.5 13.2 0.3 101.9 7.6', '2.6 102.5 13.2 2.2 102.4 12.6 0.3 101.8 7.6',
+         warm=20, events=[(4, 'click'), (27, 'click'), (50, 'click')], tail=20)
+    say('aim off', 'quit')
+
+
+def session_t9f():
+    """The Warden at his gate; the Death King on his throne, from the hall and close; the throne, empty."""
+    say(*T9, U + 'tp @s 0 106 -224', 'wait 280', key(2, 103, -244, 10), key(-2, 103, -244, 10))
+    pan('t9_gate', 9, (0.5, 101.8, -223.5), (0.5, 102.4, -236.0), (0.0, 104.2, -247.0), warm=20)
+    say(U + 'tp @s 0 101 -330', 'wait 240', 'deathbound story 1 0', 'deathbound seals 7',
+        U + 'tp @s 0.5 101 -340 180 0', 'wait 320', key(0, 105, -360, 14), key(3, 106, -362, 9), key(-3, 106, -362, 9))
+    pan('t9_hall', 8, (0.5, 102.8, -336.0), (0.5, 103.4, -347.0), (0.5, 105.6, -364.0), warm=20)
+    pan('t9_king', 7, (0.5, 104.4, -357.2), (0.5, 104.8, -359.6), (0.5, 106.2, -364.0), warm=20)
+    say('kill @e[type=deathbound:death]', 'wait 40')
+    pan('t9_throne', 8, (0.5, 104.4, -351.0), (0.5, 104.8, -357.5), (0.5, 105.4, -364.0), warm=20)
+    say('quit')
+
+def session_t9g():
+    """Trailer 4 reshoots: the Collector inside his vault, the Lamplighter, the market, the line of the dead (with its
+    dead), a Gravebound climbing out close, the Hunter clear of the trees."""
+    say(*T9, U + 'tp @s 96 110 -150', 'wait 240', key(97, 92, -150, 12))
+    pan('t9_collector', 6, (98.6, 91.3, -149.6), (98.2, 91.4, -150.3), (96.0, 91.4, -152.4), warm=20)
+    say(U + 'tp @s 85 104 -44', 'wait 240', key(87, 102, -48, 12), key(89, 101, -49, 7))
+    pan('t9_lamplighter', 6, (87.5, 101.2, -46.4), (87.5, 101.3, -47.3), (87.5, 101.8, -50.0), warm=20)
+    say(key(91, 103, -53, 11))
+    pan('t9_market', 6, (95.0, 102.0, -50.0), (92.0, 102.0, -50.0), (90.5, 100.5, -56.0), warm=20)
+    # the line: the dead walking away from us toward the Gate
+    say(U + 'tp @s 0 104 -130', 'wait 300',
+        *[U + f'summon deathbound:lost_soul {x} 99 {z} {{PersistenceRequired:1b,Rotation:[180f,0f]}}'
+          for x, z in ((0.5, -131), (-0.5, -135.5), (1.0, -140), (0.0, -145), (1.2, -150), (-0.6, -155), (0.6, -161))], 'wait 20')
+    pan('t9_line', 8.5, (2.6, 100.2, -126.5), (2.0, 100.3, -132.0), (0.0, 100.6, -175.0), warm=20)
+    say(U + 'tp @s -136 104 -96', 'wait 240')
+    pan('t9_watch', 6, (-134.5, 122.8, -98.5), (-135.0, 122.6, -101.2), (-136.5, 121.2, -100.2), warm=20)
+    # a Gravebound climbs out between the gravestones, close
+    say(U + 'tp @s 0 106 -222', 'wait 260', 'kill @e[type=deathbound:gravebound]',
+        U + 'summon deathbound:gravebound 3.5 101 -229 {PersistenceRequired:1b,NoAI:1b,Rotation:[160f,0f]}', key(3, 103, -227, 12), 'wait 10')
+    pan('t9_rise', 6, (2.0, 101.5, -225.4), (2.3, 101.6, -226.2), (3.5, 101.9, -229.0), warm=10, events=[(4, U + 'deathbound rise')])
+    say('kill @e[type=deathbound:gravebound]', U + 'tp @s -200 100 -120', 'wait 240',
+        U + 'summon deathbound:hollow_hunter -206 99 -126 {PersistenceRequired:1b,Rotation:[135f,0f]}', 'wait 60',
+        freeze('deathbound:hollow_hunter'), key(-203, 96, -123, 12), 'wait 10')
+    pan('t9_hunter', 7, (-199.8, 94.3, -119.6), (-201.8, 94.5, -121.6), (-206.0, 95.6, -126.0), warm=20)
+    say('kill @e[type=deathbound:hollow_hunter]')
+    say('quit')
+
+def session_t9h():
+    """Trailer 4: the throne, empty. Film it before the King ever wakes in this world: killing him ends the story and
+    sends the player home."""
+    say(*T9, U + 'tp @s 0 101 -330', 'wait 300', key(0, 105, -360, 12), key(3, 106, -362, 8), key(-3, 106, -362, 8), 'wait 20')
+    pan('t9_throne', 8, (0.5, 104.4, -351.0), (0.5, 104.8, -357.5), (0.5, 105.4, -364.0), warm=20)
+    say('quit')
+
+def session_t9i():
+    """The Western Watch's Sentry at his post. The film camera keeps the player (and so the Director's attention) wherever
+    it last was: `camoff` and stand there first, or he's never put at his post."""
+    say(*T9, 'camoff', U + 'tp @s -136 104 -96', 'wait 300', key(-143, 99, -99, 12), 'wait 10')
+    pan('t9_sentry', 6.5, (-146.2, 99.4, -99.3), (-144.6, 99.2, -99.15), (-141.0, 98.7, -99.0), warm=20)
+    say('quit')
+
+def session_t9k():
+    """Trailer 4: the Western Watch's brazier again, a slow push in this time (the first swung round it)."""
+    say(*T9, U + 'tp @s -136 126 -96', 'wait 260')
+    pan('t9_watch', 6, (-133.9, 123.0, -97.9), (-134.5, 122.8, -98.8), (-136.5, 121.3, -100.2), warm=20)
+    say('quit')
+
 if __name__ == '__main__':
-    {'a': session_a, 'r': session_r, 'b': session_b, 'b2': session_b2, 'c': session_c, 'w': session_w, 'f': session_f, 'g': session_g, 's': session_s, 't': session_t, 'd': session_d, 'd2': session_d2, 'v': session_v, 'p': session_p, 'q': session_q, 'r': session_r, 'u': session_u, 'bk': session_bk, 'e': session_e, 'ev': session_ev, 'ev_take': lambda: session_ev(('take',), False), 'ev_intro': lambda: session_ev(('none',), True), 'npcv': session_npcv, 'npcv2': session_npcv2, 'forge': session_forge, 'aldous': session_aldous, 'e2': session_e2, 'fx': session_fx, 'mere': session_mere, 'folk': session_folk, 'town': session_town, 'ev2': session_ev2, 'tr2': session_tr2, 'tr2b': session_tr2b, 'tr2c': session_tr2c, 'tr2d': session_tr2d, 'dbg_run': session_dbg_run, 'ev2_break': lambda: session_ev2(('break',)), 'e2_break': lambda: session_e2(('break',)), 't3a': session_t3a, 't3b': session_t3b, 't3c': session_t3c, 't3d': session_t3d, 'tr3a': session_tr3a, 'tr3b': session_tr3b, 'tr3c': session_tr3c, 't4': session_t4, 't5': session_t5, 't6': session_t6, 't7': session_t7, 't8': session_t8, 't9': session_t9, 'tr4a': session_tr4a, 'tr4b': session_tr4b, 'tr4c': session_tr4c, 'tr4d': session_tr4d, 'tr5': session_tr5, 'tr5b': session_tr5b, 'tr5c': session_tr5c, 't10': session_t10, 'tr6': session_tr6, 't11': session_t11, 'tr7': session_tr7, 'tr8': session_tr8, 'tr8b': session_tr8b}[sys.argv[1]]()
+    {'a': session_a, 'r': session_r, 'b': session_b, 'b2': session_b2, 'c': session_c, 'w': session_w, 'f': session_f, 'g': session_g, 's': session_s, 't': session_t, 'd': session_d, 'd2': session_d2, 'v': session_v, 'p': session_p, 'q': session_q, 'r': session_r, 'u': session_u, 'bk': session_bk, 'e': session_e, 'ev': session_ev, 'ev_take': lambda: session_ev(('take',), False), 'ev_intro': lambda: session_ev(('none',), True), 'npcv': session_npcv, 'npcv2': session_npcv2, 'forge': session_forge, 'aldous': session_aldous, 'e2': session_e2, 'fx': session_fx, 'mere': session_mere, 'folk': session_folk, 'town': session_town, 'ev2': session_ev2, 'tr2': session_tr2, 'tr2b': session_tr2b, 'tr2c': session_tr2c, 'tr2d': session_tr2d, 'dbg_run': session_dbg_run, 'ev2_break': lambda: session_ev2(('break',)), 'e2_break': lambda: session_e2(('break',)), 't3a': session_t3a, 't3b': session_t3b, 't3c': session_t3c, 't3d': session_t3d, 'tr3a': session_tr3a, 'tr3b': session_tr3b, 'tr3c': session_tr3c, 't4': session_t4, 't5': session_t5, 't6': session_t6, 't7': session_t7, 't8': session_t8, 't9': session_t9, 'tr4a': session_tr4a, 'tr4b': session_tr4b, 'tr4c': session_tr4c, 'tr4d': session_tr4d, 'tr5': session_tr5, 'tr5b': session_tr5b, 'tr5c': session_tr5c, 't10': session_t10, 'tr6': session_tr6, 't11': session_t11, 'tr7': session_tr7, 'tr8': session_tr8, 'tr8b': session_tr8b, 'scout': session_scout, 't9a': session_t9a, 't9b': session_t9b, 't9c': session_t9c, 't9d': session_t9d, 't9e': session_t9e, 't9f': session_t9f, 't9g': session_t9g, 't9h': session_t9h, 't9i': session_t9i, 't9k': session_t9k}[sys.argv[1]]()
     out = Path(__file__).resolve().parents[2] / 'run' / 'test-script.txt'
     out.write_text('\n'.join(L) + '\n')
     print(f'{len(L)} lines -> {out}')
