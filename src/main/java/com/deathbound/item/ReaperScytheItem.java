@@ -5,7 +5,11 @@ import com.deathbound.npc.UnderworldNpc;
 import com.deathbound.registry.ModItems;
 import com.deathbound.registry.ModNet;
 import com.deathbound.registry.ModParticles;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
@@ -41,6 +45,37 @@ public class ReaperScytheItem extends Item {
       super(properties);
    }
 
+   /**
+    * What the blade does lands when the blade gets there, not on the click: the swing's slash, flames and slam wait for
+    * the animation (ScytheSwing). Checked on screen, one shot per swing: what the server sends N ticks after the swing
+    * shows N + 1 ticks after the click (give or take one); the blade crosses from tick 5 to 7 and the slam lands at 6.
+    */
+   private record Later(int at, Runnable fx) {
+   }
+
+   private static final List<Later> LATER = new ArrayList<>();
+
+   private static void later(ServerLevel level, int ticks, Runnable fx) {
+      LATER.add(new Later(level.getServer().getTickCount() + ticks, fx));
+   }
+
+   public static void init() {
+      ServerTickEvents.END_SERVER_TICK.register(server -> {
+         if (!LATER.isEmpty()) {
+            int now = server.getTickCount();
+            List<Later> due = LATER.stream().filter(l -> l.at() <= now).toList();
+            LATER.removeAll(due);
+            due.forEach(l -> l.fx().run());
+         }
+      });
+      ServerLifecycleEvents.SERVER_STOPPED.register(server -> LATER.clear());
+   }
+
+   /** Still there to finish the swing: alive, in the same world, the scythe still in hand. */
+   private static boolean still(LivingEntity user, ServerLevel level) {
+      return user.isAlive() && user.level() == level && user.getMainHandItem().is(ModItems.REAPER_SCYTHE);
+   }
+
    @Override
    public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
       super.postHurtEnemy(stack, target, attacker);
@@ -62,15 +97,22 @@ public class ReaperScytheItem extends Item {
             }
          }
 
-         for (int i = -3; i <= 3; i++) {
-            Vec3 p = attacker.position().add(Vec3.directionFromRotation(0.0F, attacker.getYRot() + i * 22).scale(2.6));
-            level.sendParticles(ModParticles.SOUL_FLAME, p.x, attacker.getY() + 1.1, p.z, 2, 0.1, 0.05, 0.1, 0.01);
-         }
+         later(level, 5, () -> {   // the blade through the target
+            if (!still(attacker, level)) {
+               return;
+            }
+            float yaw = attacker.getYRot();
+            Vec3 ahead = Vec3.directionFromRotation(0.0F, yaw);
+            for (int i = -3; i <= 3; i++) {
+               Vec3 p = attacker.position().add(Vec3.directionFromRotation(0.0F, yaw + i * 22).scale(2.6));
+               level.sendParticles(ModParticles.SOUL_FLAME, p.x, attacker.getY() + 1.1, p.z, 2, 0.1, 0.05, 0.1, 0.01);
+            }
 
-         level.sendParticles(
-            ParticleTypes.SWEEP_ATTACK, attacker.getX() + look.x * 2.0, attacker.getY() + 1.1, attacker.getZ() + look.z * 2.0, 1, 0.0, 0.0, 0.0, 0.0
-         );
-         level.playSound(null, attacker.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, 0.65F);
+            level.sendParticles(
+               ParticleTypes.SWEEP_ATTACK, attacker.getX() + ahead.x * 2.0, attacker.getY() + 1.1, attacker.getZ() + ahead.z * 2.0, 1, 0.0, 0.0, 0.0, 0.0
+            );
+            level.playSound(null, attacker.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.0F, 0.65F);
+         });
          if (!target.isAlive()) {
             reap(stack, level, attacker, target);
          }
@@ -87,50 +129,66 @@ public class ReaperScytheItem extends Item {
 
    public static void onSwing(LivingEntity user, int step) {
       if (user.level() instanceof ServerLevel level) {
-         float var9 = user.getYRot();
          if (step < 2) {
-            int dir = step == 0 ? 1 : -1;
-
-            for (int i = -1; i <= 1; i++) {
-               Vec3 p = user.position().add(Vec3.directionFromRotation(0.0F, var9 + dir * i * 30).scale(2.4));
-               level.sendParticles(ModParticles.SOUL_SWEEP, p.x, user.getY() + 1.1 - i * 0.08 * dir, p.z, 0, 0.95, 0.0, 0.0, 1.0);
-            }
-
-            level.playSound(null, user.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.1F, step == 0 ? 0.55F : 0.68F);
+            int dir = step == 0 ? 1 : -1;   // the first cut goes right to left, the backhand left to right
             level.playSound(null, user.blockPosition(), SoundEvents.BREEZE_WHIRL, SoundSource.PLAYERS, 0.5F, 1.4F);
-         } else {
-            ItemStack stack = user.getMainHandItem();
-            float damage = (float)user.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.9F;
 
-            for (LivingEntity v : level.getEntitiesOfClass(LivingEntity.class, user.getBoundingBox().inflate(3.8, 1.5, 3.8))) {
-               if (!spared(v, user) && !(v.distanceTo(user) > 3.8) && v.hurtServer(level, source(level, user), damage)) {
-                  Vec3 in = user.position().subtract(v.position()).multiply(1.0, 0.0, 1.0).normalize();
-                  v.push(in.x * 0.45, 0.3, in.z * 0.45);
-                  v.needsSync = true;
-                  if (!v.isAlive()) {
-                     reap(stack, level, user, v);
+            for (int k = 0; k < 3; k++) {   // the slash follows the blade across, a tick a piece
+               int i = 1 - k;
+               later(level, 4 + k, () -> {
+                  if (!still(user, level)) {
+                     return;
                   }
-               }
+                  Vec3 p = user.position().add(Vec3.directionFromRotation(0.0F, user.getYRot() + dir * i * 40).scale(2.4));
+                  level.sendParticles(ModParticles.SOUL_SWEEP, p.x, user.getY() + 1.1 - i * 0.08 * dir, p.z, 0, 0.95, 0.0, 0.0, 1.0);
+                  if (i == 0) {
+                     level.playSound(null, user.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1.1F, step == 0 ? 0.55F : 0.68F);
+                  }
+               });
             }
-
-            for (int k = 0; k < 6; k++) {
-               Vec3 p = user.position().add(Vec3.directionFromRotation(0.0F, var9 + k * 60).scale(2.6));
-               level.sendParticles(ModParticles.SOUL_SWEEP, p.x, user.getY() + 0.9, p.z, 0, 1.25, 0.0, 0.0, 1.0);
-            }
-
-            for (int i = 0; i < 24; i++) {
-               double a = i * 3.141592653589793 / 12.0;
-               level.sendParticles(
-                  ModParticles.SOUL_FLAME, user.getX() + Math.cos(a) * 3.2, user.getY() + 0.1, user.getZ() + Math.sin(a) * 3.2, 1, 0.0, 0.05, 0.0, 0.02
-               );
-            }
-
+         } else {
+            // raised overhead now; it all lands when the blade hits the ground
             level.playSound(null, user.blockPosition(), SoundEvents.TRIDENT_RIPTIDE_2.value(), SoundSource.PLAYERS, 1.1F, 0.7F);
-            level.playSound(null, user.blockPosition(), SoundEvents.MACE_SMASH_GROUND, SoundSource.PLAYERS, 0.9F, 0.7F);
-            if (user instanceof ServerPlayer sp) {
-               ServerPlayNetworking.send(sp, new ModNet.Shake(0.9F, 6));
+            later(level, 5, () -> {
+               if (still(user, level)) {
+                  slam(level, user);
+               }
+            });
+         }
+      }
+   }
+
+   private static void slam(ServerLevel level, LivingEntity user) {
+      float yaw = user.getYRot();
+      ItemStack stack = user.getMainHandItem();
+      float damage = (float)user.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.9F;
+
+      for (LivingEntity v : level.getEntitiesOfClass(LivingEntity.class, user.getBoundingBox().inflate(3.8, 1.5, 3.8))) {
+         if (!spared(v, user) && !(v.distanceTo(user) > 3.8) && v.hurtServer(level, source(level, user), damage)) {
+            Vec3 in = user.position().subtract(v.position()).multiply(1.0, 0.0, 1.0).normalize();
+            v.push(in.x * 0.45, 0.3, in.z * 0.45);
+            v.needsSync = true;
+            if (!v.isAlive()) {
+               reap(stack, level, user, v);
             }
          }
+      }
+
+      for (int k = 0; k < 6; k++) {
+         Vec3 p = user.position().add(Vec3.directionFromRotation(0.0F, yaw + k * 60).scale(2.6));
+         level.sendParticles(ModParticles.SOUL_SWEEP, p.x, user.getY() + 0.9, p.z, 0, 1.25, 0.0, 0.0, 1.0);
+      }
+
+      for (int i = 0; i < 24; i++) {
+         double a = i * 3.141592653589793 / 12.0;
+         level.sendParticles(
+            ModParticles.SOUL_FLAME, user.getX() + Math.cos(a) * 3.2, user.getY() + 0.1, user.getZ() + Math.sin(a) * 3.2, 1, 0.0, 0.05, 0.0, 0.02
+         );
+      }
+
+      level.playSound(null, user.blockPosition(), SoundEvents.MACE_SMASH_GROUND, SoundSource.PLAYERS, 0.9F, 0.7F);
+      if (user instanceof ServerPlayer sp) {
+         ServerPlayNetworking.send(sp, new ModNet.Shake(0.9F, 6));
       }
    }
 

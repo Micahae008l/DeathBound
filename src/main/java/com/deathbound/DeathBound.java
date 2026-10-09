@@ -61,6 +61,7 @@ public class DeathBound implements ModInitializer {
       Endings.init();
       Speech.init();
       Hazards.init();
+      com.deathbound.item.ReaperScytheItem.init();
       DebugCommand.init();
       LootInjection.init();
       Temper.init();
