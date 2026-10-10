@@ -43,6 +43,33 @@ def _glow(layer, radius, color, strength):
     return g
 
 
+def logo_box(font, text='DEATHBOUND', scale=15):
+    """Where logo() puts its letters: (x0, y0, x1, y1) in the frame."""
+    rows, cols = (n + 4 for n in font.mask(text).shape)
+    w, h = cols * scale, rows * scale
+    x0, y0 = (W - w) // 2, (H - h) // 2 - 40
+    return x0, y0, x0 + w, y0 + h
+
+
+def splash(font, word, scale=5, angle=16, color=(214, 186, 255)):
+    """A small word in the logo's pixel font, tipped up to the right like Minecraft's splash text, with a soft glow."""
+    m = np.pad(font.mask(word), 2)
+    rim = np.zeros_like(m)
+    for dy in (-1, 0, 1):
+        for dx in (-1, 0, 1):
+            rim |= np.roll(np.roll(m, dy, 0), dx, 1)
+    img = np.zeros((*m.shape, 4), np.uint8)
+    img[rim] = (14, 10, 22, 255)
+    img[m] = (*color, 255)
+    big = Image.fromarray(img).resize((m.shape[1] * scale, m.shape[0] * scale), Image.NEAREST)
+    pad = 40
+    layer = Image.new('RGBA', (big.width + 2 * pad, big.height + 2 * pad), (0, 0, 0, 0))
+    layer.paste(big, (pad, pad))
+    out = _glow(layer, 9, (150, 80, 255, 0), 1.0)
+    out.alpha_composite(layer)
+    return out.rotate(angle, resample=Image.BICUBIC, expand=True)
+
+
 def logo(font, text='DEATHBOUND', scale=15):
     """Pale stone letters, lit from above, cut out with a dark rim and a soul-purple glow."""
     m = font.mask(text)

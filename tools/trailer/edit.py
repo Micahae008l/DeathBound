@@ -22,6 +22,7 @@ OUT = ROOT / 'build' / 'trailer'
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 FPS = 30
 TITLE_SUB = ['A FABRIC MOD FOR MINECRAFT 26.3']   # the small line(s) under the logo
+TITLE_TAG = None   # a small word tipped over the logo's top right corner (text.splash), e.g. 'BETA'
 TITLE = 75.625
 
 # The look: a soft bloom on everything that glows, the haze crushed to black, mids lifted, a vignette and grain.
@@ -127,6 +128,10 @@ def segment(i, start, end, kind, args, font):
     elif kind == 'title':
         # the logo over a smear of the line of souls, slammed in on the final hit
         logo, bottom = text.logo(font)
+        if TITLE_TAG:
+            tag = text.splash(font, TITLE_TAG)
+            x0, y0, x1, y1 = text.logo_box(font)
+            logo.alpha_composite(tag, (x1 - tag.width // 2 - 22, y0 - tag.height // 2 - 12))
         sub = text.card(TITLE_SUB, size=30, spacing=0.3, y=bottom + 44, glow=False)
         lp, sp = OUT / 'seg' / 'logo.png', OUT / 'seg' / 'logo_sub.png'
         logo.save(lp)

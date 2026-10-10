@@ -1,7 +1,7 @@
 """Trailer 4: trailer 3's cut, cards and score, every shot refilmed (shots.py t9a..t9i). Default brightness, no night
 vision, subjects lit by hidden key lights; the scythe as it swings now; the Sentry with a Shade drifting in. The soul
-dust only drifts over the black screens and cards, never over the footage. It's a beta: the title says so, and the
-last line asks for 100 likes for the beta drop.
+dust only drifts over the black screens and cards, never over the footage. It's a beta: a small BETA tipped over the
+logo, and the last line asks for 100 likes for the beta drop.
 
     python tools/trailer/trailer4.py   -> build/trailer4/deathbound_trailer_full.mp4
 
@@ -28,7 +28,7 @@ EDL = [
     (6.9, 'clip', 't9_rite', 0.8, R),
     (10.0, 'card', ['SOME WAKE UP BELOW.']),
     # the Underworld
-    (12.5, 'clip', 't9_arrival', 0.6, {'fadein': 0.4, **R}),
+    (12.5, 'clip', 't9_arrival', 1.2, {'fadein': 0.4, **R}),   # creeping toward the altar
     (16.25, 'clip', 't9_ferryman', 1.4, R),
     (18.75, 'clip', 't9_line', 1.0, R),
     (21.25, 'clip', 't9_market', 0.8, R),
@@ -72,7 +72,8 @@ EDL = [
 ]
 
 
-TITLE_SUB = ['SOME DOORS ONLY OPEN ONE WAY.', 'BETA']
+TITLE_SUB = ['SOME DOORS ONLY OPEN ONE WAY.']
+TITLE_TAG = 'BETA'   # tipped over the logo's top right, like Minecraft's splash text
 DUST_FADE = 0.5
 
 
@@ -126,6 +127,7 @@ def main(only=None):
     edit.EDL = EDL
     edit.GRADE = NIGHT_RAW
     edit.TITLE_SUB = TITLE_SUB
+    edit.TITLE_TAG = TITLE_TAG
     import text
     if not isinstance(text.chat, functools.partial):
         text.chat = functools.partial(text.chat, y=850)

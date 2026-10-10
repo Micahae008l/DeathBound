@@ -1720,8 +1720,30 @@ def session_t9m():
     pan('t9_watch', 6, (-134.25, 122.9, -98.4), (-134.75, 122.7, -99.2), (-136.5, 121.3, -100.2), warm=20)
     say('quit')
 
+def session_t9n():
+    """Trailer 4: waking below, the player creeping a few steps toward the altar (the first take walked him straight into
+    it); the Collector turned to face us among his shelves (the first take had his back)."""
+    say(*T9, U + 'tp @s 0 110 0', 'wait 240', 'gamemode survival', *TOUGH, STEADY, 'clear @s',
+        'item replace entity @s weapon.offhand with deathbound:deathbound_relic',
+        key(1, 102, 4, 11), key(2, 102, 9, 9), U + 'tp @s 0.5 101 10.5 180 0', 'view back', 'wait 20')
+    pan('t9_arrival', 7, (3.6, 110.0, 18.5), (2.4, 103.4, 13.6), (0.5, 102.0, 5.0), warm=30,
+        events=[(30, 'hold sneak 80'), (30, 'hold forward 80')])
+    say('gamemode creative', 'view first', 'camoff', U + 'tp @s 96 110 -150', 'wait 300',
+        U + 'tp @e[type=deathbound:collector,limit=1,sort=nearest] 96.5 90 -151.5 0 0',
+        'data merge entity @e[type=deathbound:collector,limit=1,sort=nearest] {NoAI:1b}', key(97, 92, -150, 13), 'wait 10')
+    pan('t9_collector', 6, (98.6, 91.35, -149.5), (98.25, 91.4, -150.0), (96.5, 91.6, -151.5), warm=20)   # clear of the display stand
+    say('quit')
+
+def session_t9o():
+    """Trailer 4: the Collector turned to face us among his shelves (standing in the Spire first, so he's at his post)."""
+    say(*T9, 'camoff', U + 'tp @s 96 110 -150', 'wait 300',
+        U + 'tp @e[type=deathbound:collector,limit=1,sort=nearest] 96.5 90 -151.5 0 0',
+        'data merge entity @e[type=deathbound:collector,limit=1,sort=nearest] {NoAI:1b}', key(97, 92, -150, 13), 'wait 10')
+    pan('t9_collector', 6, (98.6, 91.35, -149.5), (98.25, 91.4, -150.0), (96.5, 91.6, -151.5), warm=20)   # clear of the display stand
+    say('quit')
+
 if __name__ == '__main__':
-    {'a': session_a, 'r': session_r, 'b': session_b, 'b2': session_b2, 'c': session_c, 'w': session_w, 'f': session_f, 'g': session_g, 's': session_s, 't': session_t, 'd': session_d, 'd2': session_d2, 'v': session_v, 'p': session_p, 'q': session_q, 'r': session_r, 'u': session_u, 'bk': session_bk, 'e': session_e, 'ev': session_ev, 'ev_take': lambda: session_ev(('take',), False), 'ev_intro': lambda: session_ev(('none',), True), 'npcv': session_npcv, 'npcv2': session_npcv2, 'forge': session_forge, 'aldous': session_aldous, 'e2': session_e2, 'fx': session_fx, 'mere': session_mere, 'folk': session_folk, 'town': session_town, 'ev2': session_ev2, 'tr2': session_tr2, 'tr2b': session_tr2b, 'tr2c': session_tr2c, 'tr2d': session_tr2d, 'dbg_run': session_dbg_run, 'ev2_break': lambda: session_ev2(('break',)), 'e2_break': lambda: session_e2(('break',)), 't3a': session_t3a, 't3b': session_t3b, 't3c': session_t3c, 't3d': session_t3d, 'tr3a': session_tr3a, 'tr3b': session_tr3b, 'tr3c': session_tr3c, 't4': session_t4, 't5': session_t5, 't6': session_t6, 't7': session_t7, 't8': session_t8, 't9': session_t9, 'tr4a': session_tr4a, 'tr4b': session_tr4b, 'tr4c': session_tr4c, 'tr4d': session_tr4d, 'tr5': session_tr5, 'tr5b': session_tr5b, 'tr5c': session_tr5c, 't10': session_t10, 'tr6': session_tr6, 't11': session_t11, 'tr7': session_tr7, 'tr8': session_tr8, 'tr8b': session_tr8b, 'scout': session_scout, 't9a': session_t9a, 't9b': session_t9b, 't9c': session_t9c, 't9d': session_t9d, 't9e': session_t9e, 't9f': session_t9f, 't9g': session_t9g, 't9h': session_t9h, 't9i': session_t9i, 't9k': session_t9k, 't9m': session_t9m}[sys.argv[1]]()
+    {'a': session_a, 'r': session_r, 'b': session_b, 'b2': session_b2, 'c': session_c, 'w': session_w, 'f': session_f, 'g': session_g, 's': session_s, 't': session_t, 'd': session_d, 'd2': session_d2, 'v': session_v, 'p': session_p, 'q': session_q, 'r': session_r, 'u': session_u, 'bk': session_bk, 'e': session_e, 'ev': session_ev, 'ev_take': lambda: session_ev(('take',), False), 'ev_intro': lambda: session_ev(('none',), True), 'npcv': session_npcv, 'npcv2': session_npcv2, 'forge': session_forge, 'aldous': session_aldous, 'e2': session_e2, 'fx': session_fx, 'mere': session_mere, 'folk': session_folk, 'town': session_town, 'ev2': session_ev2, 'tr2': session_tr2, 'tr2b': session_tr2b, 'tr2c': session_tr2c, 'tr2d': session_tr2d, 'dbg_run': session_dbg_run, 'ev2_break': lambda: session_ev2(('break',)), 'e2_break': lambda: session_e2(('break',)), 't3a': session_t3a, 't3b': session_t3b, 't3c': session_t3c, 't3d': session_t3d, 'tr3a': session_tr3a, 'tr3b': session_tr3b, 'tr3c': session_tr3c, 't4': session_t4, 't5': session_t5, 't6': session_t6, 't7': session_t7, 't8': session_t8, 't9': session_t9, 'tr4a': session_tr4a, 'tr4b': session_tr4b, 'tr4c': session_tr4c, 'tr4d': session_tr4d, 'tr5': session_tr5, 'tr5b': session_tr5b, 'tr5c': session_tr5c, 't10': session_t10, 'tr6': session_tr6, 't11': session_t11, 'tr7': session_tr7, 'tr8': session_tr8, 'tr8b': session_tr8b, 'scout': session_scout, 't9a': session_t9a, 't9b': session_t9b, 't9c': session_t9c, 't9d': session_t9d, 't9e': session_t9e, 't9f': session_t9f, 't9g': session_t9g, 't9h': session_t9h, 't9i': session_t9i, 't9k': session_t9k, 't9m': session_t9m, 't9n': session_t9n, 't9o': session_t9o}[sys.argv[1]]()
     out = Path(__file__).resolve().parents[2] / 'run' / 'test-script.txt'
     out.write_text('\n'.join(L) + '\n')
     print(f'{len(L)} lines -> {out}')
