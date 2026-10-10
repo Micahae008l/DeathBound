@@ -1,5 +1,7 @@
 """Trailer 4: trailer 3's cut, cards and score, every shot refilmed (shots.py t9a..t9i). Default brightness, no night
-vision, subjects lit by hidden key lights; the scythe as it swings now; the Sentry with a Shade drifting in.
+vision, subjects lit by hidden key lights; the scythe as it swings now; the Sentry with a Shade drifting in. The soul
+dust only drifts over the black screens and cards, never over the footage. It's a beta: the title says so, and the
+last line asks for 100 likes for the beta drop.
 
     python tools/trailer/trailer4.py   -> build/trailer4/deathbound_trailer_full.mp4
 
@@ -34,22 +36,20 @@ EDL = [
     (26.25, 'clip', 't9_forge', 3.2, R),
     (28.75, 'clip', 't9_collector', 0.2, R),
     (31.25, 'clip', 't9_prophet', 1.0, R),
-    (33.75, 'clip', 't9_soul', 3.15, {'fadeout': 0.4, **R}),   # after the follow camera clears a lantern post
-    (36.75, 'black'),
+    (33.75, 'clip', 't9_soul', 0.4, {'fadeout': 0.4, **R}),   # face to face with one of the dead
     # its people
     (37.5, 'card', ['THE DEAD', 'STILL KEEP HOUSE.']),
     (40.0, 'clip', 't9_mere', 1.0, {'fadein': 0.3, **R}),
-    (42.5, 'clip', 't9_water', 1.0, R),
     (43.75, 'clip', 't9_quench', 0.6, R),
     (48.75, 'clip', 't9_ribs', 1.5, R),
     (51.25, 'clip', 't9_sentry', 1.6, R),   # the Sentry at his post, and a Shade drifting in
-    (55.0, 'clip', 't9_watch', 3.0, R),   # the Watch's brazier, a slow push in
+    (55.0, 'clip', 't9_watch', 1.2, R),   # the Watch's brazier, a slow push in
     (58.125, 'clip', 't9_wisp', 1.0, {'fadeout': 0.3, **R}),
     # the hunt
     (60.0, 'card', ['AND DEATH', 'STOPPED LETTING GO.']),
     (62.5, 'clip', 't9_rise', 0.45, {'flash': True, **R}),   # he's under the ground from here and climbs out
     (65.0, 'clip', 't9_hollow', 0.8, R),
-    (68.75, 'clip', 't9_hunter', 1.0, R),
+    (68.75, 'clip', 't9_hunter', 1.0, R),   # facing us, a light on him
     (73.75, 'clip', 't9_reap', 0.5, {'fadeout': 0.3, **R}),   # the scythe's three cuts, the slam last
     # the Warden at his gate
     (80.0, 'clip', 't9_gate', 0.3, {'flash': True, **R}),
@@ -66,10 +66,54 @@ EDL = [
     (119.375, 'clip', 't9_line', 1.2, {'fadeout': 0.8, **R}),
     (126.25, 'black'),
     (127.5, 'black'),
-    (TITLE, 'title', 't9_water'),
-    (136.25, 'last', 'Three endings. One throne. The dead are waiting.'),
+    (TITLE, 'title', 't9_gate'),   # the logo over the Gate's door, blurred
+    (136.25, 'last', 'The beta drops at 100 likes.'),
     (LENGTH, 'end'),
 ]
+
+
+TITLE_SUB = ['SOME DOORS ONLY OPEN ONE WAY.', 'BETA']
+DUST_FADE = 0.5
+
+
+def dust_gain(t):
+    """How much soul dust shows at t: all of it over the black screens and cards (and the title), none over footage,
+    eased in and out over DUST_FADE at the edges."""
+    spans = []
+    for i, (start, kind, *_) in enumerate(EDL[:-1]):
+        if kind != 'clip':
+            end = EDL[i + 1][0]
+            if spans and abs(spans[-1][1] - start) < 1e-6:
+                spans[-1][1] = end
+            else:
+                spans.append([start, end])
+    return max([0.0] + [min(1.0, (t - a) / DUST_FADE, (b - t) / DUST_FADE) for a, b in spans])
+
+
+def card_dust(out):
+    """build/trailer4/soul_dust.mp4 (what trailer3.finish screens over the cut): the full dust, faded by dust_gain."""
+    import subprocess
+    import numpy as np
+    full, masked = out / 'soul_dust_full.mp4', out / 'soul_dust.mp4'
+    if not full.exists():
+        trailer3.soul_dust(full, LENGTH)
+    w, h = 1920 // trailer3.DUST_SCALE, 1080 // trailer3.DUST_SCALE
+    src = subprocess.Popen([edit.FF, '-loglevel', 'error', '-i', str(full), '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], stdout=subprocess.PIPE)
+    dst = subprocess.Popen([edit.FF, '-hide_banner', '-loglevel', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{w}x{h}',
+                            '-r', str(edit.FPS), '-i', '-', '-c:v', 'libx264', '-preset', 'fast', '-crf', '16', '-pix_fmt', 'yuv420p', str(masked)],
+                           stdin=subprocess.PIPE)
+    f = 0
+    while True:
+        buf = src.stdout.read(w * h * 3)
+        if len(buf) < w * h * 3:
+            break
+        g = dust_gain(f / edit.FPS)
+        frame = np.frombuffer(buf, np.uint8)
+        dst.stdin.write(frame.tobytes() if g >= 1.0 else (frame.astype(np.float32) * g).astype(np.uint8).tobytes())
+        f += 1
+    dst.stdin.close()
+    dst.wait()
+    src.wait()
 
 
 def main(only=None):
@@ -81,6 +125,7 @@ def main(only=None):
     trailer3.check_lengths()
     edit.EDL = EDL
     edit.GRADE = NIGHT_RAW
+    edit.TITLE_SUB = TITLE_SUB
     import text
     if not isinstance(text.chat, functools.partial):
         text.chat = functools.partial(text.chat, y=850)
@@ -90,6 +135,7 @@ def main(only=None):
     shutil.copy(ROOT / 'build' / 'trailer' / 'ascii.png', edit.OUT / 'ascii.png')
     edit.main(only)
     final = edit.OUT / 'deathbound_trailer_full.mp4'
+    card_dust(edit.OUT)
     trailer3.finish(edit.OUT / 'deathbound_trailer.mp4', final)
     print('wrote', final)
 
