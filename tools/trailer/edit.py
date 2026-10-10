@@ -5,6 +5,7 @@
 
 Footage comes from run/trailer_keep/<clip>.mp4 (filmed with shots.py).
 """
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -21,6 +22,23 @@ CLIPS = ROOT / 'run' / 'trailer_keep'
 OUT = ROOT / 'build' / 'trailer'
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 FPS = 30
+
+
+def font_sheet():
+    """build/trailer/ascii.png, Minecraft's pixel font for the cards: pulled from the game jar Loom downloads (run
+    ./gradlew build once on a new machine), so it isn't kept in git."""
+    dst = ROOT / 'build' / 'trailer' / 'ascii.png'
+    if not dst.exists():
+        import zipfile
+        version = next(l.split('=', 1)[1].strip() for l in (ROOT / 'gradle.properties').read_text().splitlines()
+                       if l.startswith('minecraft_version='))
+        jar = Path.home() / '.gradle' / 'caches' / 'fabric-loom' / version / 'minecraft-client.jar'
+        assert jar.exists(), f'{jar} is missing: run ./gradlew build once so Loom downloads Minecraft'
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        with zipfile.ZipFile(jar) as z:
+            dst.write_bytes(z.read('assets/minecraft/textures/font/ascii.png'))
+    return dst
+
 TITLE_SUB = ['A FABRIC MOD FOR MINECRAFT 26.3']   # the small line(s) under the logo
 TITLE_TAG = None   # a small word tipped over the logo's top right corner (text.splash), e.g. 'BETA'
 TITLE = 75.625
@@ -169,6 +187,9 @@ def thumbnail(clip, at, font):
 
 def main(only=None):
     (OUT / 'seg').mkdir(parents=True, exist_ok=True)
+    if not (OUT / 'ascii.png').exists():
+        OUT.mkdir(parents=True, exist_ok=True)
+        shutil.copy(font_sheet(), OUT / 'ascii.png')
     font = text.PixelFont(OUT / 'ascii.png')
     paths = []
     for i, (start, kind, *args) in enumerate(EDL[:-1]):

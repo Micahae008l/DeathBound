@@ -68,7 +68,7 @@ def main():
     edit.EDL = EDL
     edit.OUT = ROOT / 'build' / 'trailer2'
     (edit.OUT / 'seg').mkdir(parents=True, exist_ok=True)
-    shutil.copy(ROOT / 'build' / 'trailer' / 'ascii.png', edit.OUT / 'ascii.png')
+    shutil.copy(edit.font_sheet(), edit.OUT / 'ascii.png')
     edit.main()
     out = edit.OUT / 'deathbound_trailer.mp4'
     final = edit.OUT / 'deathbound_trailer_2.mp4'

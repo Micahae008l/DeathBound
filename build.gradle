@@ -25,7 +25,11 @@ loom {
 			client()
 			name = "Test Client"
 			vmArg "-Ddeathbound.script=" + file("run/test-script.txt").absolutePath
-			vmArg "-Ddeathbound.ffmpeg=" + System.getProperty("user.home") + "/AppData/Roaming/Python/Python312/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe"
+			// the recorder's ffmpeg (Cine): imageio-ffmpeg's (pip install imageio-ffmpeg), else ffmpeg on the PATH
+			def ffmpeg = fileTree(System.getProperty("user.home") + "/AppData/Roaming/Python").matching { include "*/site-packages/imageio_ffmpeg/binaries/ffmpeg*" }.files
+			if (!ffmpeg.isEmpty()) {
+				vmArg "-Ddeathbound.ffmpeg=" + ffmpeg.iterator().next().absolutePath
+			}
 			programArgs "--quickPlaySingleplayer", "dbtest", "--width", "1920", "--height", "1080", "--username", "Wanderer"
 		}
 	}

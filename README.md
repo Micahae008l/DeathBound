@@ -7,6 +7,16 @@ Fabric mod for Minecraft 26.3 (Java 25). Mod id `deathbound`.
 ./gradlew build        # jar -> build/libs/DeathBound-1.0.0.jar
 ```
 
+## Setting up on a new PC
+
+1. Install a JDK 25 (e.g. Eclipse Temurin) and Git, then `git clone https://github.com/Micahae008l/DeathBound`.
+2. `./gradlew build` (downloads Minecraft and Fabric the first time), then `./gradlew runClient` to play.
+3. For the tools in `tools/`: Python 3.12 and `pip install numpy pillow imageio-ffmpeg`.
+4. Claude Code picks up `CLAUDE.md` (how to work here, Michael's direction) and `NEXT_STEPS.md` (what's done and open).
+
+Not in git: your worlds (`run/saves`), the footage (`run/trailer`, `run/trailer_keep`; re-film it with the sessions
+named in each trailer script) and the rendered videos (`build/`).
+
 ## This repo is the main copy
 
 The Java source was restored from `DeathBound-1.0.0.jar` (Oct 7) with Vineflower, and all work since has been done here.
@@ -21,7 +31,7 @@ has none of the work from Oct 7 on, so don't copy it back over this repo.
 | `tools/blocks16.py`, `tools/charms16.py`, `tools/lantern3d.py`, `tools/story_art.py` | Textures and models made since Oct 7 | Yes |
 | `tools/datagen.py` with `lore.py` and `talk.py` | Every dialog, the language file, models, block states, loot, `sounds.json`, `TalkData.java` | **Guarded** |
 | `tools/art/build.py` (and the modules in `tools/art/`) | The original textures and entity models (`ModelMeshes.java`) | **Guarded** |
-| `tools/trailer/` | Trailer, endings and characters videos (shot lists, score, edit). `trailer4.py` is the latest cut | Yes; filming needs a template world in `run/world` (see below) |
+| `tools/trailer/` | Trailer, endings and characters videos (shot lists, score, edit). `trailer4.py` is the latest cut | Yes (see Filming below) |
 
 The two guarded scripts generated 1.0.0's resources. Run as they are now, they would overwrite everything changed since:
 - the stories and advancements in the language file
@@ -47,5 +57,5 @@ Results print as `[DB-TEST] ... -> PASS/FAIL` lines in the game log.
 
 `tools/trailer/shots.py <session>` writes `run/test-script.txt`; `./gradlew runTestClient` plays it in a copy of
 `run/world` (copy it to `run/saves/dbtest` and delete `dimensions/deathbound` first, so the Underworld generates fresh).
-Clips land in `run/trailer/`. `run/` isn't in git, so `run/world` (any small flat world) has to be made once per machine.
-Film at Minecraft's default brightness: the trailers are graded dark on purpose.
+Clips land in `run/trailer/`. `run/world` (the template world) and `run/options.txt` (default brightness: the trailers
+are graded dark on purpose) are in git; the rest of `run/` isn't.

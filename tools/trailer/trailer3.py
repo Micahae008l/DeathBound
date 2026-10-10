@@ -296,7 +296,7 @@ def main(only=None):
     edit.OUT = ROOT / 'build' / 'trailer3'
     score.compose = compose
     (edit.OUT / 'seg').mkdir(parents=True, exist_ok=True)
-    shutil.copy(ROOT / 'build' / 'trailer' / 'ascii.png', edit.OUT / 'ascii.png')
+    shutil.copy(edit.font_sheet(), edit.OUT / 'ascii.png')
     edit.main(only)
     out = edit.OUT / 'deathbound_trailer.mp4'
     final = edit.OUT / 'deathbound_trailer_full.mp4'

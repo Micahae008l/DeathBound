@@ -134,7 +134,7 @@ def main(only=None):
     edit.OUT = ROOT / 'build' / 'trailer4'
     score.compose = trailer3.compose
     (edit.OUT / 'seg').mkdir(parents=True, exist_ok=True)
-    shutil.copy(ROOT / 'build' / 'trailer' / 'ascii.png', edit.OUT / 'ascii.png')
+    shutil.copy(edit.font_sheet(), edit.OUT / 'ascii.png')
     edit.main(only)
     final = edit.OUT / 'deathbound_trailer_full.mp4'
     card_dust(edit.OUT)

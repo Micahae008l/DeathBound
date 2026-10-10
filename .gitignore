@@ -30,7 +30,10 @@ bin/
 
 # fabric
 
-run/
+run/*
+!run/world/
+run/world/session.lock
+!run/options.txt
 
 # java
 
