@@ -1,5 +1,6 @@
-"""YouTube thumbnail for trailer 4: the Death King up close on his throne, the DEATHBOUND logo with its BETA splash
-beside it ('king', the one in use; the others are alternatives that read worse small).
+"""YouTube thumbnail for trailer 4: the Hollow Hunter's face up close (his one glowing eye under the hood, the antlers),
+the DEATHBOUND logo with its BETA splash beside it. 'hunter' is the one in use (Michael's pick); the rest are
+alternatives.
 
     python tools/trailer/thumbnail4.py   -> build/trailer4/thumbnail_<variant>.png (1280x720)
 
@@ -16,12 +17,14 @@ import text  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'build' / 'trailer4'
-# name: (clip and second, or a still from shots.py t9t; crop box in the 1920x1080 frame (16:9); logo 'right' or 'bottom')
+# name: (clip and second, or a still from shots.py t9t/t9u; crop box in the 1920x1080 frame (16:9); logo 'right' or
+# 'bottom'; how far the shadows are lifted)
 VARIANTS = {
-    'king': (('still', 't9t_king_close'), (420, 60, 1860, 870), 'right'),
-    'hunter': (('still', 't9t_hunter_face'), (380, 200, 1820, 1010), 'right'),
-    'shade': (('t9_sentry', 5.2), (0, 140, 1600, 1040), 'right'),
-    'soul': (('t9_soul', 2.5), (240, 60, 1680, 870), 'bottom'),
+    'hunter': (('still', 't9t_hunter_face'), (428, 150, 1868, 960), 'right', 2.0),   # his eye up close, antlers in frame
+    'hunter_eye_level': (('still', 't9u_eye_level'), (360, 150, 1800, 960), 'right', 1.8),
+    'king': (('still', 't9t_king_close'), (420, 60, 1860, 870), 'right', 1.4),
+    'shade': (('t9_sentry', 5.2), (0, 140, 1600, 1040), 'right', 1.4),
+    'soul': (('t9_soul', 2.5), (240, 60, 1680, 870), 'bottom', 1.4),
 }
 
 
@@ -34,9 +37,9 @@ def frame(source):
     return Image.open(path).convert('RGB')
 
 
-def grade(img):
+def grade(img, lift):
     """Brighter and punchier than the film (a thumbnail is seen small, in daylight), still dark around the subject."""
-    img = img.point(lambda v: int(255 * (v / 255) ** (1 / 1.4)))
+    img = img.point(lambda v: int(255 * (v / 255) ** (1 / lift)))
     img = img.point(lambda v: max(0, int((v - 14) * 255 / 241)))   # crush the haze back to black
     img = ImageEnhance.Contrast(img).enhance(1.4)
     img = ImageEnhance.Color(img).enhance(1.15)   # more and bone turns pink; the purple glow holds up on its own
@@ -71,9 +74,9 @@ def logo_art(font, scale):
 
 
 def build(name):
-    source, box, side = VARIANTS[name]
+    source, box, side, lift = VARIANTS[name]
     img = frame(source).crop(box).resize((1280, 720), Image.LANCZOS)
-    img = shade_side(grade(img), side).convert('RGBA')
+    img = shade_side(grade(img, lift), side).convert('RGBA')
     font = text.PixelFont(edit.font_sheet())
     art = logo_art(font, 15)
     if side == 'right':
