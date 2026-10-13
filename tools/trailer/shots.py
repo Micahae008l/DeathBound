@@ -1898,8 +1898,34 @@ def session_t9x():
         _still(f't9x_hunter_{name}', (round(hx + fx * d, 2), eye, round(hz + fz * d, 2)), (hx, eye, hz), 20, tp=False)
     say('quit')
 
+def session_t9y():
+    """Thumbnail stills (Mellow): "behind you": the player facing the camera with the Hollow Hunter standing right behind
+    them, his eye over their shoulder; and the Death King on his throne, close, at his eye level."""
+    import math
+    hx, hz, facing, eye = -205.5, -125.5, -45.0, 95.6
+    a = math.radians(facing)
+    fx, fz = -math.sin(a), math.cos(a)          # the way he faces
+    sx, sz = -fz, fx                             # to his left
+    at_hunter = U + 'execute at @e[type=deathbound:hollow_hunter,limit=1,sort=nearest] run '
+    px, pz = round(hx + fx * 1.5, 2), round(hz + fz * 1.5, 2)
+    say(*T9, U + 'tp @s -200 100 -120', 'wait 240',
+        U + 'summon deathbound:hollow_hunter -206 99 -126 {PersistenceRequired:1b,Rotation:[-45f,0f]}', 'wait 60',
+        freeze('deathbound:hollow_hunter'), 'data merge entity @e[type=deathbound:hollow_hunter,limit=1,sort=nearest] {Rotation:[-45f,0f]}',
+        at_hunter + 'setblock ~1 ~2 ~1 minecraft:light[level=15]', at_hunter + 'setblock ~-1 ~3 ~-2 minecraft:light[level=15]',
+        key(round(hx + fx * 3.0), 95, round(hz + fz * 3.0), 13), 'wait 10',
+        'gamemode creative', 'clear @s', 'view back', U + f'tp @s {px} 93 {pz} -45 0', 'wait 20')
+    for name, dist, side, cy in (('a', 3.6, 0.55, 95.0), ('b', 3.2, 0.75, 95.1), ('c', 4.2, 0.6, 95.2), ('d', 3.6, -0.6, 95.0)):
+        cam = (round(hx + fx * (1.5 + dist) + sx * side, 2), cy, round(hz + fz * (1.5 + dist) + sz * side, 2))
+        look = (round(hx + fx * 0.8, 2), 95.1, round(hz + fz * 0.8, 2))
+        _still(f't9y_behind_{name}', cam, look, 15, tp=False)
+    say('camoff', 'view first', 'kill @e[type=deathbound:hollow_hunter]', U + 'tp @s 0 101 -330', 'wait 240', 'deathbound story 1 0', 'deathbound seals 7',
+        U + 'tp @s 0.5 101 -340 180 0', 'wait 320', key(0, 106, -362, 14), key(2, 105, -362, 8), key(-2, 105, -362, 8), 'wait 10')
+    _still('t9y_king_level', (0.5, 106.2, -361.3), (0.5, 106.4, -364.0), 20, tp=False)
+    _still('t9y_king_close', (0.5, 106.3, -362.0), (0.5, 106.4, -364.0), 10, tp=False)
+    say('quit')
+
 if __name__ == '__main__':
-    {'a': session_a, 'r': session_r, 'b': session_b, 'b2': session_b2, 'c': session_c, 'w': session_w, 'f': session_f, 'g': session_g, 's': session_s, 't': session_t, 'd': session_d, 'd2': session_d2, 'v': session_v, 'p': session_p, 'q': session_q, 'r': session_r, 'u': session_u, 'bk': session_bk, 'e': session_e, 'ev': session_ev, 'ev_take': lambda: session_ev(('take',), False), 'ev_intro': lambda: session_ev(('none',), True), 'npcv': session_npcv, 'npcv2': session_npcv2, 'forge': session_forge, 'aldous': session_aldous, 'e2': session_e2, 'fx': session_fx, 'mere': session_mere, 'folk': session_folk, 'town': session_town, 'ev2': session_ev2, 'tr2': session_tr2, 'tr2b': session_tr2b, 'tr2c': session_tr2c, 'tr2d': session_tr2d, 'dbg_run': session_dbg_run, 'ev2_break': lambda: session_ev2(('break',)), 'e2_break': lambda: session_e2(('break',)), 't3a': session_t3a, 't3b': session_t3b, 't3c': session_t3c, 't3d': session_t3d, 'tr3a': session_tr3a, 'tr3b': session_tr3b, 'tr3c': session_tr3c, 't4': session_t4, 't5': session_t5, 't6': session_t6, 't7': session_t7, 't8': session_t8, 't9': session_t9, 'tr4a': session_tr4a, 'tr4b': session_tr4b, 'tr4c': session_tr4c, 'tr4d': session_tr4d, 'tr5': session_tr5, 'tr5b': session_tr5b, 'tr5c': session_tr5c, 't10': session_t10, 'tr6': session_tr6, 't11': session_t11, 'tr7': session_tr7, 'tr8': session_tr8, 'tr8b': session_tr8b, 'scout': session_scout, 't9a': session_t9a, 't9b': session_t9b, 't9c': session_t9c, 't9d': session_t9d, 't9e': session_t9e, 't9f': session_t9f, 't9g': session_t9g, 't9h': session_t9h, 't9i': session_t9i, 't9k': session_t9k, 't9m': session_t9m, 't9n': session_t9n, 't9o': session_t9o, 't9t': session_t9t, 't9u': session_t9u, 't9v': session_t9v, 'mel': session_mel, 'hdbg': session_hdbg, 't9w': session_t9w, 't9x': session_t9x}[sys.argv[1]]()
+    {'a': session_a, 'r': session_r, 'b': session_b, 'b2': session_b2, 'c': session_c, 'w': session_w, 'f': session_f, 'g': session_g, 's': session_s, 't': session_t, 'd': session_d, 'd2': session_d2, 'v': session_v, 'p': session_p, 'q': session_q, 'r': session_r, 'u': session_u, 'bk': session_bk, 'e': session_e, 'ev': session_ev, 'ev_take': lambda: session_ev(('take',), False), 'ev_intro': lambda: session_ev(('none',), True), 'npcv': session_npcv, 'npcv2': session_npcv2, 'forge': session_forge, 'aldous': session_aldous, 'e2': session_e2, 'fx': session_fx, 'mere': session_mere, 'folk': session_folk, 'town': session_town, 'ev2': session_ev2, 'tr2': session_tr2, 'tr2b': session_tr2b, 'tr2c': session_tr2c, 'tr2d': session_tr2d, 'dbg_run': session_dbg_run, 'ev2_break': lambda: session_ev2(('break',)), 'e2_break': lambda: session_e2(('break',)), 't3a': session_t3a, 't3b': session_t3b, 't3c': session_t3c, 't3d': session_t3d, 'tr3a': session_tr3a, 'tr3b': session_tr3b, 'tr3c': session_tr3c, 't4': session_t4, 't5': session_t5, 't6': session_t6, 't7': session_t7, 't8': session_t8, 't9': session_t9, 'tr4a': session_tr4a, 'tr4b': session_tr4b, 'tr4c': session_tr4c, 'tr4d': session_tr4d, 'tr5': session_tr5, 'tr5b': session_tr5b, 'tr5c': session_tr5c, 't10': session_t10, 'tr6': session_tr6, 't11': session_t11, 'tr7': session_tr7, 'tr8': session_tr8, 'tr8b': session_tr8b, 'scout': session_scout, 't9a': session_t9a, 't9b': session_t9b, 't9c': session_t9c, 't9d': session_t9d, 't9e': session_t9e, 't9f': session_t9f, 't9g': session_t9g, 't9h': session_t9h, 't9i': session_t9i, 't9k': session_t9k, 't9m': session_t9m, 't9n': session_t9n, 't9o': session_t9o, 't9t': session_t9t, 't9u': session_t9u, 't9v': session_t9v, 'mel': session_mel, 'hdbg': session_hdbg, 't9w': session_t9w, 't9x': session_t9x, 't9y': session_t9y}[sys.argv[1]]()
     # the film camera keeps the player at its last pose: switch it off before every move across the Underworld, or the
     # mobs spawned at the new place never reach the client and NPCs aren't put at their posts there
     moved = []
