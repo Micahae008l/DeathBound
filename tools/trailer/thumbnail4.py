@@ -1,8 +1,9 @@
-"""YouTube thumbnail for trailer 4: one of the dead up close, the DEATHBOUND logo with its BETA splash beside it.
+"""YouTube thumbnail for trailer 4: the Death King up close on his throne, the DEATHBOUND logo with its BETA splash
+beside it ('king', the one in use; the others are alternatives that read worse small).
 
     python tools/trailer/thumbnail4.py   -> build/trailer4/thumbnail_<variant>.png (1280x720)
 
-Frames come from the trailer's footage (run/trailer/t9_*.mp4, shots.py t9a..t9o).
+Frames come from the trailer's footage (run/trailer/t9_*.mp4, shots.py t9a..t9o) or the stills of shots.py t9t.
 """
 import sys
 from pathlib import Path
@@ -15,14 +16,19 @@ import text  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'build' / 'trailer4'
-# name: (clip, second, crop box in the 1920x1080 frame (16:9), where the logo goes: 'right' or 'bottom')
+# name: (clip and second, or a still from shots.py t9t; crop box in the 1920x1080 frame (16:9); logo 'right' or 'bottom')
 VARIANTS = {
-    'shade': ('t9_sentry', 5.2, (0, 140, 1600, 1040), 'right'),
-    'soul': ('t9_soul', 2.5, (240, 60, 1680, 870), 'bottom'),
+    'king': (('still', 't9t_king_close'), (420, 60, 1860, 870), 'right'),
+    'hunter': (('still', 't9t_hunter_face'), (380, 200, 1820, 1010), 'right'),
+    'shade': (('t9_sentry', 5.2), (0, 140, 1600, 1040), 'right'),
+    'soul': (('t9_soul', 2.5), (240, 60, 1680, 870), 'bottom'),
 }
 
 
-def frame(clip, at):
+def frame(source):
+    clip, at = source
+    if clip == 'still':   # a screenshot from the film harness (sharper than a frame of the video)
+        return Image.open(ROOT / 'run' / 'screenshots' / f'{at}.png').convert('RGB')
     path = OUT / f'thumb_{clip}_{at}.png'
     edit.ff('-ss', at, '-i', ROOT / 'run' / 'trailer' / f'{clip}.mp4', '-frames:v', 1, path)
     return Image.open(path).convert('RGB')
@@ -33,7 +39,7 @@ def grade(img):
     img = img.point(lambda v: int(255 * (v / 255) ** (1 / 1.4)))
     img = img.point(lambda v: max(0, int((v - 14) * 255 / 241)))   # crush the haze back to black
     img = ImageEnhance.Contrast(img).enhance(1.4)
-    img = ImageEnhance.Color(img).enhance(1.45)
+    img = ImageEnhance.Color(img).enhance(1.15)   # more and bone turns pink; the purple glow holds up on its own
     glow = img.point(lambda v: max(0, v - 120) * 2).filter(ImageFilter.GaussianBlur(18))
     return Image.blend(img, Image.composite(glow, img, glow.convert('L')), 0.35)
 
@@ -65,14 +71,14 @@ def logo_art(font, scale):
 
 
 def build(name):
-    clip, at, box, side = VARIANTS[name]
-    img = frame(clip, at).crop(box).resize((1280, 720), Image.LANCZOS)
+    source, box, side = VARIANTS[name]
+    img = frame(source).crop(box).resize((1280, 720), Image.LANCZOS)
     img = shade_side(grade(img), side).convert('RGBA')
     font = text.PixelFont(edit.font_sheet())
     art = logo_art(font, 15)
     if side == 'right':
-        art = art.resize((560, round(art.height * 560 / art.width)), Image.LANCZOS)
-        img.alpha_composite(art, (1280 - art.width - 30, (720 - art.height) // 2 - 10))
+        art = art.resize((600, round(art.height * 600 / art.width)), Image.LANCZOS)
+        img.alpha_composite(art, (1280 - art.width - 24, (720 - art.height) // 2 - 10))
     else:
         art = art.resize((860, round(art.height * 860 / art.width)), Image.LANCZOS)
         img.alpha_composite(art, ((1280 - art.width) // 2, 720 - art.height - 26))
