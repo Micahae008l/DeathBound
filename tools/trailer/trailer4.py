@@ -1,5 +1,5 @@
 """Trailer 4: trailer 3's cut, cards and score, every shot refilmed (shots.py t9a..t9i). Default brightness, no night
-vision, subjects lit by hidden key lights; the scythe as it swings now; the Sentry with a Shade drifting in. The soul
+vision, subjects lit by hidden key lights; the scythe as it swings now; the Sentry with a Lost Soul drifting in. The soul
 dust only drifts over the black screens and cards, never over the footage. It's a beta: a small BETA tipped over the
 logo, and the last line asks for 100 likes for the beta drop.
 
@@ -42,7 +42,7 @@ EDL = [
     (40.0, 'clip', 't9_mere', 1.0, {'fadein': 0.3, **R}),
     (43.75, 'clip', 't9_quench', 0.6, R),
     (48.75, 'clip', 't9_ribs', 1.5, R),
-    (51.25, 'clip', 't9_sentry', 1.6, R),   # the Sentry at his post, and a Shade drifting in
+    (51.25, 'clip', 't9_sentry', 1.6, R),   # the Sentry at his post, and a Lost Soul drifting in
     (55.0, 'clip', 't9_watch', 1.2, R),   # the Watch's brazier, a slow push in
     (58.125, 'clip', 't9_wisp', 1.0, {'fadeout': 0.3, **R}),
     # the hunt

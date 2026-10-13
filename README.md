@@ -59,3 +59,9 @@ Results print as `[DB-TEST] ... -> PASS/FAIL` lines in the game log.
 `run/world` (copy it to `run/saves/dbtest` and delete `dimensions/deathbound` first, so the Underworld generates fresh).
 Clips land in `run/trailer/`. `run/world` (the template world) and `run/options.txt` (default brightness: the trailers
 are graded dark on purpose) are in git; the rest of `run/` isn't.
+
+Trailer 5 is filmed with the Mellow shader pack. From Modrinth put `iris-fabric-1.11.7+mc26.3.jar` and
+`sodium-fabric-0.9.2+mc26.3.jar` in `run/mods` and `Mellow v3.4.1a.zip` in `run/shaderpacks`, copy
+`tools/trailer/mellow_settings.txt` to `run/shaderpacks/Mellow v3.4.1a.zip.txt` (it turns Mellow's warm torch light cold
+violet for the Underworld), and set `enableShaders=true` and `shaderPack=Mellow v3.4.1a.zip` in `run/config/iris.properties`.
+Remove the two jars from `run/mods` to film without shaders. Then the sessions listed in `tools/trailer/trailer5.py`.

@@ -93,5 +93,12 @@ The generator scripts are now in `tools/` (see README). `datagen.py` and `art/bu
 ## Trailer 4 (Oct 9)
 Michael asked for the trailer again with better shots. Same cut, cards and score as trailer 3; every shot refilmed (`tools/trailer/shots.py` t9a..t9i, t9k; `tools/trailer/trailer4.py` builds `build/trailer4/deathbound_trailer_full.mp4`).
 - Default brightness, no night vision (Michael: "it's a scary mod"). Subjects are lit like a film set: an invisible `minecraft:light` block near them, so they sit in a pool of light and the dark stays dark.
-- New: the scythe's three cuts and slam, the Collector in his vault, the market, the Sentry at his post with a Shade drifting in front of him, a Gravebound clawing out of the ground close up. Still no fights, no King's other forms, no endings.
+- New: the scythe's three cuts and slam, the Collector in his vault, the market, the Sentry at his post with a Lost Soul drifting in front of him, a Gravebound clawing out of the ground close up. Still no fights, no King's other forms, no endings.
 - Filming gotchas: the film camera keeps teleporting the player to where it last was, so NPCs whose post is elsewhere never get put there (`camoff` and stand there first). Killing the Death King ends the story and sends the player home: film the empty throne before he ever spawns.
+
+## Trailer 5 (Oct 13): the Mellow shader
+Michael asked for the trailer redone with the Mellow shader pack (Iris + Sodium), held to trailer quality. `tools/trailer/trailer5.py` builds `build/trailer5/deathbound_trailer_full.mp4`; setup in the README (Filming).
+- Out of the box Mellow turned the Underworld warm brown and the purple glow pink: its torch light is orange. `tools/trailer/mellow_settings.txt` makes it cold violet (LM_RED/GREEN/BLUE), lowers the floor light, turns off colored lights (our hidden light blocks cast tan with them on).
+- Every shot refilmed. Reshot: the Hunter as a slow push in on his face at eye level, the Hollow and the Mere with hidden lights. The cut no longer uses the same clip twice (0:19 and the ending were the same seconds before). The darkest wide shots get extra lift in the grade.
+- shots.py now puts `camoff` before every move across the Underworld automatically (without it, mobs spawned at the new place never reached the client: the Hunter looked missing under Iris; it wasn't a shader bug).
+- The mod itself works under Iris + Sodium: no render problems seen with the Hunter, Gravebound, Lost Souls, NPCs or the King.

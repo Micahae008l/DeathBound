@@ -1807,8 +1807,84 @@ def session_t9v():
         _still(f't9v_{name}', cam, (hx, eye, hz), 10, tp=False)
     say('quit')
 
+def session_mel():
+    """Shader test (Iris + Mellow): stills of the arrival, the Ferryman, the Hunter's face and the Death King, and one
+    short recording, to see the look and that the recorder still captures."""
+    say(*T9, U + 'tp @s 0 110 0', 'wait 300', key(9, 103, -9, 13), key(8, 104, -11, 8))
+    _still('mel_arrival', (3.5, 109.0, 15.5), (0.5, 102.3, 3.0), 20)
+    _still('mel_ferryman', (10.8, 102.3, -9.4), (6.5, 102.85, -9.0), 20)
+    pan('mel_rec', 4, (10.8, 102.3, -9.4), (9.6, 102.4, -9.3), (6.5, 102.85, -9.0), warm=20)
+    at_hunter = U + 'execute at @e[type=deathbound:hollow_hunter,limit=1,sort=nearest] run '
+    say(U + 'tp @s -200 100 -120', 'wait 240',
+        U + 'summon deathbound:hollow_hunter -206 99 -126 {PersistenceRequired:1b,Rotation:[-45f,0f]}', 'wait 60',
+        freeze('deathbound:hollow_hunter'), 'data merge entity @e[type=deathbound:hollow_hunter,limit=1,sort=nearest] {Rotation:[-45f,0f]}',
+        at_hunter + 'setblock ~1 ~2 ~1 minecraft:light[level=15]', at_hunter + 'setblock ~-1 ~3 ~-2 minecraft:light[level=15]', 'wait 10')
+    _still('mel_hunter', (-204.16, 95.6, -124.16), (-205.5, 95.6, -125.5), 20, tp=False)
+    say('kill @e[type=deathbound:hollow_hunter]', 'camoff', U + 'tp @s 0 101 -330', 'wait 240', 'deathbound story 1 0', 'deathbound seals 7',
+        U + 'tp @s 0.5 101 -340 180 0', 'wait 320', key(0, 105, -360, 14), key(3, 106, -362, 9), key(-3, 106, -362, 9))
+    _still('mel_hall', (0.5, 103.0, -342.0), (0.5, 105.6, -364.0), 20, tp=False)
+    _still('mel_king', (0.5, 104.8, -359.6), (0.5, 106.2, -364.0), 10, tp=False)
+    say('quit')
+
+def session_hdbg():
+    """Is the Hollow Hunter drawn under Sodium/Iris? He stands between a Gravebound and a Lost Soul on the Landing, lit."""
+    say(*T9, 'camoff', U + 'tp @s 0 106 12', 'wait 260',
+        U + 'summon deathbound:hollow_hunter 0.5 101 6.5 {PersistenceRequired:1b,NoAI:1b,Rotation:[0f,0f]}',
+        U + 'summon deathbound:gravebound -2.5 101 6.5 {PersistenceRequired:1b,NoAI:1b,Rotation:[0f,0f]}',
+        U + 'summon deathbound:lost_soul 3.5 101 6.5 {PersistenceRequired:1b,NoAI:1b,Rotation:[0f,0f]}',
+        key(0, 103, 9, 15), key(-2, 103, 9, 15), key(3, 103, 9, 15), 'wait 40')
+    _still('hdbg_near', (0.5, 102.8, 11.0), (0.5, 102.4, 6.5), 20)
+    _still('hdbg_far', (0.5, 104.0, 16.0), (0.5, 102.0, 6.5), 10)
+    say('quit')
+
+def session_t9w():
+    """Trailer 5 reshoots (Mellow): a slow push in on the Hollow Hunter's face at eye level; the Sentry with a Lost Soul
+    drifting in front of him; the Mere and the Hollow with hidden lights through them; the dead waiting in line, tracked
+    past in three-quarter view."""
+    import math
+    hx, hz, facing, eye = -205.5, -125.5, -45.0, 95.6
+    a = math.radians(facing)
+    fx, fz = -math.sin(a), math.cos(a)
+    at_hunter = U + 'execute at @e[type=deathbound:hollow_hunter,limit=1,sort=nearest] run '
+    say(*T9, U + 'tp @s -200 100 -120', 'wait 240',
+        U + 'summon deathbound:hollow_hunter -206 99 -126 {PersistenceRequired:1b,Rotation:[-45f,0f]}', 'wait 60',
+        freeze('deathbound:hollow_hunter'), 'data merge entity @e[type=deathbound:hollow_hunter,limit=1,sort=nearest] {Rotation:[-45f,0f]}',
+        at_hunter + 'setblock ~1 ~2 ~1 minecraft:light[level=15]', at_hunter + 'setblock ~-1 ~3 ~-2 minecraft:light[level=15]',
+        at_hunter + 'setblock ~-2 ~2 ~1 minecraft:light[level=10]', 'wait 10')
+    far = (round(hx + fx * 4.4, 2), eye, round(hz + fz * 4.4, 2))
+    near = (round(hx + fx * 2.2, 2), eye, round(hz + fz * 2.2, 2))
+    pan('t9_hunter', 7, far, near, (hx, eye, hz), warm=20)
+    # the Hollow, lit among its trees
+    say('kill @e[type=deathbound:hollow_hunter]',
+        *[key(x, y, z, 12) for x, y, z in ((-200, 95, -118), (-204, 96, -123), (-198, 95, -124), (-207, 96, -119), (-210, 96, -127), (-195, 95, -114))],
+        'wait 10')
+    pan('t9_hollow', 7, (-194.0, 94.6, -110.0), (-190.0, 94.6, -115.0), (-206.0, 94.4, -126.0), warm=20)
+    # the Sentry, and one of the dead drifting through toward the Gate
+    say(U + 'tp @s -136 104 -96', 'wait 300', key(-143, 99, -99, 12), 'wait 10')
+    take('t9_sentry', 'pan', 6.5, '-146.2 99.4 -99.3 -146.2 99.4 -99.3 -141.0 98.7 -99.0', '-146.2 99.4 -99.3 -144.6 99.2 -99.15 -141.0 98.7 -99.0',
+         warm=20, events=[(10, U + 'summon deathbound:lost_soul -143.8 98.4 -97.0 {PersistenceRequired:1b,Rotation:[160f,0f]}')])
+    # the Mere, lit over the water
+    say(U + 'tp @s 40 104 90', 'wait 280',
+        *[key(x, y, z, 11) for x, y, z in ((34, 99, 80), (38, 99, 77), (42, 100, 74), (46, 100, 72), (36, 99, 72), (50, 102, 76))], 'wait 10')
+    pan('t9_mere', 6, (27.0, 99.6, 87.0), (30.0, 99.3, 84.5), (42.0, 98.4, 74.0), warm=20)
+    # the dead in line, waiting: a slow track past them in three-quarter view
+    say(U + 'tp @s 0 104 -128', 'wait 300', U + 'kill @e[type=deathbound:lost_soul,distance=..60]',
+        *[U + f'summon deathbound:lost_soul {x} 99 {z} {{PersistenceRequired:1b,NoAI:1b,Rotation:[180f,0f]}}'
+          for x, z in ((0.5, -132), (0.2, -136), (0.7, -140), (0.3, -144), (0.6, -148), (0.4, -152), (0.5, -156))],
+        *[key(2, 101, z, 11) for z in (-134, -142, -150)], 'wait 20')
+    take('t9_waiting', 'cam', 8, '3.0 100.5 -154.0 40 4 3.0 100.5 -154.0 40 4', '3.0 100.5 -154.0 40 4 3.0 100.5 -142.0 40 4', warm=20)
+    say('quit')
+
 if __name__ == '__main__':
-    {'a': session_a, 'r': session_r, 'b': session_b, 'b2': session_b2, 'c': session_c, 'w': session_w, 'f': session_f, 'g': session_g, 's': session_s, 't': session_t, 'd': session_d, 'd2': session_d2, 'v': session_v, 'p': session_p, 'q': session_q, 'r': session_r, 'u': session_u, 'bk': session_bk, 'e': session_e, 'ev': session_ev, 'ev_take': lambda: session_ev(('take',), False), 'ev_intro': lambda: session_ev(('none',), True), 'npcv': session_npcv, 'npcv2': session_npcv2, 'forge': session_forge, 'aldous': session_aldous, 'e2': session_e2, 'fx': session_fx, 'mere': session_mere, 'folk': session_folk, 'town': session_town, 'ev2': session_ev2, 'tr2': session_tr2, 'tr2b': session_tr2b, 'tr2c': session_tr2c, 'tr2d': session_tr2d, 'dbg_run': session_dbg_run, 'ev2_break': lambda: session_ev2(('break',)), 'e2_break': lambda: session_e2(('break',)), 't3a': session_t3a, 't3b': session_t3b, 't3c': session_t3c, 't3d': session_t3d, 'tr3a': session_tr3a, 'tr3b': session_tr3b, 'tr3c': session_tr3c, 't4': session_t4, 't5': session_t5, 't6': session_t6, 't7': session_t7, 't8': session_t8, 't9': session_t9, 'tr4a': session_tr4a, 'tr4b': session_tr4b, 'tr4c': session_tr4c, 'tr4d': session_tr4d, 'tr5': session_tr5, 'tr5b': session_tr5b, 'tr5c': session_tr5c, 't10': session_t10, 'tr6': session_tr6, 't11': session_t11, 'tr7': session_tr7, 'tr8': session_tr8, 'tr8b': session_tr8b, 'scout': session_scout, 't9a': session_t9a, 't9b': session_t9b, 't9c': session_t9c, 't9d': session_t9d, 't9e': session_t9e, 't9f': session_t9f, 't9g': session_t9g, 't9h': session_t9h, 't9i': session_t9i, 't9k': session_t9k, 't9m': session_t9m, 't9n': session_t9n, 't9o': session_t9o, 't9t': session_t9t, 't9u': session_t9u, 't9v': session_t9v}[sys.argv[1]]()
+    {'a': session_a, 'r': session_r, 'b': session_b, 'b2': session_b2, 'c': session_c, 'w': session_w, 'f': session_f, 'g': session_g, 's': session_s, 't': session_t, 'd': session_d, 'd2': session_d2, 'v': session_v, 'p': session_p, 'q': session_q, 'r': session_r, 'u': session_u, 'bk': session_bk, 'e': session_e, 'ev': session_ev, 'ev_take': lambda: session_ev(('take',), False), 'ev_intro': lambda: session_ev(('none',), True), 'npcv': session_npcv, 'npcv2': session_npcv2, 'forge': session_forge, 'aldous': session_aldous, 'e2': session_e2, 'fx': session_fx, 'mere': session_mere, 'folk': session_folk, 'town': session_town, 'ev2': session_ev2, 'tr2': session_tr2, 'tr2b': session_tr2b, 'tr2c': session_tr2c, 'tr2d': session_tr2d, 'dbg_run': session_dbg_run, 'ev2_break': lambda: session_ev2(('break',)), 'e2_break': lambda: session_e2(('break',)), 't3a': session_t3a, 't3b': session_t3b, 't3c': session_t3c, 't3d': session_t3d, 'tr3a': session_tr3a, 'tr3b': session_tr3b, 'tr3c': session_tr3c, 't4': session_t4, 't5': session_t5, 't6': session_t6, 't7': session_t7, 't8': session_t8, 't9': session_t9, 'tr4a': session_tr4a, 'tr4b': session_tr4b, 'tr4c': session_tr4c, 'tr4d': session_tr4d, 'tr5': session_tr5, 'tr5b': session_tr5b, 'tr5c': session_tr5c, 't10': session_t10, 'tr6': session_tr6, 't11': session_t11, 'tr7': session_tr7, 'tr8': session_tr8, 'tr8b': session_tr8b, 'scout': session_scout, 't9a': session_t9a, 't9b': session_t9b, 't9c': session_t9c, 't9d': session_t9d, 't9e': session_t9e, 't9f': session_t9f, 't9g': session_t9g, 't9h': session_t9h, 't9i': session_t9i, 't9k': session_t9k, 't9m': session_t9m, 't9n': session_t9n, 't9o': session_t9o, 't9t': session_t9t, 't9u': session_t9u, 't9v': session_t9v, 'mel': session_mel, 'hdbg': session_hdbg, 't9w': session_t9w}[sys.argv[1]]()
+    # the film camera keeps the player at its last pose: switch it off before every move across the Underworld, or the
+    # mobs spawned at the new place never reach the client and NPCs aren't put at their posts there
+    moved = []
+    for line in L:
+        if line.startswith(U + 'tp @s') and (not moved or moved[-1] != 'camoff'):
+            moved.append('camoff')
+        moved.append(line)
+    L[:] = moved
     out = Path(__file__).resolve().parents[2] / 'run' / 'test-script.txt'
     out.write_text('\n'.join(L) + '\n')
     print(f'{len(L)} lines -> {out}')
