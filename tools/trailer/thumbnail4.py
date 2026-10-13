@@ -20,7 +20,8 @@ OUT = ROOT / 'build' / 'trailer4'
 # name: (clip and second, or a still from shots.py t9t/t9u; crop box in the 1920x1080 frame (16:9); logo 'right' or
 # 'bottom'; how far the shadows are lifted)
 VARIANTS = {
-    'hunter': (('still', 't9t_hunter_face'), (428, 150, 1868, 960), 'right', 2.0),   # his eye up close, antlers in frame
+    'hunter': (('still', 't9v_d19'), (391, 60, 1920, 920), 'right', 1.7),   # straight on, level with his eye: a stare
+    'hunter_below': (('still', 't9t_hunter_face'), (428, 150, 1868, 960), 'right', 2.0),
     'hunter_eye_level': (('still', 't9u_eye_level'), (360, 150, 1800, 960), 'right', 1.8),
     'king': (('still', 't9t_king_close'), (420, 60, 1860, 870), 'right', 1.4),
     'shade': (('t9_sentry', 5.2), (0, 140, 1600, 1040), 'right', 1.4),
@@ -80,7 +81,7 @@ def build(name):
     font = text.PixelFont(edit.font_sheet())
     art = logo_art(font, 15)
     if side == 'right':
-        art = art.resize((600, round(art.height * 600 / art.width)), Image.LANCZOS)
+        art = art.resize((570, round(art.height * 570 / art.width)), Image.LANCZOS)
         img.alpha_composite(art, (1280 - art.width - 24, (720 - art.height) // 2 - 10))
     else:
         art = art.resize((860, round(art.height * 860 / art.width)), Image.LANCZOS)
