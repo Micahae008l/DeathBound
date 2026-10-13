@@ -102,3 +102,18 @@ Michael asked for the trailer redone with the Mellow shader pack (Iris + Sodium)
 - Every shot refilmed. Reshot: the Hunter as a slow push in on his face at eye level, the Hollow and the Mere with hidden lights. The cut no longer uses the same clip twice (0:19 and the ending were the same seconds before). The darkest wide shots get extra lift in the grade.
 - shots.py now puts `camoff` before every move across the Underworld automatically (without it, mobs spawned at the new place never reached the client: the Hunter looked missing under Iris; it wasn't a shader bug).
 - The mod itself works under Iris + Sodium: no render problems seen with the Hunter, Gravebound, Lost Souls, NPCs or the King.
+
+## Chapter: the Dry River (started Oct 13): the first of the 5-hour expansion
+The river never died with the Lake: Silas had its spring walled off upstream, and the Mere ("the one water he never
+drank") is the one place it still seeps to. You walk up the old course, south of the Mere, to the Weir. It's on the main
+path: the Weirkeeper gives a 4th seal for the Citadel gate.
+- **1. The land (done, tested):** `world/River.java` lays the course from the Weir down to the Mere: a channel worn into
+  each island (stepped banks, so you can climb out) and, between islands, floating ribbons of riverbed land, cracked
+  apart in 3 places (2-block jumps). Three new islands, each higher upstream: Wreck Reach (-10,150), the Drowned Hamlet
+  (50,225), the Weir (0,310), with area titles. Gametest `dry river` checks the floating bed and the gaps.
+  Existing worlds only get it where the Underworld hasn't been generated yet (new worlds are fine).
+- 2. Wreck Reach and the Mired (dead set in the dried mud that grab your ankles; sparse).
+- 3. The Drowned Hamlet: Old Wren, the flood-mark post (the sluice clue), the masons' camp.
+- 4. The Weir: the sluice puzzle and the Weirkeeper (solo arena).
+- 5. The water comes back: the course and the Landing/Crossing channels fill, river travel with the Ferryman, the 4th
+  seal, dialog, advancements.

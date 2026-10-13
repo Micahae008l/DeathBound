@@ -28,6 +28,8 @@ public record UnderworldBuilderFeature() implements Feature {
          Layout.bridge(b, br);
       }
 
+      River.build(b);
+
       for (Layout.Island is : Layout.ISLANDS) {
          Structures.build(b, is);
       }

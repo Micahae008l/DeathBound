@@ -641,6 +641,28 @@ final class NewWorkChecks {
 				e -> e instanceof Gravebound || e instanceof SoulWisp).size();
 			log("ghostwood: out of the trees -> risen left=" + left + " -> " + pass(left == 0));
 		});
+
+		// ---------------------------------------------------------------- the dry river: its floating bed between the islands, and the gaps
+		server.runOnServer(s -> {
+			ServerLevel uw = s.getLevel(UnderworldTravel.UNDERWORLD);
+			boolean ok = true;
+			StringBuilder seen = new StringBuilder();
+			for (int[] q : new int[][]{{36, 97, 100}, {8, 99, 182}, {32, 104, 261}}) {   // one point of bed on each stretch between islands
+				var st = uw.getBlockState(new BlockPos(q[0], q[1], q[2]));
+				boolean dry = st.is(ModBlocks.ASHEN_SOIL) || st.is(Blocks.SOUL_SOIL);
+				ok &= dry;
+				seen.append(" bed ").append(q[0]).append(',').append(q[2]).append('=').append(dry ? "dry bed" : st.getBlock().getName().getString());
+			}
+			for (int[] q : new int[][]{{28, 97, 108}, {20, 101, 190}}) {   // where it broke: nothing under you for a long way down
+				boolean open = true;
+				for (int dy = 0; dy > -12; dy--) {
+					open &= uw.getBlockState(new BlockPos(q[0], q[1] + dy, q[2])).isAir();
+				}
+				ok &= open;
+				seen.append(" gap ").append(q[0]).append(',').append(q[2]).append('=').append(open ? "open" : "filled");
+			}
+			log("dry river:" + seen + " -> " + pass(ok));
+		});
 		log("done");
 	}
 

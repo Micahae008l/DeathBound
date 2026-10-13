@@ -25,6 +25,10 @@ public final class Layout {
    public static final Layout.Island CITADEL = new Layout.Island(Layout.Theme.CITADEL, 0, -340, 100, 52, 46, 9);
    public static final Layout.Island HOLLOW = new Layout.Island(Layout.Theme.HOLLOW, -206, -126, 92, 22, 26, 10);
    public static final Layout.Island MERE = new Layout.Island(Layout.Theme.MERE, 40, 74, 97, 20, 24, 11);
+   // up the dry river, south of the Mere (River.java): each one higher, the way the water came down
+   public static final Layout.Island WRECKS = new Layout.Island(Layout.Theme.WRECKS, -10, 150, 100, 22, 28, 12);
+   public static final Layout.Island HAMLET = new Layout.Island(Layout.Theme.HAMLET, 50, 225, 104, 28, 30, 13);
+   public static final Layout.Island WEIR = new Layout.Island(Layout.Theme.WEIR, 0, 310, 110, 28, 36, 14);
    public static final List<Layout.Island> ISLANDS = List.of(
       ARRIVAL,
       HUB,
@@ -37,6 +41,9 @@ public final class Layout {
       CITADEL,
       HOLLOW,
       MERE,
+      WRECKS,
+      HAMLET,
+      WEIR,
       new Layout.Island(Layout.Theme.DEBRIS, 34, 30, 108, 5, 9, 20),
       new Layout.Island(Layout.Theme.DEBRIS, -36, 24, 94, 4, 8, 21),
       new Layout.Island(Layout.Theme.DEBRIS, 44, -100, 112, 6, 10, 22),
@@ -358,6 +365,9 @@ public final class Layout {
       CITADEL,
       HOLLOW,
       MERE,
+      WRECKS,
+      HAMLET,
+      WEIR,
       DEBRIS;
    }
 }

@@ -728,6 +728,9 @@ AREAS = {
     'citadel': ("The Death King's Citadel", "Built on a lake drunk dry."),
     'hollow': ("The Hollow", "Nothing here is hunted twice."),
     'mere': ("The Mere", "The one water he never drank."),
+    'wrecks': ("Wreck Reach", "The ferries ran aground with everyone aboard."),
+    'hamlet': ("The Drowned Hamlet", "They fished the river. Now they wait for it."),
+    'weir': ("The Weir", "The river never died. It was stopped."),
 }
 
 SAY = {
