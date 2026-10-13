@@ -20,7 +20,8 @@ OUT = ROOT / 'build' / 'trailer4'
 # name: (clip and second, or a still from shots.py t9t/t9u; crop box in the 1920x1080 frame (16:9); logo 'right' or
 # 'bottom'; how far the shadows are lifted)
 VARIANTS = {
-    'hunter': (('still', 't9v_d19'), (391, 60, 1920, 920), 'right', 1.7),   # straight on, level with his eye: a stare
+    'hunter': (('still', 't9x_hunter_d19'), (391, 60, 1920, 920), 'right', 1.5, 0.0),   # with Mellow (it blooms already)
+    'hunter_vanilla': (('still', 't9v_d19'), (391, 60, 1920, 920), 'right', 1.7),
     'hunter_below': (('still', 't9t_hunter_face'), (428, 150, 1868, 960), 'right', 2.0),
     'hunter_eye_level': (('still', 't9u_eye_level'), (360, 150, 1800, 960), 'right', 1.8),
     'king': (('still', 't9t_king_close'), (420, 60, 1860, 870), 'right', 1.4),
@@ -38,14 +39,14 @@ def frame(source):
     return Image.open(path).convert('RGB')
 
 
-def grade(img, lift):
+def grade(img, lift, glow_mix=0.35):
     """Brighter and punchier than the film (a thumbnail is seen small, in daylight), still dark around the subject."""
     img = img.point(lambda v: int(255 * (v / 255) ** (1 / lift)))
     img = img.point(lambda v: max(0, int((v - 14) * 255 / 241)))   # crush the haze back to black
     img = ImageEnhance.Contrast(img).enhance(1.4)
     img = ImageEnhance.Color(img).enhance(1.15)   # more and bone turns pink; the purple glow holds up on its own
     glow = img.point(lambda v: max(0, v - 120) * 2).filter(ImageFilter.GaussianBlur(18))
-    return Image.blend(img, Image.composite(glow, img, glow.convert('L')), 0.35)
+    return Image.blend(img, Image.composite(glow, img, glow.convert('L')), glow_mix)
 
 
 def shade_side(img, side):
@@ -75,9 +76,9 @@ def logo_art(font, scale):
 
 
 def build(name):
-    source, box, side, lift = VARIANTS[name]
+    source, box, side, lift, *glow = VARIANTS[name]
     img = frame(source).crop(box).resize((1280, 720), Image.LANCZOS)
-    img = shade_side(grade(img, lift), side).convert('RGBA')
+    img = shade_side(grade(img, lift, *glow), side).convert('RGBA')
     font = text.PixelFont(edit.font_sheet())
     art = logo_art(font, 15)
     if side == 'right':
