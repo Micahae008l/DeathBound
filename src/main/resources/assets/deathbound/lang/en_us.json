@@ -31,6 +31,7 @@
   "block.deathbound.dead_grass": "Dead Grass",
   "block.deathbound.tall_dead_grass": "Tall Dead Grass",
   "block.deathbound.ghost_bloom": "Ghost Bloom",
+  "block.deathbound.mired_hand": "Mired Hand",
   "block.deathbound.ashen_lily": "Ashen Lily",
   "block.deathbound.whetstone": "Whetstone",
   "block.deathbound.hanging_blade": "Hanging Blade",
@@ -804,5 +805,11 @@
   "story.deathbound.note_lamps.title": "The Lamplighter's rounds",
   "story.deathbound.note_lamps.author": "L.",
   "story.deathbound.note_lamps.p1": "The well. The bell tower. The bridge. The forge. The gate.",
-  "story.deathbound.note_lamps.p2": "Fewer every night. Light the ones that are left. Don't count the rest."
+  "story.deathbound.note_lamps.p2": "Fewer every night. Light the ones that are left. Don't count the rest.",
+  "story.deathbound.note_reach.title": "Scratched into the hull",
+  "story.deathbound.note_reach.author": "Hesk, a passenger",
+  "story.deathbound.note_reach.p1": "The river carries you down from the spring. Nobody rows. You sit in the boat and it takes you to the Ferryman.",
+  "story.deathbound.note_reach.p2": "One night the water started going down, and it didn't stop. By morning we were sitting in mud.",
+  "story.deathbound.note_reach.p3": "Some of the others climbed out to walk the rest. The mud was still soft then. They're still out there, up to their chests.",
+  "story.deathbound.note_reach.p4": "We stayed in the boat. When the river comes back, it'll know where to find us."
 }

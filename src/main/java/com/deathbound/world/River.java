@@ -39,6 +39,8 @@ final class River {
    private static final int MIN_Z;
    private static final int MAX_Z;
    private static final Layout.Island[] BANKS = {Layout.WEIR, Layout.HAMLET, Layout.WRECKS, Layout.MERE};
+   /** Where the Mired lie (Mire.java): a hand out of the bed, a block to one side of the middle, so you can pass it if you look. */
+   static final List<int[]> MIRED = new ArrayList<>();
 
    static {
       double s = 0.0;
@@ -71,6 +73,41 @@ final class River {
       MAX_X = (int)Math.ceil(PATH.stream().mapToDouble(p -> p[0]).max().orElse(0)) + 5;
       MIN_Z = (int)Math.floor(PATH.stream().mapToDouble(p -> p[1]).min().orElse(0)) - 5;
       MAX_Z = (int)Math.ceil(PATH.stream().mapToDouble(p -> p[1]).max().orElse(0)) + 5;
+
+      // walking up from the Mere: the first one 20 blocks in, then one every 26 to 34; none in the Hamlet (people live
+      // there), none at the Weir, none right at a gap
+      double total = s;
+      int side = 1;
+      for (double up = 20.0; up < total - 14.0; up += 26.0 + Build.hash((int)up, 0, 0, 471) * 8.0) {
+         double at = total - up;
+         int i = 0;
+         while (i < PATH.size() - 1 && PATH.get(i)[3] < at) {
+            i++;
+         }
+
+         double[] p = PATH.get(i);
+         int px = (int)Math.floor(p[0]);
+         int pz = (int)Math.floor(p[1]);
+         boolean home = Layout.surface(Layout.HAMLET, px, pz) != Integer.MIN_VALUE || Layout.surface(Layout.WEIR, px, pz) != Integer.MIN_VALUE;
+         boolean gap = false;
+         for (double b : BREAK_AT) {
+            gap |= Math.abs(b - at) < 7.0;
+         }
+
+         if (!home && !gap && i > 0) {
+            double[] a = PATH.get(i - 1);
+            double[] c = PATH.get(i + 1);
+            double dx = c[0] - a[0];
+            double dz = c[1] - a[1];
+            double len = Math.max(1.0E-6, Math.hypot(dx, dz));
+            MIRED.add(new int[]{(int)Math.floor(p[0] - dz / len * side), (int)Math.floor(p[1] + dx / len * side), (int)Math.floor(p[2])});
+            side = -side;
+         }
+      }
+   }
+
+   static boolean near(double x, double z) {
+      return x >= MIN_X && x <= MAX_X && z >= MIN_Z && z <= MAX_Z;
    }
 
    private static double catmull(double a, double b, double c, double d, double t) {
@@ -115,6 +152,14 @@ final class River {
             if (at > 0 && at < PATH.size() - 1) {
                column(b, x, z, PATH.get(at), Math.sqrt(w2));
             }
+         }
+      }
+
+      for (int[] m : MIRED) {
+         BlockState bed = b.get(m[0], m[2], m[1]);
+         if (b.in(m[0], m[1]) && (bed.is(ModBlocks.ASHEN_SOIL) || bed.is(Blocks.SOUL_SOIL))) {
+            b.set(m[0], m[2], m[1], Landmarks.DRY_BED);   // the hand only takes root in ashen soil
+            b.set(m[0], m[2] + 1, m[1], ModBlocks.MIRED_HAND.defaultBlockState());
          }
       }
    }

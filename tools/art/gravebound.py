@@ -296,6 +296,47 @@ def charred(painter):
     return paint
 
 
+# ------------------------------------------------------------------ the Mired: dead who left the boats when the river stopped,
+# and got stuck in the mud as it dried. Caked from the feet up to the chest, cracked; bone shows only above the mud line.
+MUD = Ramp('#120e0b', '#1d1712', '#2a2119', '#382c22', '#46382b', '#564536', '#685442')
+# how deep the mud reached on each bone: 1 = caked all over; side faces get the mud line from the bottom up
+MUD_LINE = {'right_leg': 1.0, 'left_leg': 1.0, 'body': 0.7, 'rag_front': 1.0, 'rag_back': 1.0,
+            'right_arm': 0.55, 'left_arm': 0.55, 'jaw': 0.35, 'head': 0.12, 'weapon': 0.0}
+
+
+def mired(painter):
+    def paint(ctx):
+        painter(ctx)
+        line = MUD_LINE.get(ctx.cube.bone, 0.5)
+        n = ctx.noise
+        for y in range(ctx.h):
+            for x in range(ctx.w):
+                if ctx.px[y][x][3] == 0 or ctx.glow[y][x][3] > 0:
+                    continue   # holes stay holes, and the eyes keep burning
+                if ctx.face == 'bottom' or line >= 1.0:
+                    depth = 1.0
+                elif ctx.face == 'top':
+                    depth = line - 0.45
+                else:
+                    depth = line - (1.0 - (y + 0.5) / ctx.h)   # how far below the mud line this pixel sits
+                d = depth + n.smooth(x, y, 2.0, 61) * 0.12 + n.white(x, y, 64) * 0.05
+                if d < 0:
+                    if d > -0.18 and n.white(x, y, 65) > 0.6:   # splashes just above the line
+                        ctx.px[y][x] = MUD.at(3.6 + ctx.light * 0.6, x, y, 0.2)
+                    continue
+                if d < 1.2 / ctx.h and ctx.face not in ('top', 'bottom') and line < 1.0:   # the crust ring where it dried
+                    ctx.px[y][x] = MUD.at(5.6 + ctx.light * 0.5, x, y, 0.15)
+                    continue
+                v = n.smooth(x, y, 1.6, 62)
+                if abs(v) < 0.11:   # cracks between the dried plates
+                    ctx.px[y][x] = MUD.at(0.4, x, y, 0.1)
+                    continue
+                edge = 0.9 if abs(v) < 0.2 and v > 0 else 0.0   # each plate's lit edge
+                L = 3.1 + ctx.light * 0.7 + edge + n.cluster(x, y, 2) * 0.4 + n.white(x, y, 63) * 0.3 - max(0.0, depth - 0.6) * 0.7
+                ctx.px[y][x] = MUD.at(L, x, y, 0.2)
+    return paint
+
+
 def build(variant):
     m = Model('gravebound', 64, 64)
     m.variant = variant
@@ -338,5 +379,8 @@ def build(variant):
     if variant == 'charred':
         for c in m.cubes:
             c.paint = charred(c.paint)
+    if variant == 'mired':
+        for c in m.cubes:
+            c.paint = mired(c.paint)
     m.paint()
     return m

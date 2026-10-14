@@ -173,6 +173,12 @@ NOTES = [
         "The well. The bell tower. The bridge. The forge. The gate.",
         "Fewer every night. Light the ones that are left. Don't count the rest.",
     ]),
+    ("note_reach", "Scratched into the hull", "Hesk, a passenger", [
+        "The river carries you down from the spring. Nobody rows. You sit in the boat and it takes you to the Ferryman.",
+        "One night the water started going down, and it didn't stop. By morning we were sitting in mud.",
+        "Some of the others climbed out to walk the rest. The mud was still soft then. They're still out there, up to their chests.",
+        "We stayed in the boat. When the river comes back, it'll know where to find us.",
+    ]),
 ]
 
 # shared lines the reading screen needs (these keys are wiped and rewritten with the stories)

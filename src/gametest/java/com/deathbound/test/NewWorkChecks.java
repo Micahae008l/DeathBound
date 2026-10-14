@@ -663,6 +663,34 @@ final class NewWorkChecks {
 			}
 			log("dry river:" + seen + " -> " + pass(ok));
 		});
+
+		// ---------------------------------------------------------------- Wreck Reach: the barge's chest and note, and the Mired
+		server.runOnServer(s -> {
+			ServerLevel uw = s.getLevel(UnderworldTravel.UNDERWORLD);
+			boolean chest = uw.getBlockState(new BlockPos(-12, 99, 158)).is(Blocks.CHEST);
+			var note = uw.getBlockState(new BlockPos(-12, 100, 157));
+			boolean noted = note.is(ModBlocks.STORY_NOTE) && note.getValue(com.deathbound.block.StoryNoteBlock.STORY) == 8;
+			int hands = 0;
+			for (BlockPos q : BlockPos.betweenClosed(-20, 95, 118, 22, 103, 185)) {
+				hands += uw.getBlockState(q).is(ModBlocks.MIRED_HAND) ? 1 : 0;
+			}
+			log("wreck reach: barge chest=" + chest + ", Hesk's note=" + noted + ", hands in the bed=" + hands + " -> " + pass(chest && noted && hands >= 1));
+		});
+		server.runOnServer(s -> {
+			ServerLevel uw = s.getLevel(UnderworldTravel.UNDERWORLD);
+			ServerPlayer p = player(s);
+			p.teleportTo(uw, 8.5, 100, 182.5, java.util.Set.of(), 0.0F, 0.0F, true);
+			BlockPos hand = new BlockPos(9, 100, 183);
+			uw.setBlock(hand, ModBlocks.MIRED_HAND.defaultBlockState(), 3);
+			com.deathbound.world.Mire.grab(uw, hand, p);
+			var risen = uw.getEntitiesOfClass(Gravebound.class, new AABB(hand).inflate(2.0), g -> g.variant() == Gravebound.MIRED);
+			boolean held = p.hasEffect(net.minecraft.world.effect.MobEffects.SLOWNESS);
+			boolean gone = !uw.getBlockState(hand).is(ModBlocks.MIRED_HAND);
+			log("mired: grab -> risen=" + risen.size() + ", rising=" + (!risen.isEmpty() && risen.get(0).getPose() == net.minecraft.world.entity.Pose.EMERGING)
+				+ ", player held=" + held + ", hand gone=" + gone + " -> " + pass(risen.size() == 1 && held && gone));
+			risen.forEach(g -> g.discard());
+			p.removeEffect(net.minecraft.world.effect.MobEffects.SLOWNESS);
+		});
 		log("done");
 	}
 

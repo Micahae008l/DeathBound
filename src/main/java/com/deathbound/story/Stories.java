@@ -28,7 +28,7 @@ public final class Stories {
       "small_blue_spiders", "straight_down", "the_nice_lady", "return_to_sender", "the_stone_moved", "bad_trade", "cactus_fence"
    );
    public static final List<String> NOTES = List.of(
-      "note_ferry", "note_lights", "note_marks", "note_shed", "note_list", "note_yours", "note_tib", "note_lamps"
+      "note_ferry", "note_lights", "note_marks", "note_shed", "note_list", "note_yours", "note_tib", "note_lamps", "note_reach"
    );
    /** Set by the client: opens the reading screen for a story. */
    public static Consumer<String> opener = id -> {};

@@ -180,13 +180,18 @@ public final class Renderers {
 
    public static class GraveboundRenderer extends MobRenderer<Gravebound, GraveboundModel.State, GraveboundModel> {
       private static final Identifier[] SKINS = new Identifier[]{
-         Renderers.tex("gravebound_shrouded"), Renderers.tex("gravebound_bare"), Renderers.tex("gravebound_knight"), Renderers.tex("gravebound_charred")
+         Renderers.tex("gravebound_shrouded"),
+         Renderers.tex("gravebound_bare"),
+         Renderers.tex("gravebound_knight"),
+         Renderers.tex("gravebound_charred"),
+         Renderers.tex("gravebound_mired")
       };
       private static final Identifier[] GLOWS = new Identifier[]{
          Renderers.tex("gravebound_shrouded_glow"),
          Renderers.tex("gravebound_bare_glow"),
          Renderers.tex("gravebound_knight_glow"),
-         Renderers.tex("gravebound_charred_glow")
+         Renderers.tex("gravebound_charred_glow"),
+         Renderers.tex("gravebound_mired_glow")
       };
 
       public GraveboundRenderer(Context ctx) {

@@ -177,6 +177,14 @@ public final class DebugCommand {
                                              ServerPlayer p = ((CommandSourceStack)c.getSource()).getPlayerOrException();
                                              Dread.shade(p.level(), p, p.getRandom());
                                              return 1;
+                                          }))
+                                          .then(Commands.literal("mire").executes(c -> {
+                                             // one of the Mired, four blocks ahead of you
+                                             ServerPlayer p = ((CommandSourceStack)c.getSource()).getPlayerOrException();
+                                             BlockPos at = BlockPos.containing(p.position().add(p.getLookAngle().multiply(1.0, 0.0, 1.0).normalize().scale(4.0)));
+                                             p.level().setBlock(at.below(), ModBlocks.ASHEN_SOIL.defaultBlockState(), 3);
+                                             p.level().setBlock(at, ModBlocks.MIRED_HAND.defaultBlockState(), 3);
+                                             return 1;
                                           })))
                                        .then(Commands.literal("quest").then(Commands.argument("who", StringArgumentType.word()).executes(c -> {
                                           Quests.talk(((CommandSourceStack)c.getSource()).getPlayerOrException(), StringArgumentType.getString(c, "who"));

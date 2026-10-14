@@ -24,7 +24,7 @@ def save(img, name):
 
 models = []  # (java method, model)
 # variants share one mesh (UV packing depends only on cube sizes), so each is just another texture pair
-graves = {v: gravebound.build(v) for v in ('shrouded', 'bare', 'knight', 'charred')}
+graves = {v: gravebound.build(v) for v in ('shrouded', 'bare', 'knight', 'charred', 'mired')}
 for v, gm in graves.items():
     save(gm.img, 'gravebound_' + v)
     save(gm.glow, 'gravebound_' + v + '_glow')
@@ -214,7 +214,7 @@ import deco
 import icons
 for _n in ('journal', 'aldous_lantern', 'miras_ribbon', 'ferrymans_oar', 'pips_ball', 'sentrys_tag', 'lantern_wisp'):
     sp.save(getattr(icons, _n)(), os.path.join(ITEM, ('underworld_journal' if _n == 'journal' else _n) + '.png'))
-for _n, _img in (('dead_grass', deco.dead_grass()), ('tall_dead_grass', deco.dead_grass(True)), ('ghost_bloom', deco.ghost_bloom()),
+for _n, _img in (('dead_grass', deco.dead_grass()), ('tall_dead_grass', deco.dead_grass(True)), ('ghost_bloom', deco.ghost_bloom()), ('mired_hand', deco.mired_hand()),
                  ('ashen_lily', deco.ashen_lily()), ('tattered_banner', deco.tattered_banner())):
     sp.save(_img, os.path.join(BLOCK, _n + '.png'))
 

@@ -48,6 +48,8 @@ public class Gravebound extends Monster {
    public static final int BARE = 1;
    public static final int KNIGHT = 2;
    public static final int CHARRED = 3;
+   /** Stuck in the dry river's mud to the chest; only ever climbs out of it (world/Mire.java). */
+   public static final int MIRED = 4;
    public static final int RISE_TICKS = 34;
    public final AnimationState riseAnim = new AnimationState();
    public final AnimationState attackAnim = new AnimationState();
@@ -93,12 +95,12 @@ public class Gravebound extends Monster {
       return this.entityData.get(VARIANT);
    }
 
-   private void setVariant(int variant) {
+   public void setVariant(int variant) {
       this.entityData.set(VARIANT, variant);
       boolean armed = variant == 1 || variant == 2;
-      this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(armed ? 6.0 : 4.0);
-      this.getAttribute(Attributes.ARMOR).setBaseValue(variant == 2 ? 7.0 : 3.0);
-      this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(variant == 2 ? 0.21 : 0.24);
+      this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(armed ? 6.0 : (variant == 4 ? 5.0 : 4.0));
+      this.getAttribute(Attributes.ARMOR).setBaseValue(variant == 2 ? 7.0 : (variant == 4 ? 5.0 : 3.0));   // the mud dried hard on them
+      this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(variant == 2 ? 0.21 : (variant == 4 ? 0.2 : 0.24));
    }
 
    public boolean isArmed() {

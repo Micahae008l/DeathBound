@@ -41,6 +41,7 @@ final class Structures {
    static final ResourceKey<LootTable> CAMP_LOOT = loot("chests/death_camp");
    static final ResourceKey<LootTable> BARREL_LOOT = loot("chests/house_barrel");
    static final ResourceKey<LootTable> TOWER_LOOT = loot("chests/tower");
+   static final ResourceKey<LootTable> WRECK_LOOT = loot("chests/wreck");
    static final BlockState AIR = Blocks.AIR.defaultBlockState();
    static final BlockState STONE = ModBlocks.SOULSTONE.defaultBlockState();
    static final BlockState BRICKS = ModBlocks.SOULSTONE_BRICKS.defaultBlockState();
@@ -207,6 +208,9 @@ final class Structures {
             break;
          case MERE:
             Landmarks.mere(b, is);
+            break;
+         case WRECKS:
+            WreckReach.build(b, is);
             break;
          case DEBRIS:
             debris(b, is);

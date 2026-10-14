@@ -157,6 +157,8 @@ public final class ModBlocks {
    public static final Block DEAD_GRASS = register("dead_grass", p -> new GloomGrassBlock(p, false), plant());
    public static final Block TALL_DEAD_GRASS = register("tall_dead_grass", p -> new GloomGrassBlock(p, false), plant());
    public static final Block GHOST_BLOOM = register("ghost_bloom", GloomGrassBlock::new, plant().lightLevel(s -> 4));
+   // a hand out of the dry riverbed, where one of the Mired lies (world/Mire.java)
+   public static final Block MIRED_HAND = registerNoItem("mired_hand", p -> new GloomGrassBlock(p, false), plant().sound(SoundType.MUD));
    public static final Block ASHEN_LILY = registerNoItem(
       "ashen_lily",
       LilyPadBlock::new,

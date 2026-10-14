@@ -51,6 +51,43 @@ def ghost_bloom():
     return img
 
 
+MUD = Ramp('#120e0b', '#1d1712', '#2a2119', '#382c22', '#46382b', '#564536', '#685442')
+
+
+def mired_hand():
+    """A skeletal hand clawing up out of the dried riverbed: where one of the Mired lies (fingers hooked, mud to the wrist)."""
+    from core import BONE
+    img = _canvas()
+    fingers = [[(4, 9), (3, 7), (2, 5), (2, 4), (3, 3)],      # knuckle first, tip last; the tips hook over like a claw
+               [(6, 9), (5, 7), (5, 4), (5, 3), (6, 2)],
+               [(8, 9), (8, 6), (8, 3), (8, 2), (9, 1)],
+               [(10, 9), (11, 7), (12, 5), (12, 4), (11, 3)],
+               [(11, 11), (13, 10), (14, 9), (14, 8), (13, 7)]]   # the thumb
+    for f in fingers:
+        pts = []
+        for (ax, ay), (bx, by) in zip(f, f[1:]):
+            n = max(abs(bx - ax), abs(by - ay))
+            pts += [(round(ax + (bx - ax) * k / n), round(ay + (by - ay) * k / n)) for k in range(n)]
+        pts.append(f[-1])
+        for i, (x, y) in enumerate(pts):
+            joint = i in (len(pts) // 3, 2 * len(pts) // 3)
+            _put(img, x, y, BONE.cols[2] if joint else (BONE.cols[3] if i == len(pts) - 1 else BONE.cols[4]))
+    for x, c in zip(range(4, 11), (3, None, 4, None, 4, None, 3)):   # the back of the hand: bones with mud between
+        _put(img, x, 10, BONE.cols[c] if c else MUD.cols[2])
+    mud = ["....mMMbMMmMm...",
+           ".....mMMLMMm....",
+           "......mLMMm.....",
+           "....mmMLMMMmm...",
+           "..mmMMLMMMMMMMm."]
+    for y, row in enumerate(mud, 11):
+        for x, ch in enumerate(row):
+            if ch != '.':
+                _put(img, x, y, {'M': MUD.cols[3], 'm': MUD.cols[1], 'L': MUD.cols[5], 'b': BONE.cols[3]}[ch])
+    for x, y in ((5, 7), (8, 8), (11, 7), (3, 8)):   # dried mud still clinging to the fingers
+        _put(img, x, y, MUD.cols[4])
+    return img
+
+
 def ashen_lily():
     """A lily pad gone grey, with one pale bloom; seen from above."""
     img = _canvas()

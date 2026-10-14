@@ -112,7 +112,16 @@ path: the Weirkeeper gives a 4th seal for the Citadel gate.
   apart in 3 places (2-block jumps). Three new islands, each higher upstream: Wreck Reach (-10,150), the Drowned Hamlet
   (50,225), the Weir (0,310), with area titles. Gametest `dry river` checks the floating bed and the gaps.
   Existing worlds only get it where the Underworld hasn't been generated yet (new worlds are fine).
-- 2. Wreck Reach and the Mired (dead set in the dried mud that grab your ankles; sparse).
+- **2. Wreck Reach and the Mired (done, tested):** the dead came down the river from its spring in boats nobody rowed;
+  when it stopped, the boats ran aground with everyone aboard (Hesk's note, `note_reach`, story 8). `world/WreckReach.java`:
+  a spruce barge wedged in the channel at the bend, its passengers still seated; the way upriver goes in at the broken
+  stern, round the mast and out where the bow split. Candles on the rail, a lantern on the bow; chest `chests/wreck`
+  (grave rune, ferry coin, souls, treasure, maybe a journal). Three ferries in and beside the bed, spruce mooring posts.
+  **The Mired** (Gravebound variant 4, mud-caked to the chest, `gravebound_mired.png` from tools/art/gravebound.py):
+  River lays a `mired_hand` in the bed every 26-34 blocks walking up from the Mere (none in the Hamlet, at the Weir or
+  by a gap), one block off the middle so you can pass if you look. `world/Mire.java`: within 7 blocks the mud cracks
+  (sound + dust); within 2.3 it takes you by the ankle (slowness V for 2 s, 2 damage) and climbs out. Each hand once.
+  `deathbound mire` plants one 4 blocks ahead. Gametests: the barge's chest and note, hands laid, a grab.
 - 3. The Drowned Hamlet: Old Wren, the flood-mark post (the sluice clue), the masons' camp.
 - 4. The Weir: the sluice puzzle and the Weirkeeper (solo arena).
 - 5. The water comes back: the course and the Landing/Crossing channels fill, river travel with the Ferryman, the 4th
